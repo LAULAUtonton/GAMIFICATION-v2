@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>THE PIT — Reading Station</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--bg1:#052e16;
+--bg2:#166534;
+--bg3:#bbf7d0;
+
+--panel:#ffffff;
+--accent:#22c55e;
+--accent2:#4ade80;
+
+--easy:#2563eb;
+--hard:#dc2626;
+
+--btn1:#2563eb;
+--btn2:#16a34a;
+--btn3:#ea580c;
+--btn4:#9333ea;
+
+--shadow:0 25px 60px rgba(0,0,0,.6);
+}
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:radial-gradient(circle,var(--bg3),var(--bg2),var(--bg1));
+color:#111;
+}
+
+.app{
+width:95%;
+max-width:1300px;
+margin:20px auto;
+background:var(--panel);
+border-radius:20px;
+box-shadow:var(--shadow);
+display:grid;
+grid-template-columns: 1fr 340px;
+gap:20px;
+padding:20px;
+}
+
+/* LEFT */
+
+.textBox{
+font-size:18px;
+line-height:1.7;
+background:#f0fdf4;
+padding:24px;
+border-radius:16px;
+border:3px solid var(--accent);
+height:520px;
+overflow:auto;
+}
+
+/* RIGHT CONSOLE */
+
+.console{
+background:#ecfdf5;
+border-radius:16px;
+padding:16px;
+border:3px solid var(--accent);
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+/* STATS */
+
+.stat{
+font-weight:900;
+font-size:16px;
+}
+
+/* BUTTONS */
+
+button{
+font-family:inherit;
+font-weight:900;
+border:none;
+padding:12px;
+border-radius:12px;
+cursor:pointer;
+color:white;
+}
+
+.easyBtn{background:var(--easy);}
+.hardBtn{background:var(--hard);}
+.startBtn{background:var(--btn2);}
+.pauseBtn{background:var(--btn3);}
+.resetBtn{background:var(--btn4);}
+.menuBtn{background:#111;}
+
+button:hover{filter:brightness(1.15);}
+
+/* QUESTION */
+
+.question{
+margin-top:10px;
+font-size:18px;
+font-weight:900;
+}
+
+.option{
+display:block;
+width:100%;
+margin-top:10px;
+padding:14px;
+background:white;
+border:2px solid var(--accent);
+border-radius:10px;
+cursor:pointer;
+font-weight:800;
+text-align:left;
+}
+
+.option.correct{
+background:#22c55e;
+color:white;
+}
+
+.option.wrong{
+background:#dc2626;
+color:white;
+}
+
+.progressBar{
+height:20px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progressFill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+width:0%;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div>
+
+<div class="textBox" id="textBox">
+Select level and press START
+</div>
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+</div>
+
+<div class="console">
+
+<div class="stat">Level:</div>
+
+<button class="easyBtn" onclick="setLevel('easy')">EASY</button>
+<button class="hardBtn" onclick="setLevel('hard')">HARD</button>
+
+<button class="startBtn" onclick="startGame()">START</button>
+
+<button class="pauseBtn" onclick="pauseGame()">PAUSE</button>
+
+<button class="resetBtn" onclick="resetGame()">RESET</button>
+
+<button class="menuBtn" onclick="location.href='../index.html'">
+MAIN MENU
+</button>
+
+<hr>
+
+<div class="stat">Score: <span id="score">0</span></div>
+
+<div class="stat">Streak: <span id="streak">0</span> / 25</div>
+
+<div class="progressBar">
+<div class="progressFill" id="progressFill"></div>
+</div>
+
+<div class="stat">Timer: <span id="timer">00:00</span></div>
+
+</div>
+
+</div>
+
+<script src="reading-bank.js"></script>
+
+<script>
+
+let level="easy";
+let currentText=null;
+let questionPool=[];
+let streak=0;
+let score=0;
+let timer=0;
+let timerInterval=null;
+let running=false;
+
+/* LEVEL */
+
+function setLevel(l){
+level=l;
+}
+
+/* START */
+
+function startGame(){
+
+running=true;
+
+pickText();
+
+buildPool();
+
+showText();
+
+nextQuestion();
+
+startTimer();
+}
+
+/* TIMER */
+
+function startTimer(){
+
+clearInterval(timerInterval);
+
+timer=0;
+
+timerInterval=setInterval(()=>{
+
+if(!running) return;
+
+timer++;
+
+let m=Math.floor(timer/60);
+let s=timer%60;
+
+document.getElementById("timer").textContent=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+},1000);
+}
+
+/* PICK TEXT */
+
+function pickText(){
+
+const filtered=TEXT_BANK.filter(t=>t.level===level);
+
+currentText=filtered[Math.floor(Math.random()*filtered.length)];
+}
+
+/* SHOW TEXT */
+
+function showText(){
+
+document.getElementById("textBox").innerHTML=
+"<b>"+currentText.title+"</b><br><br>"+currentText.content;
+}
+
+/* BUILD QUESTION POOL */
+
+function buildPool(){
+
+questionPool=READING_BANK
+.filter(q=>q.textId===currentText.id);
+
+shuffle(questionPool);
+}
+
+/* NEXT QUESTION */
+
+function nextQuestion(){
+
+if(questionPool.length===0){
+
+pickText();
+buildPool();
+showText();
+}
+
+const q=questionPool.pop();
+
+document.getElementById("question").textContent=q.question;
+
+const optionsDiv=document.getElementById("options");
+
+optionsDiv.innerHTML="";
+
+q.options.forEach(opt=>{
+
+const btn=document.createElement("div");
+
+btn.className="option";
+
+btn.textContent=opt;
+
+btn.onclick=()=>answer(btn,opt,q.answer);
+
+optionsDiv.appendChild(btn);
+
+});
+}
+
+/* ANSWER */
+
+function answer(btn,opt,correct){
+
+document.querySelectorAll(".option").forEach(b=>b.onclick=null);
+
+if(opt===correct){
+
+btn.classList.add("correct");
+
+streak++;
+score+=10;
+
+}else{
+
+btn.classList.add("wrong");
+
+streak=0;
+}
+
+updateStats();
+
+setTimeout(nextQuestion,600);
+}
+
+/* UPDATE */
+
+function updateStats(){
+
+document.getElementById("score").textContent=score;
+
+document.getElementById("streak").textContent=streak;
+
+document.getElementById("progressFill").style.width=
+(streak/25*100)+"%";
+
+if(streak===25){
+
+alert("Reading Master!");
+streak=0;
+}
+}
+
+/* PAUSE */
+
+function pauseGame(){
+running=!running;
+}
+
+/* RESET */
+
+function resetGame(){
+
+running=false;
+
+streak=0;
+score=0;
+
+updateStats();
+
+clearInterval(timerInterval);
+
+document.getElementById("timer").textContent="00:00";
+}
+
+/* SHUFFLE */
+
+function shuffle(a){
+
+for(let i=a.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[a[i],a[j]]=[a[j],a[i]];
+}
+
+}
+
+</script>
+
+</body>
+</html>

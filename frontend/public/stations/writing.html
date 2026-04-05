@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT – Writing Station</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background:radial-gradient(circle,#fed7aa 0%,#f97316 60%,#7c2d12 100%);
+  color:#111827;
+}
+
+.container{
+  width:90%;
+  max-width:1000px;
+  margin:40px auto;
+  background:white;
+  padding:40px;
+  border-radius:25px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+}
+
+.title{
+  text-align:center;
+  font-size:30px;
+  color:#9a3412;
+  margin-bottom:10px;
+}
+
+.topBar{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.badge{
+  padding:8px 14px;
+  border-radius:999px;
+  background:#ffedd5;
+  border:2px solid #f97316;
+  font-size:13px;
+  font-weight:800;
+}
+
+.button{
+  padding:10px 16px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:900;
+  transition:.2s;
+  font-family:'Orbitron',sans-serif;
+}
+
+.orangeBtn{
+  background:#f97316;
+  color:white;
+}
+.orangeBtn:hover{ background:#ea580c; }
+
+.whiteBtn{
+  background:white;
+  border:2px solid #f97316;
+  color:#9a3412;
+}
+.whiteBtn:hover{ background:#ffedd5; }
+
+input[type="text"]{
+  width:100%;
+  max-width:320px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:2px solid #f97316;
+  font-family:Arial,sans-serif;
+  font-size:15px;
+}
+
+textarea{
+  width:100%;
+  min-height:150px;
+  padding:14px;
+  border-radius:15px;
+  border:2px solid #f97316;
+  font-family:Arial,sans-serif;
+  font-size:15px;
+  margin-top:10px;
+  resize:vertical;
+}
+
+.feedback{
+  margin-top:15px;
+  padding:15px;
+  border-radius:15px;
+  background:#fff7ed;
+  border:2px solid #fb923c;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.hidden{ display:none; }
+
+.modeBox{
+  margin-bottom:25px;
+  padding:18px;
+  border-radius:18px;
+  border:2px solid #fb923c;
+  background:#fff7ed;
+}
+
+.wordCount{
+  margin-top:8px;
+  font-size:13px;
+  font-weight:800;
+  color:#9a3412;
+}
+
+.promptCard{
+  background:#fff7ed;
+  border:2px solid #fdba74;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.promptTitle{
+  margin:0 0 8px 0;
+  color:#9a3412;
+  font-size:16px;
+}
+
+.promptMeta{
+  margin:0;
+  font-size:12px;
+  color:#c2410c;
+  font-weight:700;
+}
+
+.promptHint{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#ffffff;
+  border:1px dashed #fdba74;
+  font-size:13px;
+}
+
+.checklist{
+  margin-top:10px;
+  background:#ffffff;
+  border:1px solid #fed7aa;
+  border-radius:10px;
+  padding:10px;
+}
+
+.checkItem{
+  font-size:13px;
+  margin:4px 0;
+  color:#9a3412;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="app">
+
+  <div class="title">WRITING STATION</div>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <p><strong>Enter your name to begin:</strong></p>
+    <input type="text" id="studentNameInput" placeholder="Your name">
+    <button class="button orangeBtn" onclick="startLogin()">START</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="mainContent" class="hidden">
+
+    <div class="topBar">
+      <div class="badge" id="studentBadge"></div>
+      <div class="badge" id="timer">00:00</div>
+      <div class="badge" id="modeBadge">Mode: Quick Fix</div>
+      <div class="badge" id="taskBadge">Task: 1/3</div>
+    </div>
+
+    <div class="topBar">
+      <button class="button whiteBtn" onclick="goMainMenu()">Main Menu</button>
+      <button class="button whiteBtn" onclick="toggleTimer()"><span id="pauseBtnLabel">Pause</span></button>
+      <button class="button whiteBtn" onclick="exitStation()">Exit</button>
+      <button class="button orangeBtn" onclick="saveProgress()">Save</button>
+    </div>
+
+    <!-- MODE SELECT -->
+    <div class="modeBox">
+      <button class="button orangeBtn" onclick="setMode('quick')">Quick Fix</button>
+      <button class="button orangeBtn" onclick="setMode('transform')">Transform</button>
+      <button class="button orangeBtn" onclick="setMode('paragraph')">Build Paragraph</button>
+      <button class="button orangeBtn" onclick="setMode('boss')">Boss Level</button>
+    </div>
+
+    <!-- WRITING AREA -->
+    <div id="writingArea">
+      <div id="promptBox" class="promptCard"></div>
+      <div id="taskChecklist" class="checklist"></div>
+
+      <textarea id="writingInput" placeholder="Start writing here..."></textarea>
+      <div class="wordCount" id="wordCounter">Words: 0</div>
+
+      <button class="button whiteBtn" onclick="nextTask()">Next Task</button>
+      <button class="button orangeBtn" onclick="submitWriting()">Submit</button>
+
+      <div id="feedbackBox" class="feedback hidden"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ================= LOGIN ================= */
+
+let studentName = localStorage.getItem("pitStudent");
+
+/* ================= DOM ================= */
+
+const loginBox = document.getElementById("loginBox");
+const mainContent = document.getElementById("mainContent");
+const studentBadge = document.getElementById("studentBadge");
+const timerEl = document.getElementById("timer");
+const modeBadge = document.getElementById("modeBadge");
+const taskBadge = document.getElementById("taskBadge");
+const promptBox = document.getElementById("promptBox");
+const taskChecklist = document.getElementById("taskChecklist");
+const input = document.getElementById("writingInput");
+const wordCounter = document.getElementById("wordCounter");
+const feedbackBox = document.getElementById("feedbackBox");
+const pauseBtnLabel = document.getElementById("pauseBtnLabel");
+
+/* ================= TIMER ================= */
+
+let seconds = 0;
+let interval = null;
+let isPaused = false;
+
+function startTimer(){
+  if(interval !== null) return;
+  interval = setInterval(()=>{
+    seconds++;
+    updateTimer();
+  },1000);
+  isPaused = false;
+  pauseBtnLabel.innerText = "Pause";
+}
+
+function pauseTimer(){
+  clearInterval(interval);
+  interval = null;
+  isPaused = true;
+  pauseBtnLabel.innerText = "Resume";
+}
+
+function toggleTimer(){
+  if(interval === null){
+    startTimer();
+  } else {
+    pauseTimer();
+  }
+}
+
+function updateTimer(){
+  let m = String(Math.floor(seconds/60)).padStart(2,"0");
+  let s = String(seconds%60).padStart(2,"0");
+  timerEl.innerText = m + ":" + s;
+}
+
+/* ================= WORD COUNT ================= */
+
+input.addEventListener("input", ()=>{
+  const words = getWordCount(input.value);
+  wordCounter.innerText = "Words: " + words;
+});
+
+function getWordCount(text){
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+/* ================= MODES ================= */
+
+let currentMode = "quick";
+let taskIndex = 0;
+
+const modeConfig = {
+  quick: {
+    label: "Quick Fix",
+    tasks: [
+      {
+        title: "Fix grammar and agreement",
+        prompt: "Correct the sentence:",
+        source: "We was very nervous and there was many machines.",
+        minWords: 5,
+        mustHave: ["we were", "there were"],
+        checklist: ["Correct both grammar mistakes", "Write one complete corrected sentence"]
+      },
+      {
+        title: "Fix tense and punctuation",
+        prompt: "Correct the sentence:",
+        source: "Yesterday i go to school but i forget my notebook",
+        minWords: 5,
+        mustHave: ["went", "forgot"],
+        checklist: ["Use past simple", "Add capital letter and final punctuation"]
+      },
+      {
+        title: "Fix third person present simple",
+        prompt: "Correct the sentence:",
+        source: "My sister study english every night and watch videos.",
+        minWords: 5,
+        mustHave: ["studies", "watches"],
+        checklist: ["Fix verb form for 'she'", "Keep the original meaning"]
+      }
+    ]
+  },
+  transform: {
+    label: "Transform",
+    tasks: [
+      {
+        title: "Join ideas with although",
+        prompt: "Rewrite these two sentences as one:",
+        source: "We were scared. We continued walking.",
+        minWords: 7,
+        mustHave: ["although"],
+        checklist: ["Write one sentence only", "Use 'although' correctly"]
+      },
+      {
+        title: "Use because",
+        prompt: "Rewrite as one clear sentence:",
+        source: "She was tired. She finished the project.",
+        minWords: 7,
+        mustHave: ["because"],
+        checklist: ["Connect both ideas", "Use a logical reason"]
+      },
+      {
+        title: "Use relative clause",
+        prompt: "Combine naturally:",
+        source: "I met a student. The student won the science fair.",
+        minWords: 7,
+        mustHave: ["who"],
+        checklist: ["Write one fluent sentence", "Use the relative pronoun 'who'"]
+      }
+    ]
+  },
+  paragraph: {
+    label: "Build Paragraph",
+    tasks: [
+      {
+        title: "Describe a place",
+        prompt: "Write an 80-word paragraph:",
+        source: "Describe a mysterious place you visited. Include where it is, what you saw, and how you felt.",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["Include location, details, and feelings", "Write at least 70 words"]
+      },
+      {
+        title: "Daily routine paragraph",
+        prompt: "Write an 80-word paragraph:",
+        source: "Describe your school morning routine. Use sequence words (first, then, after that, finally).",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: ["first", "then", "finally"],
+        checklist: ["Use sequence words", "Organize ideas in order"]
+      },
+      {
+        title: "Technology opinion paragraph",
+        prompt: "Write an 80-word paragraph:",
+        source: "Explain one benefit and one problem of using mobile phones at school.",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["State one benefit and one problem", "Give a short personal opinion"]
+      }
+    ]
+  },
+  boss: {
+    label: "Boss Level",
+    tasks: [
+      {
+        title: "Future of school",
+        prompt: "Write 100 words:",
+        source: "How will technology change schools in the next 10 years? Include at least two predictions with will.",
+        minWords: 95,
+        minSentences: 4,
+        mustHave: ["will"],
+        checklist: ["Write 2+ predictions", "Support your ideas with examples"]
+      },
+      {
+        title: "Health campaign text",
+        prompt: "Write 100 words:",
+        source: "Create a short campaign text to encourage healthy habits among teens.",
+        minWords: 95,
+        minSentences: 4,
+        mustHave: ["should"],
+        checklist: ["Include advice for teens", "Use persuasive language"]
+      }
+    ]
+  }
+};
+
+function setMode(mode){
+  currentMode = mode;
+  taskIndex = 0;
+  modeBadge.innerText = "Mode: " + modeConfig[mode].label;
+  loadPrompt();
+}
+
+function nextTask(){
+  const tasks = modeConfig[currentMode].tasks;
+  taskIndex = (taskIndex + 1) % tasks.length;
+  loadPrompt();
+}
+
+function loadPrompt(){
+  const mode = modeConfig[currentMode];
+  const task = mode.tasks[taskIndex];
+
+  if(!task){
+    promptBox.innerHTML = `<h3 class="promptTitle">No task loaded</h3><p>Please select a mode again.</p>`;
+    taskChecklist.innerHTML = `<strong>Task Checklist</strong><div class="checkItem">• Choose a mode to continue.</div>`;
+    taskBadge.innerText = "Task: -";
+    return;
+  }
+
+  promptBox.innerHTML = `
+    <h3 class="promptTitle">Current Task: ${task.title}</h3>
+    <p class="promptMeta">${mode.label} • Task ${taskIndex + 1}/${mode.tasks.length}</p>
+    <p><strong>${task.prompt}</strong><br>${task.source}</p>
+    <div class="promptHint">Goal: write at least <strong>${task.minWords}</strong> words, then revise based on feedback.</div>
+  `;
+
+  const checklist = (task.checklist || []).map(item => `<div class="checkItem">• ${item}</div>`).join("");
+  taskBadge.innerText = `Task: ${taskIndex + 1}/${mode.tasks.length}`;
+  taskChecklist.innerHTML = `<strong>Task Checklist</strong>${checklist}`;
+
+  input.value = "";
+  wordCounter.innerText = "Words: 0";
+  feedbackBox.classList.add("hidden");
+  feedbackBox.innerHTML = "";
+}
+
+/* ================= GRAMMAR CHECK ================= */
+
+function grammarCheck(text){
+  const mustFix = [];
+  const coaching = [];
+  const task = modeConfig[currentMode].tasks[taskIndex];
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  const sentences = text.split(/[.?!]+/).map(x=>x.trim()).filter(Boolean);
+  const lowerText = text.toLowerCase();
+
+  if(text.length > 0 && text[0] !== text[0].toUpperCase()){
+    coaching.push("Start your text with a capital letter.");
+  }
+
+  if(!/[.?!]$/.test(text)){
+    coaching.push("End your text with punctuation.");
+  }
+
+  if(lowerText.includes("there was many")){
+    coaching.push("Use 'there were' with plural nouns.");
+  }
+
+  if(lowerText.includes("we was")){
+    coaching.push("Use 'we were'.");
+  }
+
+  if(words.length < task.minWords){
+    mustFix.push(`Your answer is too short for this task. Aim for at least ${task.minWords} words.`);
+  }
+
+  if(task.minSentences && sentences.length < task.minSentences){
+    mustFix.push(`Write at least ${task.minSentences} full sentences for this task.`);
+  }
+
+  (task.mustHave || []).forEach(keyword=>{
+    if(!lowerText.includes(keyword.toLowerCase())){
+      coaching.push(`Consider using "${keyword}" to fully complete this task.`);
+    }
+  });
+
+  return { mustFix, coaching };
+}
+
+/* ================= SUBMIT ================= */
+
+function submitWriting(){
+  const text = input.value.trim();
+  if(!text) return alert("Write something first.");
+
+  const review = grammarCheck(text);
+
+  if(review.mustFix.length === 0){
+    const coachingText = review.coaching.length
+      ? `<br><br><strong>Next improvement:</strong><br>${review.coaching.join("<br>")}`
+      : "";
+    feedbackBox.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
+  } else {
+    feedbackBox.innerHTML =
+      "<strong>Please revise before finishing:</strong><br>" +
+      review.mustFix.join("<br>") +
+      (review.coaching.length
+        ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>")
+        : "");
+  }
+
+  feedbackBox.classList.remove("hidden");
+}
+
+/* ================= SAVE ================= */
+
+function saveProgress(){
+  const data = {
+    student: studentName,
+    mode: currentMode,
+    taskIndex: taskIndex,
+    text: input.value,
+    time: seconds,
+    words: getWordCount(input.value)
+  };
+
+  localStorage.setItem("writingProgress", JSON.stringify(data));
+  alert("Progress saved.");
+}
+
+/* ================= NAVIGATION ================= */
+
+function goMainMenu(){
+  window.location.href = "../index.html";
+}
+
+function exitStation(){
+  pauseTimer();
+  window.location.href = "../index.html";
+}
+
+/* ================= APP INIT ================= */
+
+function startLogin(){
+  const name = document.getElementById("studentNameInput").value.trim();
+  if(!name){
+    alert("Enter your name.");
+    return;
+  }
+  localStorage.setItem("pitStudent", name);
+  studentName = name;
+  activateApp();
+}
+
+function activateApp(){
+  loginBox.classList.add("hidden");
+  mainContent.classList.remove("hidden");
+  studentBadge.innerText = "Student: " + studentName;
+  loadPrompt();
+  startTimer();
+}
+
+if(studentName){
+  activateApp();
+}
+</script>
+
+</body>
+</html>

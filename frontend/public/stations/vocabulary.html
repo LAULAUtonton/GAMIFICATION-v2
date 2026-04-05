@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vocabulary Station — THE PIT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg1: #fdf4ff;
+  --bg2: #a855f7;
+  --bg3: #581c87;
+  --panel: #ffffff;
+  --accent: #a855f7;
+  --accent2: #c084fc;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Orbitron', system-ui, sans-serif;
+  background: radial-gradient(circle, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+header {
+  background: var(--panel);
+  border-radius: 20px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+h1 {
+  margin: 0 0 10px 0;
+  font-size: clamp(24px, 4vw, 36px);
+  color: var(--bg3);
+  letter-spacing: 2px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+select, button {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+  color: var(--bg3);
+}
+
+button:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.back-btn {
+  background: var(--bg3);
+  color: white;
+  border-color: var(--bg3);
+}
+
+.back-btn:hover {
+  background: #3b0764;
+}
+
+/* FLASHCARD GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* FLASHCARD STYLES */
+.card {
+  perspective: 1000px;
+  height: 320px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+/* FRONT OF CARD */
+.card-front {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  border: 3px solid var(--accent);
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  border-radius: 50%;
+  padding: 16px;
+}
+
+.card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.card-icon .emoji {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.card-word {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--bg3);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.card-pos {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  background: var(--accent);
+  padding: 6px 16px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.card-hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* BACK OF CARD */
+.card-back {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--bg3) 100%);
+  transform: rotateY(180deg);
+  color: white;
+}
+
+.card-translation {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.card-category {
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.card-unit {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card-back .card-hint {
+  color: rgba(255,255,255,0.8);
+}
+
+/* HUD */
+.hud {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.hud-item {
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    height: 300px;
+  }
+  .card-word {
+    font-size: 24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <header>
+    <h1>VOCABULARY FLASHCARDS</h1>
+    
+    <div class="controls">
+      <button class="back-btn" onclick="location.href='../index.html'">MAIN MENU</button>
+      <select id="unitSelect">
+        <option value="all">All Units</option>
+      </select>
+      <button id="shuffleBtn">SHUFFLE</button>
+      <button id="resetBtn">RESET ALL</button>
+    </div>
+    
+    <div class="hud">
+      <div class="hud-item">Cards: <span id="cardCount">0</span></div>
+      <div class="hud-item">Flipped: <span id="flippedCount">0</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<script>
+// =====================
+// VOCABULARY DATABASE
+// =====================
+
+const VOCAB_DB = {
+  units: [
+    {
+      unit: 1,
+      title: "Then and now",
+      sets: [
+        {
+          setId: "u1_verbs",
+          label: "Verbs and opposites",
+          type: "pairs",
+          items: [
+            { a: "agree", b: "disagree", emoji: "🤝" },
+            { a: "appear", b: "disappear", emoji: "👀" },
+            { a: "borrow", b: "lend", emoji: "📚" },
+            { a: "buy", b: "sell", emoji: "🛒" },
+            { a: "connect", b: "disconnect", emoji: "🔌" },
+            { a: "lose", b: "win", emoji: "🏆" },
+            { a: "save", b: "spend", emoji: "💰" },
+            { a: "send", b: "receive", emoji: "📨" }
+          ]
+        },
+        {
+          setId: "u1_feelings",
+          label: "Feelings",
+          type: "words",
+          items: [
+            { word: "happy", emoji: "😊", icon: "happy.svg" },
+            { word: "unhappy", emoji: "😢", icon: "sad.svg" },
+            { word: "scared", emoji: "😨", icon: "scared.svg" },
+            { word: "surprised", emoji: "😲", icon: "surprised.svg" },
+            { word: "tired", emoji: "😴", icon: "sleepy.svg" },
+            { word: "bored", emoji: "😑", icon: "neutral.svg" },
+            { word: "excited", emoji: "🤩", icon: "excited.svg" },
+            { word: "worried", emoji: "😟", icon: "worried.svg" },
+            { word: "relaxed", emoji: "😌", icon: "relaxed.svg" }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 2,
+      title: "Materials and Art",
+      sets: [
+        {
+          setId: "u2_materials",
+          label: "Materials",
+          type: "words",
+          items: [
+            { word: "cardboard", emoji: "📦", icon: "cardboard.svg" },
+            { word: "cotton", emoji: "🧶", icon: "wool.svg" },
+            { word: "glass", emoji: "🥛", icon: "glass.svg" },
+            { word: "leather", emoji: "👜", icon: "leather.svg" },
+            { word: "metal", emoji: "🔩", icon: "metal.svg" },
+            { word: "paper", emoji: "📄", icon: "cardboard.svg" },
+            { word: "plastic", emoji: "🧴", icon: "plastic.svg" },
+            { word: "wood", emoji: "🪵", icon: "wood_logs.svg" },
+            { word: "wool", emoji: "🐑", icon: "wool.svg" }
+          ]
+        },
+        {
+          setId: "u2_art",
+          label: "Art and artists",
+          type: "words",
+          items: [
+            { word: "dance", emoji: "💃", icon: "dancing.svg" },
+            { word: "design", emoji: "🎨", icon: "designing.svg" },
+            { word: "music", emoji: "🎵", icon: null },
+            { word: "paint", emoji: "🖌️", icon: "painting.svg" },
+            { word: "photograph", emoji: "📷", icon: null },
+            { word: "sculpture", emoji: "🗿", icon: null },
+            { word: "designer", emoji: "✏️", icon: "designing.svg" },
+            { word: "musician", emoji: "🎸", icon: null },
+            { word: "painter", emoji: "🎨", icon: "painting.svg" },
+            { word: "photographer", emoji: "📸", icon: null }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 3,
+      title: "Outdoor leisure",
+      sets: [
+        {
+          setId: "u3_activities",
+          label: "Outdoor activities",
+          type: "words",
+          items: [
+            { word: "cycling", emoji: "🚴", icon: "cycling.svg" },
+            { word: "jogging", emoji: "🏃", icon: "jogging.svg" },
+            { word: "rowing", emoji: "🚣", icon: "rowing.svg" },
+            { word: "working out", emoji: "💪", icon: "working-out.svg" },
+            { word: "kite flying", emoji: "🪁", icon: "kite-flying.svg" },
+            { word: "free running", emoji: "🤸", icon: "freerunning.svg" }
+          ]
+        },
+        {
+          setId: "u3_events",
+          label: "Outdoor events",
+          type: "words",
+          items: [
+            { word: "festival", emoji: "🎪", icon: null },
+            { word: "market", emoji: "🛍️", icon: null },
+            { word: "sports event", emoji: "🏟️", icon: null },
+            { word: "concert", emoji: "🎤", icon: null }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 4,
+      title: "People and personality",
+      sets: [
+        {
+          setId: "u4_personality",
+          label: "Personality adjectives",
+          type: "words",
+          items: [
+            { word: "patient", emoji: "🧘", icon: "patient.svg" },
+            { word: "lazy", emoji: "🦥", icon: "lazy.svg" },
+            { word: "generous", emoji: "🎁", icon: null },
+            { word: "polite", emoji: "🤵", icon: null },
+            { word: "confident", emoji: "💪", icon: null },
+            { word: "kind", emoji: "💝", icon: null },
+            { word: "mean", emoji: "😠", icon: "angry.svg" },
+            { word: "rude", emoji: "🙄", icon: "annoyed.svg" }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 5,
+      title: "The senses",
+      sets: [
+        {
+          setId: "u5_senses",
+          label: "Senses",
+          type: "words",
+          items: [
+            { word: "sight", emoji: "👁️", icon: null },
+            { word: "hearing", emoji: "👂", icon: null },
+            { word: "smell", emoji: "👃", icon: null },
+            { word: "taste", emoji: "👅", icon: null },
+            { word: "touch", emoji: "✋", icon: null }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 6,
+      title: "Body and fitness",
+      sets: [
+        {
+          setId: "u6_body",
+          label: "Body and fitness",
+          type: "words",
+          items: [
+            { word: "brain", emoji: "🧠", icon: null },
+            { word: "heart", emoji: "❤️", icon: null },
+            { word: "lungs", emoji: "🫁", icon: null },
+            { word: "muscles", emoji: "💪", icon: null },
+            { word: "bones", emoji: "🦴", icon: null },
+            { word: "injury", emoji: "🩹", icon: null },
+            { word: "stretch", emoji: "🧘", icon: "stretch.svg" },
+            { word: "train", emoji: "🏋️", icon: "train.svg" }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 7,
+      title: "Learning",
+      sets: [
+        {
+          setId: "u7_learning",
+          label: "Learning",
+          type: "pairs",
+          items: [
+            { a: "achieve", b: "achievement", emoji: "🏆" },
+            { a: "decide", b: "decision", emoji: "🤔" },
+            { a: "learn", b: "learning", emoji: "📖" },
+            { a: "solve", b: "solution", emoji: "💡" }
+          ]
+        }
+      ]
+    },
+    {
+      unit: 8,
+      title: "Work and school",
+      sets: [
+        {
+          setId: "u8_jobs",
+          label: "Jobs",
+          type: "words",
+          items: [
+            { word: "astronaut", emoji: "👨‍🚀", icon: "astronauts.svg" },
+            { word: "builder", emoji: "👷", icon: null },
+            { word: "dentist", emoji: "🦷", icon: null },
+            { word: "engineer", emoji: "👨‍🔧", icon: null },
+            { word: "musician", emoji: "🎵", icon: null },
+            { word: "teacher", emoji: "👨‍🏫", icon: null },
+            { word: "lawyer", emoji: "⚖️", icon: null },
+            { word: "manager", emoji: "💼", icon: null }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// =====================
+// ICON PATH HELPERS
+// =====================
+
+function getIconPath(setId, iconFile) {
+  if (!iconFile) return null;
+  
+  // Determine category from setId
+  let category = "activities";
+  const id = setId.toLowerCase();
+  
+  if (id.includes("feel") || id.includes("personality")) {
+    category = "emotions";
+  } else if (id.includes("material")) {
+    category = "materials";
+  } else if (id.includes("job")) {
+    category = "jobs";
+  } else if (id.includes("body") || id.includes("fitness")) {
+    category = "activities";
+  }
+  
+  return `icons/${category}/${iconFile}`;
+}
+
+// =====================
+// FLATTEN DATABASE
+// =====================
+
+function flattenVocab() {
+  const cards = [];
+  
+  for (const unit of VOCAB_DB.units) {
+    for (const set of unit.sets) {
+      
+      if (set.type === "pairs") {
+        for (const pair of set.items) {
+          // Card for first word
+          cards.push({
+            unit: unit.unit,
+            unitTitle: unit.title,
+            setLabel: set.label,
+            front: pair.a,
+            back: pair.b,
+            pos: "verb",
+            emoji: pair.emoji,
+            icon: null
+          });
+        }
+      }
+      
+      if (set.type === "words") {
+        for (const item of set.items) {
+          cards.push({
+            unit: unit.unit,
+            unitTitle: unit.title,
+            setLabel: set.label,
+            front: item.word,
+            back: "",
+            pos: getPOS(set.setId),
+            emoji: item.emoji,
+            icon: item.icon ? getIconPath(set.setId, item.icon) : null
+          });
+        }
+      }
+    }
+  }
+  
+  return cards;
+}
+
+function getPOS(setId) {
+  const id = setId.toLowerCase();
+  if (id.includes("verb")) return "verb";
+  if (id.includes("feel") || id.includes("personality")) return "adjective";
+  if (id.includes("sense")) return "noun";
+  return "noun";
+}
+
+function listUnits() {
+  return VOCAB_DB.units.map(u => ({
+    unit: u.unit,
+    title: u.title
+  }));
+}
+
+function shuffle(array) {
+  const a = array.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// =====================
+// APP STATE & DOM
+// =====================
+
+const grid = document.getElementById("grid");
+const unitSelect = document.getElementById("unitSelect");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const resetBtn = document.getElementById("resetBtn");
+const cardCountEl = document.getElementById("cardCount");
+const flippedCountEl = document.getElementById("flippedCount");
+
+let allCards = [];
+let currentCards = [];
+let flippedSet = new Set();
+
+// =====================
+// INITIALIZE
+// =====================
+
+function initUnits() {
+  const units = listUnits();
+  unitSelect.innerHTML = `<option value="all">All Units</option>` +
+    units.map(u => `<option value="${u.unit}">Unit ${u.unit}: ${u.title}</option>`).join("");
+}
+
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// =====================
+// RENDER CARDS
+// =====================
+
+function render() {
+  grid.innerHTML = currentCards.map((card, idx) => {
+    const isFlipped = flippedSet.has(idx);
+    
+    // Icon or emoji
+    let iconHtml;
+    if (card.icon) {
+      iconHtml = `<img src="${escapeHtml(card.icon)}" alt="${escapeHtml(card.front)}" onerror="this.parentElement.innerHTML='<span class=\\'emoji\\'>${card.emoji || '📝'}</span>'">`;
+    } else {
+      iconHtml = `<span class="emoji">${card.emoji || '📝'}</span>`;
+    }
+    
+    return `
+    <div class="card ${isFlipped ? 'flipped' : ''}" data-index="${idx}" onclick="flipCard(${idx})">
+      <div class="card-inner">
+        
+        <div class="card-face card-front">
+          <div class="card-icon">${iconHtml}</div>
+          <div class="card-word">${escapeHtml(card.front)}</div>
+          <div class="card-pos">${escapeHtml(card.pos)}</div>
+          <div class="card-hint">Click to flip</div>
+        </div>
+        
+        <div class="card-face card-back">
+          <div class="card-translation">${card.back ? escapeHtml(card.back) : escapeHtml(card.front)}</div>
+          <div class="card-category">${escapeHtml(card.setLabel)}</div>
+          <div class="card-unit">Unit ${card.unit}: ${escapeHtml(card.unitTitle)}</div>
+          <div class="card-hint">Click to flip back</div>
+        </div>
+        
+      </div>
+    </div>
+    `;
+  }).join("");
+  
+  updateHUD();
+}
+
+function updateHUD() {
+  cardCountEl.textContent = currentCards.length;
+  flippedCountEl.textContent = flippedSet.size;
+}
+
+// =====================
+// CARD INTERACTIONS
+// =====================
+
+window.flipCard = function(idx) {
+  if (flippedSet.has(idx)) {
+    flippedSet.delete(idx);
+  } else {
+    flippedSet.add(idx);
+  }
+  render();
+};
+
+// =====================
+// CONTROLS
+// =====================
+
+function loadCards() {
+  const unitVal = unitSelect.value;
+  
+  if (unitVal === "all") {
+    currentCards = allCards.slice();
+  } else {
+    currentCards = allCards.filter(c => c.unit === Number(unitVal));
+  }
+  
+  flippedSet.clear();
+  render();
+}
+
+unitSelect.addEventListener("change", loadCards);
+
+shuffleBtn.addEventListener("click", () => {
+  currentCards = shuffle(currentCards);
+  flippedSet.clear();
+  render();
+});
+
+resetBtn.addEventListener("click", () => {
+  flippedSet.clear();
+  render();
+});
+
+// =====================
+// INIT
+// =====================
+
+allCards = flattenVocab();
+initUnits();
+loadCards();
+
+</script>
+
+</body>
+</html>
