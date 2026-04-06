@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing Station - THE PIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg1: #ecfeff;
+  --bg2: #06b6d4;
+  --bg3: #164e63;
+  --panel: #ffffff;
+  --accent: #06b6d4;
+  --accent2: #22d3ee;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --success: #22c55e;
+  --error: #ef4444;
+  --warning: #f59e0b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(ellipse at top, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+  min-height: 100vh;
+  padding: 15px;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+header {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+  margin: 0 0 12px 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);
+  color: var(--bg3);
+  letter-spacing: 2px;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+select, button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 2px solid var(--accent);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  background: white;
+  color: var(--bg3);
+  transition: all 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent);
+  color: white;
+}
+
+.back-btn {
+  background: var(--bg3);
+  color: white;
+  border-color: var(--bg3);
+}
+
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.mode-tab {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mode-tab:hover { border-color: var(--accent); background: #ecfeff; }
+.mode-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+.hud {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hud-item {
+  background: linear-gradient(135deg, var(--accent), var(--bg3));
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.activity-screen { display: none; }
+.activity-screen.active { display: block; }
+
+/* LOGIN */
+.login-box {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.login-box h2 {
+  color: var(--bg3);
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+/* WRITING AREA */
+.writing-container {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .writing-container { grid-template-columns: 1fr; }
+}
+
+.main-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.task-title {
+  font-weight: 800;
+  color: var(--bg3);
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.task-meta {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.task-prompt {
+  background: #ecfeff;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.task-prompt strong {
+  color: var(--bg3);
+}
+
+.checklist {
+  background: #f0fdfa;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.checklist-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--bg3);
+  margin-bottom: 6px;
+}
+
+.check-item {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.check-item::before {
+  content: "○";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.check-item.done::before {
+  content: "●";
+  color: var(--success);
+}
+
+/* WRITING INPUT */
+.writing-area {
+  margin-bottom: 12px;
+}
+
+.writing-input {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.writing-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.word-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.word-stats span { color: var(--accent); }
+
+/* FEEDBACK */
+.feedback-box {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.feedback-box.success {
+  background: #dcfce7;
+  border: 2px solid var(--success);
+  color: #166534;
+}
+
+.feedback-box.warning {
+  background: #fef3c7;
+  border: 2px solid var(--warning);
+  color: #92400e;
+}
+
+.feedback-box.error {
+  background: #fee2e2;
+  border: 2px solid var(--error);
+  color: #991b1b;
+}
+
+/* VOCAB HELPER */
+.vocab-helper {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.vocab-helper h4 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: var(--bg3);
+}
+
+.vocab-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vocab-word {
+  padding: 4px 10px;
+  background: #ecfeff;
+  border: 1px solid var(--accent2);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bg3);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vocab-word:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* UNIT SELECTOR */
+.unit-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.unit-pill {
+  padding: 6px 12px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.unit-pill:hover { border-color: var(--accent); }
+.unit-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* TIMER */
+.timer-badge {
+  font-family: 'Orbitron', monospace;
+  font-size: 14px;
+}
+
+/* BUTTONS ROW */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="activity-screen active">
+    <div class="login-box">
+      <h2>WRITING STATION</h2>
+      <p>Enter your name to begin:</p>
+      <input type="text" id="nameInput" placeholder="Your name">
+      <button onclick="startApp()">START WRITING</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="main-screen" class="activity-screen">
+    <header>
+      <h1>WRITING STATION</h1>
+      
+      <div class="controls">
+        <button class="back-btn" onclick="location.href='../index.html'">MENU</button>
+        <select id="unitSelect">
+          <option value="all">All Units</option>
+        </select>
+        <button onclick="toggleTimer()" id="timerBtn">Pause</button>
+        <button onclick="saveProgress()">Save</button>
+      </div>
+      
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="quick">Quick Fix</button>
+        <button class="mode-tab" data-mode="transform">Transform</button>
+        <button class="mode-tab" data-mode="paragraph">Paragraph</button>
+        <button class="mode-tab" data-mode="vocab">Vocab Writing</button>
+        <button class="mode-tab" data-mode="creative">Creative</button>
+        <button class="mode-tab" data-mode="boss">Boss Level</button>
+      </div>
+      
+      <div class="hud">
+        <div class="hud-item">Student: <span id="studentName">-</span></div>
+        <div class="hud-item timer-badge">Time: <span id="timer">00:00</span></div>
+        <div class="hud-item">Task: <span id="taskNum">1/3</span></div>
+        <div class="hud-item">Score: <span id="score">0</span></div>
+      </div>
+    </header>
+
+    <div class="writing-container">
+      <div class="main-panel">
+        <div class="task-card">
+          <div class="task-title" id="taskTitle">-</div>
+          <div class="task-meta" id="taskMeta">-</div>
+          <div class="task-prompt" id="taskPrompt">-</div>
+        </div>
+        
+        <div class="writing-area">
+          <textarea class="writing-input" id="writingInput" placeholder="Start writing here..."></textarea>
+          <div class="word-stats">
+            Words: <span id="wordCount">0</span> | 
+            Sentences: <span id="sentenceCount">0</span> |
+            Goal: <span id="goalWords">5</span> words
+          </div>
+        </div>
+        
+        <div class="btn-row">
+          <button onclick="prevTask()">Previous</button>
+          <button onclick="nextTask()">Next Task</button>
+          <button class="btn-primary" onclick="checkWriting()">Check</button>
+          <button class="btn-success" onclick="submitWriting()">Submit</button>
+        </div>
+        
+        <div id="feedbackBox" class="feedback-box" style="display:none"></div>
+      </div>
+      
+      <div class="side-panel">
+        <div class="task-card">
+          <div class="checklist">
+            <div class="checklist-title">Task Checklist</div>
+            <div id="checklistItems"></div>
+          </div>
+        </div>
+        
+        <div class="vocab-helper">
+          <h4>Vocabulary Helper</h4>
+          <div class="vocab-words" id="vocabWords"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// VOCABULARY DATABASE (aligned with Vocabulary Station)
+const VOCAB_UNITS = {
+  1: {
+    title: "Then and now",
+    words: ["agree", "disagree", "appear", "disappear", "borrow", "lend", "buy", "sell", "connect", "remember", "forget", "happy", "sad", "scared", "surprised", "tired", "excited", "worried", "yesterday", "ago", "recently"]
+  },
+  2: {
+    title: "Art and design",
+    words: ["cardboard", "cotton", "glass", "leather", "metal", "paper", "plastic", "wood", "wool", "painting", "sculpture", "photography", "portrait", "landscape", "gallery", "paint", "draw", "design", "create", "sketch"]
+  },
+  3: {
+    title: "Fresh air",
+    words: ["cycling", "jogging", "hiking", "climbing", "swimming", "camping", "fishing", "park", "forest", "beach", "mountain", "lake", "river", "recycle", "pollution", "climate", "nature", "sustainable"]
+  },
+  4: {
+    title: "A helping hand",
+    words: ["kind", "generous", "patient", "polite", "helpful", "honest", "friendly", "caring", "lazy", "rude", "selfish", "volunteer", "donate", "support", "encourage", "comfort", "protect", "share"]
+  },
+  5: {
+    title: "Let's play",
+    words: ["sight", "hearing", "smell", "taste", "touch", "loud", "quiet", "bright", "dark", "soft", "hard", "sweet", "sour", "player", "team", "score", "rules", "challenge", "throw", "catch", "guess"]
+  },
+  6: {
+    title: "Move it!",
+    words: ["brain", "heart", "lungs", "muscles", "bones", "stretch", "warm up", "exercise", "rest", "healthy", "fit", "injury", "diet", "energy", "sleep", "shower", "clean"]
+  },
+  7: {
+    title: "Skills for life",
+    words: ["cook", "sew", "repair", "budget", "organise", "communicate", "plan", "first", "then", "next", "finally", "should", "must", "have to", "need to", "knife", "scissors", "hammer"]
+  },
+  8: {
+    title: "What a year!",
+    words: ["doctor", "nurse", "teacher", "engineer", "chef", "firefighter", "scientist", "pilot", "holiday", "vacation", "sunscreen", "travel", "relax", "classmate", "friend", "project", "exam", "memory"]
+  }
+};
+
+// WRITING TASKS
+const MODES = {
+  quick: {
+    label: "Quick Fix",
+    description: "Correct grammar and spelling errors",
+    tasks: [
+      {
+        title: "Fix subject-verb agreement",
+        prompt: "Correct this sentence:",
+        source: "We was very nervous and there was many people watching.",
+        minWords: 8,
+        mustHave: ["were"],
+        checklist: ["Fix 'we was' to 'we were'", "Fix 'there was many' to 'there were many'", "Keep the original meaning"],
+        unit: 1
+      },
+      {
+        title: "Fix past tense",
+        prompt: "Correct this sentence:",
+        source: "Yesterday I go to the museum and I see many beautiful paintings.",
+        minWords: 10,
+        mustHave: ["went", "saw"],
+        checklist: ["Change 'go' to 'went'", "Change 'see' to 'saw'", "Add correct punctuation"],
+        unit: 2
+      },
+      {
+        title: "Fix third person -s",
+        prompt: "Correct this sentence:",
+        source: "My brother always play football and he watch matches every weekend.",
+        minWords: 10,
+        mustHave: ["plays", "watches"],
+        checklist: ["Add -s/-es to verbs", "Check spelling", "Keep the sentence natural"],
+        unit: 5
+      },
+      {
+        title: "Fix spelling and capitalisation",
+        prompt: "Correct this sentence:",
+        source: "the docter said i should exersise more and eat helthy food.",
+        minWords: 10,
+        mustHave: ["doctor", "exercise", "healthy"],
+        checklist: ["Fix all spelling errors", "Capitalise the first word", "Add correct punctuation"],
+        unit: 6
+      }
+    ]
+  },
+  transform: {
+    label: "Transform",
+    description: "Combine or change sentence structures",
+    tasks: [
+      {
+        title: "Use 'although'",
+        prompt: "Combine these two sentences using 'although':",
+        source: "I was tired. I finished my homework.",
+        minWords: 8,
+        mustHave: ["although"],
+        checklist: ["Write ONE sentence", "Use 'although' correctly", "Keep both ideas"],
+        unit: 1
+      },
+      {
+        title: "Use 'because'",
+        prompt: "Combine using 'because':",
+        source: "She volunteers at the hospital. She wants to help people.",
+        minWords: 8,
+        mustHave: ["because"],
+        checklist: ["Connect with 'because'", "Show cause and effect", "Write one sentence"],
+        unit: 4
+      },
+      {
+        title: "Use relative clause (who)",
+        prompt: "Combine using 'who':",
+        source: "I met a teacher. The teacher helped me with my project.",
+        minWords: 8,
+        mustHave: ["who"],
+        checklist: ["Use 'who' to connect", "Avoid repetition", "Write fluently"],
+        unit: 8
+      },
+      {
+        title: "Use 'so...that'",
+        prompt: "Combine using 'so...that':",
+        source: "The music was loud. I couldn't hear my friend.",
+        minWords: 8,
+        mustHave: ["so", "that"],
+        checklist: ["Use 'so...that' structure", "Show result", "One sentence only"],
+        unit: 5
+      }
+    ]
+  },
+  paragraph: {
+    label: "Paragraph",
+    description: "Write organised paragraphs",
+    tasks: [
+      {
+        title: "Describe a memory",
+        prompt: "Write a paragraph (60-80 words):",
+        source: "Describe a happy memory from last year. What happened? How did you feel?",
+        minWords: 60,
+        minSentences: 4,
+        mustHave: [],
+        checklist: ["Write 60-80 words", "Include feelings vocabulary", "Use past tense", "At least 4 sentences"],
+        unit: 1
+      },
+      {
+        title: "Describe a place",
+        prompt: "Write a paragraph (60-80 words):",
+        source: "Describe your favourite outdoor place. What can you see, hear, and smell there?",
+        minWords: 60,
+        minSentences: 4,
+        mustHave: [],
+        checklist: ["Use sense vocabulary", "Describe with adjectives", "Include your feelings"],
+        unit: 3
+      },
+      {
+        title: "Give instructions",
+        prompt: "Write a paragraph (60-80 words):",
+        source: "Explain how to prepare a simple healthy snack. Use sequence words.",
+        minWords: 60,
+        minSentences: 4,
+        mustHave: ["first", "then"],
+        checklist: ["Use first, then, next, finally", "Give clear steps", "Include healthy food vocabulary"],
+        unit: 7
+      }
+    ]
+  },
+  vocab: {
+    label: "Vocab Writing",
+    description: "Use vocabulary in context",
+    tasks: [
+      {
+        title: "Feelings vocabulary",
+        prompt: "Write 3 sentences using these words: excited, worried, surprised",
+        source: "Use each word in a different sentence about yourself or someone you know.",
+        minWords: 20,
+        minSentences: 3,
+        mustHave: ["excited", "worried", "surprised"],
+        checklist: ["Use all 3 words", "One sentence per word", "Make sentences personal"],
+        unit: 1
+      },
+      {
+        title: "Materials vocabulary",
+        prompt: "Describe 3 objects using material words:",
+        source: "Choose 3 objects in your room and describe what they are made of (glass, wood, plastic, metal, etc.)",
+        minWords: 25,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["Describe 3 different objects", "Use 'made of' or 'made from'", "Use at least 3 material words"],
+        unit: 2
+      },
+      {
+        title: "Personality adjectives",
+        prompt: "Describe two people you know:",
+        source: "Describe one person with positive adjectives and one with different positive adjectives.",
+        minWords: 30,
+        minSentences: 4,
+        mustHave: [],
+        checklist: ["Use at least 4 personality adjectives", "Give examples of their behaviour", "Compare the two people"],
+        unit: 4
+      },
+      {
+        title: "Health vocabulary",
+        prompt: "Write about healthy habits:",
+        source: "Describe 3 things you do (or should do) to stay healthy. Use body and health vocabulary.",
+        minWords: 35,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["Mention exercise, food, or hygiene", "Use health vocabulary", "Give personal examples"],
+        unit: 6
+      }
+    ]
+  },
+  creative: {
+    label: "Creative",
+    description: "Express yourself creatively",
+    tasks: [
+      {
+        title: "A strange day",
+        prompt: "Write a short story (80-100 words):",
+        source: "Write about a day when everything went wrong. What happened? How did you feel?",
+        minWords: 80,
+        minSentences: 5,
+        mustHave: [],
+        checklist: ["Use past tense", "Include dialogue if possible", "Describe feelings", "Have a beginning, middle, end"],
+        unit: 1
+      },
+      {
+        title: "My dream job",
+        prompt: "Write about your dream job (70-90 words):",
+        source: "What job would you like in the future? Why? What skills do you need?",
+        minWords: 70,
+        minSentences: 4,
+        mustHave: ["will", "want"],
+        checklist: ["Name the job", "Give 2-3 reasons why", "Mention skills needed", "Use future tense"],
+        unit: 8
+      },
+      {
+        title: "Design a park",
+        prompt: "Describe your ideal park (70-90 words):",
+        source: "Imagine you can design a park for your community. What would it have? Who would use it?",
+        minWords: 70,
+        minSentences: 4,
+        mustHave: ["would"],
+        checklist: ["Describe facilities", "Say who it's for", "Use 'would' for imaginary situations"],
+        unit: 3
+      }
+    ]
+  },
+  boss: {
+    label: "Boss Level",
+    description: "Extended writing challenges",
+    tasks: [
+      {
+        title: "Opinion essay",
+        prompt: "Write 100-120 words:",
+        source: "Some people think students should do volunteer work. Do you agree? Give reasons and examples.",
+        minWords: 100,
+        minSentences: 6,
+        mustHave: ["should", "because"],
+        checklist: ["State your opinion clearly", "Give 2-3 reasons", "Include examples", "Write a conclusion"],
+        unit: 4
+      },
+      {
+        title: "Compare and contrast",
+        prompt: "Write 100-120 words:",
+        source: "Compare life 50 years ago with life today. What is different? What is better or worse?",
+        minWords: 100,
+        minSentences: 6,
+        mustHave: [],
+        checklist: ["Discuss at least 2 differences", "Use comparison language", "Give your opinion", "Use past and present tenses"],
+        unit: 1
+      },
+      {
+        title: "Problem and solution",
+        prompt: "Write 100-120 words:",
+        source: "What is one environmental problem in your area? Suggest 2 solutions that young people can do.",
+        minWords: 100,
+        minSentences: 6,
+        mustHave: ["should", "could"],
+        checklist: ["Describe the problem clearly", "Suggest 2 realistic solutions", "Use modal verbs", "Give a strong conclusion"],
+        unit: 3
+      }
+    ]
+  }
+};
+
+// STATE
+let studentName = localStorage.getItem("pitStudent") || "";
+let currentMode = "quick";
+let currentUnit = "all";
+let taskIndex = 0;
+let score = 0;
+let seconds = 0;
+let timerInterval = null;
+let isPaused = false;
+
+// DOM
+const loginScreen = document.getElementById("login-screen");
+const mainScreen = document.getElementById("main-screen");
+
+// INIT
+function init() {
+  initUnitSelect();
+  initModeTabs();
+  
+  if (studentName) {
+    startApp();
+  }
+}
+
+function initUnitSelect() {
+  const select = document.getElementById("unitSelect");
+  select.innerHTML = `<option value="all">All Units</option>`;
+  for (let i = 1; i <= 8; i++) {
+    select.innerHTML += `<option value="${i}">Unit ${i}: ${VOCAB_UNITS[i].title}</option>`;
+  }
+  select.addEventListener("change", (e) => {
+    currentUnit = e.target.value;
+    taskIndex = 0;
+    loadTask();
+  });
+}
+
+function initModeTabs() {
+  document.querySelectorAll(".mode-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".mode-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentMode = tab.dataset.mode;
+      taskIndex = 0;
+      loadTask();
+    });
+  });
+}
+
+function startApp() {
+  const nameInput = document.getElementById("nameInput");
+  if (!studentName && nameInput) {
+    studentName = nameInput.value.trim();
+    if (!studentName) {
+      alert("Please enter your name");
+      return;
+    }
+    localStorage.setItem("pitStudent", studentName);
+  }
+  
+  loginScreen.classList.remove("active");
+  mainScreen.classList.add("active");
+  document.getElementById("studentName").textContent = studentName;
+  
+  loadTask();
+  startTimer();
+  
+  // Word count listener
+  document.getElementById("writingInput").addEventListener("input", updateStats);
+}
+
+// TIMER
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    seconds++;
+    updateTimerDisplay();
+  }, 1000);
+  isPaused = false;
+  document.getElementById("timerBtn").textContent = "Pause";
+}
+
+function pauseTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  isPaused = true;
+  document.getElementById("timerBtn").textContent = "Resume";
+}
+
+function toggleTimer() {
+  if (timerInterval) pauseTimer();
+  else startTimer();
+}
+
+function updateTimerDisplay() {
+  const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const s = String(seconds % 60).padStart(2, "0");
+  document.getElementById("timer").textContent = `${m}:${s}`;
+}
+
+// TASKS
+function getTasks() {
+  const mode = MODES[currentMode];
+  if (currentUnit === "all") return mode.tasks;
+  return mode.tasks.filter(t => t.unit === Number(currentUnit));
+}
+
+function loadTask() {
+  const tasks = getTasks();
+  if (tasks.length === 0) {
+    document.getElementById("taskTitle").textContent = "No tasks for this unit";
+    document.getElementById("taskPrompt").innerHTML = "Select a different unit or mode.";
+    document.getElementById("checklistItems").innerHTML = "";
+    return;
+  }
+  
+  if (taskIndex >= tasks.length) taskIndex = 0;
+  if (taskIndex < 0) taskIndex = tasks.length - 1;
+  
+  const task = tasks[taskIndex];
+  const mode = MODES[currentMode];
+  
+  document.getElementById("taskTitle").textContent = task.title;
+  document.getElementById("taskMeta").textContent = `${mode.label} • Task ${taskIndex + 1}/${tasks.length} • Unit ${task.unit}`;
+  document.getElementById("taskPrompt").innerHTML = `<strong>${task.prompt}</strong><br><br>${task.source}`;
+  document.getElementById("taskNum").textContent = `${taskIndex + 1}/${tasks.length}`;
+  document.getElementById("goalWords").textContent = task.minWords;
+  
+  // Checklist
+  const checklistHtml = task.checklist.map(item => `<div class="check-item">${item}</div>`).join("");
+  document.getElementById("checklistItems").innerHTML = checklistHtml;
+  
+  // Vocab helper
+  const vocabWords = VOCAB_UNITS[task.unit].words.slice(0, 12);
+  document.getElementById("vocabWords").innerHTML = vocabWords.map(w => 
+    `<span class="vocab-word" onclick="insertWord('${w}')">${w}</span>`
+  ).join("");
+  
+  // Clear input
+  document.getElementById("writingInput").value = "";
+  document.getElementById("feedbackBox").style.display = "none";
+  updateStats();
+}
+
+function nextTask() {
+  taskIndex++;
+  loadTask();
+}
+
+function prevTask() {
+  taskIndex--;
+  loadTask();
+}
+
+window.insertWord = function(word) {
+  const input = document.getElementById("writingInput");
+  const pos = input.selectionStart;
+  const text = input.value;
+  input.value = text.slice(0, pos) + word + " " + text.slice(pos);
+  input.focus();
+  updateStats();
+};
+
+// STATS
+function updateStats() {
+  const text = document.getElementById("writingInput").value;
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+  
+  document.getElementById("wordCount").textContent = words;
+  document.getElementById("sentenceCount").textContent = sentences;
+}
+
+// CHECK & SUBMIT
+function checkWriting() {
+  const text = document.getElementById("writingInput").value.trim();
+  const tasks = getTasks();
+  const task = tasks[taskIndex];
+  
+  if (!text) {
+    showFeedback("Write something first!", "error");
+    return;
+  }
+  
+  const feedback = analyzeWriting(text, task);
+  showFeedback(feedback.message, feedback.type);
+  
+  // Update checklist
+  const items = document.querySelectorAll(".check-item");
+  items.forEach((item, i) => {
+    if (feedback.completed && feedback.completed[i]) {
+      item.classList.add("done");
+    } else {
+      item.classList.remove("done");
+    }
+  });
+}
+
+function analyzeWriting(text, task) {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim());
+  const lower = text.toLowerCase();
+  const issues = [];
+  const tips = [];
+  const completed = task.checklist.map(() => false);
+  
+  // Check word count
+  if (words.length < task.minWords) {
+    issues.push(`Write at least ${task.minWords} words (you have ${words.length})`);
+  } else {
+    completed[0] = true;
+  }
+  
+  // Check sentences
+  if (task.minSentences && sentences.length < task.minSentences) {
+    issues.push(`Write at least ${task.minSentences} sentences (you have ${sentences.length})`);
+  }
+  
+  // Check must-have words
+  const missing = [];
+  task.mustHave.forEach(word => {
+    if (!lower.includes(word.toLowerCase())) {
+      missing.push(word);
+    }
+  });
+  
+  if (missing.length > 0) {
+    issues.push(`Include these words: ${missing.join(", ")}`);
+  } else if (task.mustHave.length > 0) {
+    completed[1] = true;
+  }
+  
+  // Grammar checks
+  if (text.length > 0 && text[0] !== text[0].toUpperCase()) {
+    tips.push("Start with a capital letter");
+  }
+  
+  if (!/[.!?]$/.test(text)) {
+    tips.push("End with punctuation (. ! ?)");
+  }
+  
+  if (lower.includes("we was") || lower.includes("they was")) {
+    tips.push("Use 'we were' / 'they were' (not 'was')");
+  }
+  
+  if (lower.includes("there was many") || lower.includes("there was a lot of people")) {
+    tips.push("Use 'there were' with plural nouns");
+  }
+  
+  // Build message
+  if (issues.length === 0 && tips.length === 0) {
+    return { 
+      type: "success", 
+      message: "Excellent work! Your writing meets all the requirements. Click Submit to earn points!",
+      completed: completed.map(() => true)
+    };
+  }
+  
+  let message = "";
+  if (issues.length > 0) {
+    message += "<strong>Please fix:</strong><br>" + issues.map(i => "• " + i).join("<br>");
+  }
+  if (tips.length > 0) {
+    message += (issues.length > 0 ? "<br><br>" : "") + "<strong>Tips:</strong><br>" + tips.map(t => "• " + t).join("<br>");
+  }
+  
+  return { 
+    type: issues.length > 0 ? "warning" : "success", 
+    message,
+    completed
+  };
+}
+
+function submitWriting() {
+  const text = document.getElementById("writingInput").value.trim();
+  const tasks = getTasks();
+  const task = tasks[taskIndex];
+  
+  if (!text) {
+    showFeedback("Write something first!", "error");
+    return;
+  }
+  
+  const feedback = analyzeWriting(text, task);
+  
+  if (feedback.type === "success") {
+    score += 20;
+    document.getElementById("score").textContent = score;
+    showFeedback("Well done! +20 points. Moving to next task...", "success");
+    setTimeout(() => {
+      nextTask();
+    }, 2000);
+  } else {
+    showFeedback("Please complete the requirements before submitting.<br><br>" + feedback.message, "warning");
+  }
+}
+
+function showFeedback(message, type) {
+  const box = document.getElementById("feedbackBox");
+  box.innerHTML = message;
+  box.className = "feedback-box " + type;
+  box.style.display = "block";
+}
+
+// SAVE
+function saveProgress() {
+  const data = {
+    student: studentName,
+    mode: currentMode,
+    unit: currentUnit,
+    taskIndex,
+    text: document.getElementById("writingInput").value,
+    score,
+    time: seconds
+  };
+  localStorage.setItem("writingProgress", JSON.stringify(data));
+  alert("Progress saved!");
+}
+
+// START
+init();
+</script>
+</body>
+</html>
