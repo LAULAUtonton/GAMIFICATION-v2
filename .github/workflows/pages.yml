@@ -21,11 +21,17 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install --legacy-peer-deps
+      - name: Clean install state
         working-directory: frontend
+        run: rm -rf node_modules package-lock.json
 
-      - run: npm run build
+      - name: Install dependencies
         working-directory: frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
