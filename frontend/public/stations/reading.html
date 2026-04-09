@@ -69,16 +69,8 @@ select, button {
   transition: all 0.2s;
 }
 
-button:hover:not(:disabled) {
-  background: var(--accent);
-  color: white;
-}
-
-.back-btn {
-  background: var(--bg3);
-  color: white;
-  border-color: var(--bg3);
-}
+button:hover:not(:disabled) { background: var(--accent); color: white; }
+.back-btn { background: var(--bg3); color: white; border-color: var(--bg3); }
 
 .mode-tabs {
   display: flex;
@@ -116,7 +108,6 @@ button:hover:not(:disabled) {
   font-weight: 700;
 }
 
-/* LOGIN */
 .login-box {
   background: white;
   border-radius: 16px;
@@ -147,9 +138,7 @@ button:hover:not(:disabled) {
   gap: 16px;
 }
 
-@media (max-width: 900px) {
-  .reading-layout { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .reading-layout { grid-template-columns: 1fr; } }
 
 /* TEXT PANEL */
 .text-panel {
@@ -162,22 +151,32 @@ button:hover:not(:disabled) {
 .text-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 2px solid #e5e7eb;
 }
 
-.text-title {
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--bg3);
+.text-info { flex: 1; }
+.text-title { font-weight: 800; font-size: 18px; color: var(--bg3); }
+.text-meta { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+
+/* MANGA ILLUSTRATION */
+.text-illustration {
+  width: 140px;
+  height: 100px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 3px solid var(--accent2);
+  flex-shrink: 0;
 }
 
-.text-meta {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 600;
+.text-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .text-content {
@@ -187,14 +186,12 @@ button:hover:not(:disabled) {
   padding: 20px;
   font-size: 15px;
   line-height: 1.8;
-  max-height: 400px;
+  max-height: 350px;
   overflow-y: auto;
 }
 
-.text-content p { margin: 0 0 16px 0; }
+.text-content p { margin: 0 0 14px 0; }
 .text-content p:last-child { margin-bottom: 0; }
-
-.highlight { background: #bbf7d0; padding: 2px 4px; border-radius: 4px; }
 
 /* QUESTION PANEL */
 .question-panel {
@@ -210,11 +207,7 @@ button:hover:not(:disabled) {
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.question-card h3 {
-  margin: 0 0 12px 0;
-  font-size: 14px;
-  color: var(--bg3);
-}
+.question-card h3 { margin: 0 0 12px 0; font-size: 14px; color: var(--bg3); }
 
 .question-text {
   font-size: 15px;
@@ -239,26 +232,11 @@ button:hover:not(:disabled) {
   transition: all 0.2s;
 }
 
-.option-btn:hover:not(:disabled) {
-  border-color: var(--accent);
-  background: #ecfdf5;
-}
-
-.option-btn.correct {
-  background: var(--success);
-  border-color: var(--success);
-  color: white;
-}
-
-.option-btn.wrong {
-  background: var(--error);
-  border-color: var(--error);
-  color: white;
-}
-
+.option-btn:hover:not(:disabled) { border-color: var(--accent); background: #ecfdf5; }
+.option-btn.correct { background: var(--success); border-color: var(--success); color: white; }
+.option-btn.wrong { background: var(--error); border-color: var(--error); color: white; }
 .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
 
-/* PROGRESS */
 .progress-bar {
   height: 8px;
   background: #e5e7eb;
@@ -274,7 +252,6 @@ button:hover:not(:disabled) {
   transition: width 0.3s;
 }
 
-/* STATS CARD */
 .stats-card {
   background: #ecfdf5;
   border: 2px solid var(--accent2);
@@ -282,11 +259,7 @@ button:hover:not(:disabled) {
   padding: 14px;
 }
 
-.stats-card h4 {
-  margin: 0 0 10px 0;
-  font-size: 13px;
-  color: var(--bg3);
-}
+.stats-card h4 { margin: 0 0 10px 0; font-size: 13px; color: var(--bg3); }
 
 .stat-row {
   display: flex;
@@ -295,12 +268,8 @@ button:hover:not(:disabled) {
   margin: 6px 0;
 }
 
-.stat-row span:last-child {
-  font-weight: 700;
-  color: var(--accent);
-}
+.stat-row span:last-child { font-weight: 700; color: var(--accent); }
 
-/* VOCABULARY BOX */
 .vocab-box {
   background: white;
   border-radius: 12px;
@@ -308,17 +277,9 @@ button:hover:not(:disabled) {
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.vocab-box h4 {
-  margin: 0 0 10px 0;
-  font-size: 13px;
-  color: var(--bg3);
-}
+.vocab-box h4 { margin: 0 0 10px 0; font-size: 13px; color: var(--bg3); }
 
-.vocab-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.vocab-list { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .vocab-word {
   padding: 4px 10px;
@@ -329,7 +290,6 @@ button:hover:not(:disabled) {
   font-weight: 600;
 }
 
-/* FEEDBACK */
 .feedback {
   padding: 12px;
   border-radius: 10px;
@@ -341,7 +301,7 @@ button:hover:not(:disabled) {
 .feedback.success { background: #dcfce7; color: #166534; }
 .feedback.error { background: #fee2e2; color: #991b1b; }
 
-/* COMPLETE MODAL */
+/* MODAL */
 .modal {
   display: none;
   position: fixed;
@@ -382,7 +342,6 @@ button:hover:not(:disabled) {
 <body>
 
 <div class="container">
-  <!-- LOGIN -->
   <div id="login-screen" class="activity-screen active">
     <div class="login-box">
       <h2>READING STATION</h2>
@@ -392,7 +351,6 @@ button:hover:not(:disabled) {
     </div>
   </div>
 
-  <!-- MAIN -->
   <div id="main-screen" class="activity-screen">
     <header>
       <h1>READING STATION</h1>
@@ -406,30 +364,32 @@ button:hover:not(:disabled) {
           <option value="hard">Hard</option>
         </select>
         <button onclick="loadNewText()">New Text</button>
-        <button onclick="toggleTimer()" id="timerBtn">Pause</button>
       </div>
       
       <div class="mode-tabs">
         <button class="mode-tab active" data-mode="comprehension">Comprehension</button>
-        <button class="mode-tab" data-mode="vocabulary">Vocabulary</button>
         <button class="mode-tab" data-mode="truefalse">True/False</button>
-        <button class="mode-tab" data-mode="summary">Summary</button>
+        <button class="mode-tab" data-mode="vocabulary">Vocabulary</button>
       </div>
       
       <div class="hud">
         <div class="hud-item">Reader: <span id="playerName">-</span></div>
-        <div class="hud-item">Time: <span id="timer">00:00</span></div>
         <div class="hud-item">Score: <span id="score">0</span></div>
         <div class="hud-item">Streak: <span id="streak">0</span></div>
-        <div class="hud-item">Texts: <span id="textsRead">0</span></div>
+        <div class="hud-item">Texts: <span id="textsRead">0</span>/24</div>
       </div>
     </header>
 
     <div class="reading-layout">
       <div class="text-panel">
         <div class="text-header">
-          <div class="text-title" id="textTitle">-</div>
-          <div class="text-meta" id="textMeta">-</div>
+          <div class="text-info">
+            <div class="text-title" id="textTitle">-</div>
+            <div class="text-meta" id="textMeta">-</div>
+          </div>
+          <div class="text-illustration" id="textIllustration">
+            <img src="" alt="Illustration" id="illustrationImg">
+          </div>
         </div>
         <div class="text-content" id="textContent">Select a text to begin reading.</div>
       </div>
@@ -445,9 +405,9 @@ button:hover:not(:disabled) {
 
         <div class="stats-card">
           <h4>Session Stats</h4>
-          <div class="stat-row"><span>Correct Answers</span><span id="correctCount">0</span></div>
+          <div class="stat-row"><span>Correct</span><span id="correctCount">0</span></div>
           <div class="stat-row"><span>Best Streak</span><span id="bestStreak">0</span></div>
-          <div class="stat-row"><span>Points Earned</span><span id="pointsEarned">0</span></div>
+          <div class="stat-row"><span>Total Points</span><span id="totalPoints">0</span></div>
         </div>
 
         <div class="vocab-box">
@@ -472,44 +432,117 @@ button:hover:not(:disabled) {
 
 <script src="pit-score.js"></script>
 <script>
-// READING TEXTS - Aligned with 2ESO curriculum
+// MANGA-STYLE ILLUSTRATIONS - one per text (content-related)
+const ILLUSTRATIONS = {
+  'u1_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/45db730d0584bcc4eaa4d857aa92ad89d55db4f54adaa71cfd201bf438ea5e04.png',
+  'u1_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/12bfea50c7c7a75299748269e52d2e46ad4adea7681c4196bdd516bb372ea103.png',
+  'u1_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/9752e0e541831ff239507d1d9a20642f962859715febeaddc9e589a18e624aa6.png',
+  'u2_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/5b023043f92240e973e34aadef457408d8089a357b8522db4157b037702f348e.png',
+  'u2_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/aa6f024e149cf4c3b44c2aa21b8f23c0c3e42e5de6d5c85495b3d83778d0a303.png',
+  'u2_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/8b310b9e24f997cabe5f2d4471ba6cfa3f56190b12e1681e63dc61ef70ef4abe.png',
+  'u3_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/9478ccd8e624aaf2d8ddcbb631587f4487e90b2e787986b10b18de3f92017f79.png',
+  'u3_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/edb3f554daf906d19115539b74a44c94b59aad3165114a10a363784a67df213b.png',
+  'u3_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/0ec1523d803175864d510c09c3541a53c0d8d33b2d77a84e49fc61e4a4ee03a6.png',
+  'u4_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/76b18510de745a5d0cb6f4eee33c67c9775db2650268f283b3cde4d468fb1888.png',
+  'u4_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/2dd76993c672e20550c7577dcfa9ba89143e33fb8ad3356f361d8325c15d418a.png',
+  'u4_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/a83942b8b66ba3e0e4bc32bfc32f8636a036628e189abb0016ef3872093a7d07.png',
+  'u5_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/d49e98ec1c3201665506fd73086909f6bd744576fadb9a24cc65cf1a7da30127.png',
+  'u5_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/5b006032f8b073ac2c8e67bcf453e869325d9d086e00fca0c5311ff2195e1b8b.png',
+  'u5_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/d05d5fce10ca11e30cdee9e31e628e5d07151d70b86af3e4807d881e5c88aae0.png',
+  'u6_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/b20e5afc847e0c856d5ffae543fb728ff99e1da8b55b0fa754e9734ffc38b8b4.png',
+  'u6_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/c614b67e47fbbc6f4eb9a8f588b06bef58762dbfd14c587155228c116d014fef.png',
+  'u6_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/09bd2db9f6851f24a5243323a12439c95b2d161c68de7cca0c88e3927dbf053a.png',
+  'u7_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/c2d62e0abeaa31bec1efea4840ce0608043afe56c21a00233c16e6d598642443.png',
+  'u7_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/45a09beabf4b1aa53cd458a5063f8150ee9fc00d35567e20ca4d95328d12e6db.png',
+  'u7_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/facde8782e6c7bd9456cd24e733cbd9e76f58fe2cf82c265ada738b4ab288816.png',
+  'u8_easy': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/183735b290d78be42e293a18605496e85ba2aac8296258bcf82a7d4efb9b8fb1.png',
+  'u8_medium': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/35d158484c74da249991cf3f685f8cbecf3303abf1b9b8fd6587efaca3f9ff14.png',
+  'u8_hard': 'https://static.prod-images.emergentagent.com/jobs/9fc9c70e-4a6e-4305-9e19-eacab6560165/images/39c9639e5c7014ffeb8ad3469bb83e1da4fb33e0f42f9c8c06b932bc52606147.png'
+};
+
+// 24 READING TEXTS - 3 per unit (easy, medium, hard)
 const TEXTS = [
-  // UNIT 1: Then and Now
+  // ========== UNIT 1: THEN AND NOW ==========
   {
     id: 'u1_easy', unit: 1, level: 'easy',
-    title: 'Life in the Past',
+    title: 'Life Before Smartphones',
     content: `<p>My grandmother often tells me stories about life when she was young. Things were very different then. There was no internet, no mobile phones, and no social media. People sent letters to communicate with friends and family who lived far away.</p>
-    <p>She remembers being very excited when her family bought their first television. It was black and white, and there were only two channels! Children played outside more often. They didn't have video games, so they invented their own games.</p>
-    <p>Some things were harder in the past. People couldn't save information on computers. They had to remember everything or write it down. But my grandmother says people were happier because they spent more time together.</p>`,
-    vocabulary: ['communicate', 'excited', 'remember', 'invented', 'save'],
+    <p>She remembers being very excited when her family bought their first television. It was black and white, and there were only two channels! Children played outside more often because they didn't have video games.</p>
+    <p>Some things were harder in the past. People couldn't save information on computers. They had to remember everything or write it down. But my grandmother says people were happier because they spent more time together with family and friends.</p>`,
+    vocabulary: ['communicate', 'excited', 'remember', 'save', 'different'],
     questions: [
       { q: 'How did people communicate in the past?', options: ['By sending letters', 'By video call', 'By text message', 'By email'], answer: 0 },
       { q: 'What was special about the first TV?', options: ['It was black and white', 'It had many channels', 'It was very big', 'It was in colour'], answer: 0 },
       { q: 'Why did children play outside more?', options: ['They had no video games', 'It was warmer', 'Schools were closed', 'Parents made them'], answer: 0 },
-      { q: 'What does the grandmother think about the past?', options: ['People were happier', 'Life was terrible', 'Everything was worse', 'Nothing was different'], answer: 0 },
-      { q: 'What couldn\'t people do without computers?', options: ['Save information easily', 'Talk to each other', 'Go to school', 'Watch television'], answer: 0 }
+      { q: 'How did people save information?', options: ['They wrote it down', 'On computers', 'On phones', 'They didn\'t save anything'], answer: 0 },
+      { q: 'What does grandmother think about the past?', options: ['People were happier', 'Everything was terrible', 'Nothing was different', 'Life was boring'], answer: 0 }
     ],
     trueFalse: [
       { statement: 'People used mobile phones in the past.', answer: false },
       { statement: 'The first television was black and white.', answer: true },
       { statement: 'Children played more video games in the past.', answer: false },
-      { statement: 'The grandmother thinks people spent more time together.', answer: true }
+      { statement: 'Grandmother thinks people spent more time together.', answer: true }
     ]
   },
-  // UNIT 2: Art and Design
+  {
+    id: 'u1_medium', unit: 1, level: 'medium',
+    title: 'Technology Through the Ages',
+    content: `<p>Technology has changed dramatically over the past 100 years. In the early 1900s, most homes didn't have electricity. People used candles and oil lamps for light. They heated their homes with fireplaces and cooked on wood-burning stoves.</p>
+    <p>The invention of the telephone transformed communication. Before phones, people relied on letters that could take weeks to arrive. Suddenly, they could speak to someone miles away instantly. This seemed like magic to many people.</p>
+    <p>Computers have perhaps brought the biggest change. In the 1970s, a computer filled an entire room. Now, the smartphone in your pocket is millions of times more powerful than those early machines. We carry more computing power than astronauts had when they landed on the moon.</p>
+    <p>However, some people worry that technology makes us less connected to each other. While we can message friends instantly, we might spend less time talking face to face.</p>`,
+    vocabulary: ['dramatically', 'transformed', 'relied', 'instantly', 'powerful'],
+    questions: [
+      { q: 'What did homes NOT have in the early 1900s?', options: ['Electricity', 'Windows', 'Doors', 'Furniture'], answer: 0 },
+      { q: 'What transformed communication?', options: ['The telephone', 'The television', 'The computer', 'The radio'], answer: 0 },
+      { q: 'How big were computers in the 1970s?', options: ['Room-sized', 'Pocket-sized', 'Table-sized', 'Book-sized'], answer: 0 },
+      { q: 'What is more powerful than moon mission computers?', options: ['A smartphone', 'A calculator', 'A watch', 'A laptop only'], answer: 0 },
+      { q: 'What do some people worry about?', options: ['Less face-to-face connection', 'Too much exercise', 'Reading too much', 'Travelling too often'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'All homes had electricity in the early 1900s.', answer: false },
+      { statement: 'Letters were faster than telephones.', answer: false },
+      { statement: 'Modern smartphones are very powerful.', answer: true },
+      { statement: 'Everyone agrees technology is only positive.', answer: false }
+    ]
+  },
+  {
+    id: 'u1_hard', unit: 1, level: 'hard',
+    title: 'The Digital Revolution and Society',
+    content: `<p>The digital revolution has fundamentally reshaped human civilization within just a few decades. This transformation rivals the Industrial Revolution in its scope and impact, yet it has occurred at an unprecedented pace. While the Industrial Revolution unfolded over roughly 150 years, the digital age has compressed similar changes into a mere 30 years.</p>
+    <p>Consider how dramatically our relationship with information has evolved. Previously, knowledge was scarce and accessing it required visiting libraries or consulting experts. Today, virtually unlimited information is available instantaneously through search engines and databases. This democratization of knowledge has profound implications for education, work, and personal development.</p>
+    <p>The social consequences of this shift are still emerging. Social media platforms have revolutionized how we form and maintain relationships, yet researchers increasingly question whether these connections satisfy our fundamental human need for genuine community. Some studies suggest that despite being more "connected" than ever, many people experience greater loneliness than previous generations.</p>
+    <p>Furthermore, the digital divide remains a significant concern. While technology promises equality, access to digital resources varies substantially across different socioeconomic groups and geographical regions. This disparity threatens to exacerbate existing inequalities rather than diminish them.</p>`,
+    vocabulary: ['unprecedented', 'democratization', 'profound', 'disparity', 'exacerbate'],
+    questions: [
+      { q: 'How does the text compare the digital revolution to the Industrial Revolution?', options: ['Similar impact but faster', 'Less important', 'Exactly the same duration', 'Slower changes'], answer: 0 },
+      { q: 'What has happened to access to information?', options: ['It\'s more democratic', 'It\'s more restricted', 'It hasn\'t changed', 'Only experts have access'], answer: 0 },
+      { q: 'What do researchers question about social media?', options: ['Whether connections satisfy community needs', 'If it\'s entertaining', 'How to use it', 'When it was invented'], answer: 0 },
+      { q: 'What is the "digital divide"?', options: ['Unequal access to technology', 'A type of computer', 'A social media platform', 'A way of measuring speed'], answer: 0 },
+      { q: 'What might technology disparity do to inequalities?', options: ['Make them worse', 'Eliminate them', 'Have no effect', 'Only affect education'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'The digital revolution happened faster than the Industrial Revolution.', answer: true },
+      { statement: 'Information is harder to access today than in the past.', answer: false },
+      { statement: 'All researchers agree social media is beneficial.', answer: false },
+      { statement: 'Everyone has equal access to digital technology.', answer: false }
+    ]
+  },
+
+  // ========== UNIT 2: ART AND DESIGN ==========
   {
     id: 'u2_easy', unit: 2, level: 'easy',
     title: 'Street Art Around the World',
     content: `<p>Street art has become very popular in cities around the world. Artists paint murals on buildings, walls, and even pavements. Some people think it's vandalism, but many believe it's a form of art that makes cities more beautiful.</p>
-    <p>Famous street artists like Banksy create paintings that make people think about social issues. His work often appears suddenly on walls in different countries. Nobody knows his real identity!</p>
+    <p>Famous street artists like Banksy create paintings that make people think about important issues. His work often appears suddenly on walls in different countries. Nobody knows his real identity!</p>
     <p>In some cities, there are special areas where artists can paint legally. These outdoor galleries attract tourists and help local artists become famous. The materials street artists use include spray paint, brushes, and stencils.</p>`,
     vocabulary: ['murals', 'vandalism', 'identity', 'attract', 'materials'],
     questions: [
       { q: 'Where do street artists paint?', options: ['On buildings and walls', 'Only in museums', 'Just on paper', 'In private homes'], answer: 0 },
-      { q: 'What do some people think about street art?', options: ['It\'s vandalism', 'It\'s always illegal', 'It\'s boring', 'It\'s too expensive'], answer: 0 },
-      { q: 'What is special about Banksy?', options: ['Nobody knows who he is', 'He only paints in England', 'He uses oil paints', 'He works for the government'], answer: 0 },
-      { q: 'Why do cities create special areas for street art?', options: ['To attract tourists', 'To hide ugly buildings', 'To save money', 'To keep artists away'], answer: 0 },
-      { q: 'What materials do street artists use?', options: ['Spray paint and stencils', 'Only pencils', 'Watercolours', 'Clay'], answer: 0 }
+      { q: 'What do some people think about street art?', options: ['It\'s vandalism', 'It\'s always legal', 'It\'s boring', 'It\'s too expensive'], answer: 0 },
+      { q: 'What is special about Banksy?', options: ['Nobody knows who he is', 'He only paints in England', 'He uses oil paints', 'He works for museums'], answer: 0 },
+      { q: 'Why do cities create legal areas for street art?', options: ['To attract tourists', 'To hide buildings', 'To save money', 'To punish artists'], answer: 0 },
+      { q: 'What materials do street artists use?', options: ['Spray paint and stencils', 'Only pencils', 'Watercolours only', 'Just chalk'], answer: 0 }
     ],
     trueFalse: [
       { statement: 'Street art is always illegal.', answer: false },
@@ -518,136 +551,456 @@ const TEXTS = [
       { statement: 'Street artists only use spray paint.', answer: false }
     ]
   },
-  // UNIT 3: Fresh Air
+  {
+    id: 'u2_medium', unit: 2, level: 'medium',
+    title: 'The Art of Recycled Materials',
+    content: `<p>A growing movement of artists is creating stunning works from recycled and discarded materials. These eco-artists transform items that would otherwise end up in landfills into sculptures, installations, and functional art pieces.</p>
+    <p>One famous example is the "Plastic Ocean" installation by artist Aurora Robson. She collects plastic bottles from beaches and transforms them into beautiful, flowing sculptures that resemble sea creatures. Her work raises awareness about plastic pollution while demonstrating the creative potential of waste materials.</p>
+    <p>In architecture, recycled art takes on practical applications. Some designers create furniture from old shipping pallets, while others build entire houses from recycled shipping containers. These projects prove that sustainable design can be both beautiful and affordable.</p>
+    <p>Schools are increasingly incorporating recycled art into their curriculum. Students learn that creativity doesn't require expensive materials – imagination and resourcefulness can turn everyday objects into masterpieces.</p>`,
+    vocabulary: ['stunning', 'discarded', 'installations', 'sustainable', 'resourcefulness'],
+    questions: [
+      { q: 'What do eco-artists use to create art?', options: ['Recycled materials', 'Only new materials', 'Just paint', 'Expensive supplies'], answer: 0 },
+      { q: 'What did Aurora Robson create sculptures from?', options: ['Plastic bottles', 'Metal cans', 'Paper', 'Glass'], answer: 0 },
+      { q: 'What awareness does recycled ocean art raise?', options: ['Plastic pollution', 'Art history', 'Music education', 'Sports'], answer: 0 },
+      { q: 'What can be made from shipping containers?', options: ['Houses', 'Only boats', 'Just furniture', 'Nothing useful'], answer: 0 },
+      { q: 'What do students learn from recycled art projects?', options: ['Creativity doesn\'t need expensive materials', 'Art is only for professionals', 'You must buy supplies', 'Recycling is bad'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Eco-artists only use new materials.', answer: false },
+      { statement: 'Aurora Robson\'s work highlights plastic pollution.', answer: true },
+      { statement: 'Sustainable design is always ugly.', answer: false },
+      { statement: 'Schools are teaching recycled art.', answer: true }
+    ]
+  },
+  {
+    id: 'u2_hard', unit: 2, level: 'hard',
+    title: 'Digital Art: Revolution or Evolution?',
+    content: `<p>The emergence of digital art has sparked considerable debate within the art world about the nature of creativity and artistic authenticity. Traditional artists often express scepticism about works created entirely on computers, questioning whether clicking a mouse constitutes genuine artistic skill.</p>
+    <p>Proponents of digital art argue that the medium is simply another tool in the artist's arsenal, no different in principle from the transition from fresco to oil painting during the Renaissance. Digital software allows for unprecedented experimentation with colour, form, and composition, enabling artists to realize visions that would be impossible with traditional media.</p>
+    <p>The rise of NFTs (Non-Fungible Tokens) has further complicated this debate by introducing economic dimensions previously absent from discussions of digital art's legitimacy. When digital artworks sell for millions of pounds, the question shifts from "Is this art?" to "What determines artistic value?"</p>
+    <p>Perhaps most significantly, AI-generated art has emerged as the latest frontier, challenging fundamental assumptions about human creativity. When algorithms can produce aesthetically compelling images, we must reconsider what distinguishes human artistic expression from mere technical generation.</p>`,
+    vocabulary: ['authenticity', 'scepticism', 'unprecedented', 'legitimacy', 'aesthetically'],
+    questions: [
+      { q: 'What do traditional artists question about digital art?', options: ['Whether it requires genuine skill', 'Its colours', 'Its size', 'When it was made'], answer: 0 },
+      { q: 'What comparison do digital art supporters make?', options: ['To fresco-to-oil painting transition', 'To music', 'To dancing', 'To cooking'], answer: 0 },
+      { q: 'What have NFTs added to the debate?', options: ['Economic dimensions', 'More colours', 'Physical materials', 'Traditional techniques'], answer: 0 },
+      { q: 'What does AI-generated art challenge?', options: ['Assumptions about human creativity', 'Computer speed', 'Internet access', 'Museum sizes'], answer: 0 },
+      { q: 'What question arises when digital art sells for millions?', options: ['What determines artistic value', 'Who painted it', 'Where is the gallery', 'When was it made'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'All artists agree digital art is genuine art.', answer: false },
+      { statement: 'NFTs have introduced economic aspects to digital art debates.', answer: true },
+      { statement: 'AI cannot create aesthetically pleasing images.', answer: false },
+      { statement: 'Digital art limits creative experimentation.', answer: false }
+    ]
+  },
+
+  // ========== UNIT 3: FRESH AIR ==========
   {
     id: 'u3_easy', unit: 3, level: 'easy',
-    title: 'The Benefits of Outdoor Activities',
-    content: `<p>Spending time outdoors is good for your physical and mental health. Activities like hiking, cycling, and swimming help keep your body fit and strong. Exercise releases chemicals in your brain that make you feel happy.</p>
-    <p>Nature has a calming effect on people. Scientists have found that spending just 20 minutes in a park can reduce stress. The fresh air and green spaces help us relax and think more clearly.</p>
-    <p>Outdoor activities are also great for making friends. Joining a sports team or a hiking club connects you with people who share your interests. Many people say their best memories are from adventures in nature.</p>`,
-    vocabulary: ['physical', 'mental', 'releases', 'reduce', 'adventures'],
+    title: 'The Joy of Hiking',
+    content: `<p>Hiking is a wonderful way to enjoy nature and stay healthy. You don't need expensive equipment – just comfortable shoes and a water bottle. People of all ages can go hiking, from young children to grandparents.</p>
+    <p>When you hike, you can see beautiful views that you can't see from a car. Mountains, forests, lakes, and waterfalls become accessible when you walk. Many hikers say they feel peaceful and happy after spending time in nature.</p>
+    <p>Hiking is also great exercise. Walking uphill strengthens your leg muscles and improves your heart health. Fresh air fills your lungs and helps you think more clearly.</p>
+    <p>Start with easy trails and gradually try more difficult ones. Always tell someone where you're going and bring a snack. With hiking, the journey is just as enjoyable as the destination!</p>`,
+    vocabulary: ['accessible', 'peaceful', 'strengthens', 'gradually', 'destination'],
     questions: [
-      { q: 'What do outdoor activities help with?', options: ['Physical and mental health', 'Only physical health', 'Only mental health', 'Nothing at all'], answer: 0 },
-      { q: 'What happens in your brain during exercise?', options: ['Happy chemicals are released', 'You get tired', 'Nothing changes', 'You feel sad'], answer: 0 },
-      { q: 'How long in a park can reduce stress?', options: ['20 minutes', '2 hours', '5 minutes', '1 day'], answer: 0 },
-      { q: 'How can outdoor activities help you make friends?', options: ['By joining clubs or teams', 'By staying home', 'By watching TV', 'By reading books'], answer: 0 },
-      { q: 'What do many people say about nature adventures?', options: ['They are their best memories', 'They are boring', 'They are dangerous', 'They are expensive'], answer: 0 }
+      { q: 'What equipment do you need for hiking?', options: ['Comfortable shoes and water', 'Expensive gear', 'A car', 'Nothing at all'], answer: 0 },
+      { q: 'What can you see while hiking?', options: ['Beautiful views of nature', 'Only buildings', 'Just roads', 'Nothing special'], answer: 0 },
+      { q: 'How do hikers feel after being in nature?', options: ['Peaceful and happy', 'Angry and tired', 'Bored', 'Confused'], answer: 0 },
+      { q: 'What does walking uphill strengthen?', options: ['Leg muscles', 'Only arms', 'Just fingers', 'Nothing'], answer: 0 },
+      { q: 'What should beginners start with?', options: ['Easy trails', 'The hardest routes', 'Mountain climbing', 'Running marathons'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Outdoor activities only help physical health.', answer: false },
-      { statement: 'Nature can help reduce stress.', answer: true },
-      { statement: 'You can make friends through outdoor activities.', answer: true },
-      { statement: 'Exercise makes you feel sad.', answer: false }
+      { statement: 'Hiking requires expensive equipment.', answer: false },
+      { statement: 'Hiking improves heart health.', answer: true },
+      { statement: 'Only young people can go hiking.', answer: false },
+      { statement: 'You should tell someone where you\'re hiking.', answer: true }
     ]
   },
-  // UNIT 4: A Helping Hand
+  {
+    id: 'u3_medium', unit: 3, level: 'medium',
+    title: 'Urban Green Spaces',
+    content: `<p>Cities around the world are recognizing the importance of green spaces for residents' wellbeing. Parks, gardens, and tree-lined streets provide essential breaks from the concrete and noise that characterize urban life.</p>
+    <p>Research has demonstrated numerous benefits of urban nature. People who live near parks tend to exercise more, have lower stress levels, and report higher life satisfaction. Children who play in green spaces develop better social skills and concentration abilities.</p>
+    <p>Some innovative cities are creating new types of green spaces. Singapore is famous for its "sky gardens" – green areas on top of tall buildings. New York City transformed an old railway line into the High Line park, now one of the city's most popular attractions.</p>
+    <p>However, access to green spaces isn't equal. Wealthier neighbourhoods typically have more parks than poorer areas. Urban planners are working to address this inequality by creating new green spaces in underserved communities.</p>`,
+    vocabulary: ['wellbeing', 'characterize', 'demonstrated', 'innovative', 'underserved'],
+    questions: [
+      { q: 'Why are green spaces important in cities?', options: ['For residents\' wellbeing', 'To build more shops', 'To increase traffic', 'For parking cars'], answer: 0 },
+      { q: 'What benefits do people living near parks have?', options: ['Lower stress and more exercise', 'Higher bills', 'More work', 'Less sleep'], answer: 0 },
+      { q: 'What is Singapore famous for?', options: ['Sky gardens', 'Beach resorts', 'Deserts', 'Snow'], answer: 0 },
+      { q: 'What was the High Line in New York?', options: ['An old railway line', 'A river', 'A building', 'A shopping centre'], answer: 0 },
+      { q: 'What inequality exists with green spaces?', options: ['Rich areas have more parks', 'All areas are equal', 'Poor areas have more', 'It doesn\'t matter'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Green spaces have no health benefits.', answer: false },
+      { statement: 'Children benefit from playing in green spaces.', answer: true },
+      { statement: 'All neighbourhoods have equal access to parks.', answer: false },
+      { statement: 'Singapore has gardens on top of buildings.', answer: true }
+    ]
+  },
+  {
+    id: 'u3_hard', unit: 3, level: 'hard',
+    title: 'Rewilding: Restoring Nature',
+    content: `<p>Rewilding represents a paradigm shift in conservation thinking, moving from preservation of existing habitats to active restoration of ecosystems. Rather than simply protecting what remains, rewilding advocates argue for reintroducing species and allowing natural processes to reshape landscapes.</p>
+    <p>The reintroduction of wolves to Yellowstone National Park in 1995 exemplifies rewilding's transformative potential. The wolves' presence triggered a trophic cascade – their predation on elk allowed vegetation to recover along riverbanks, which stabilized soil, altered river courses, and provided habitat for numerous other species.</p>
+    <p>Critics argue that rewilding is impractical in densely populated regions and potentially dangerous when large predators are involved. They point to conflicts between reintroduced species and agricultural interests, particularly in European countries where farmers have lost livestock to wolves.</p>
+    <p>Nevertheless, proponents contend that the ecological and economic benefits outweigh the challenges. Rewilded areas can provide carbon sequestration, flood prevention, and ecotourism opportunities. As climate change intensifies, restoring resilient ecosystems may prove essential for human survival.</p>`,
+    vocabulary: ['paradigm', 'ecosystems', 'trophic', 'sequestration', 'resilient'],
+    questions: [
+      { q: 'What does rewilding involve compared to traditional conservation?', options: ['Active restoration, not just preservation', 'Only building fences', 'Removing all animals', 'Cutting down forests'], answer: 0 },
+      { q: 'What happened after wolves were reintroduced to Yellowstone?', options: ['A trophic cascade improved the ecosystem', 'Nothing changed', 'All animals left', 'Rivers disappeared'], answer: 0 },
+      { q: 'What do critics worry about with rewilding?', options: ['Conflicts with agriculture', 'Too many tourists', 'Not enough wolves', 'Rivers being too clean'], answer: 0 },
+      { q: 'What benefits can rewilded areas provide?', options: ['Carbon storage and flood prevention', 'More pollution', 'Urban development', 'Industrial growth'], answer: 0 },
+      { q: 'Why might rewilding become more important?', options: ['Climate change requires resilient ecosystems', 'To build more cities', 'To reduce tourism', 'It won\'t become important'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Rewilding means keeping nature exactly as it is.', answer: false },
+      { statement: 'Wolf reintroduction in Yellowstone affected many species.', answer: true },
+      { statement: 'Everyone agrees rewilding is easy to implement.', answer: false },
+      { statement: 'Rewilded areas can help with climate change.', answer: true }
+    ]
+  },
+
+  // ========== UNIT 4: A HELPING HAND ==========
   {
     id: 'u4_easy', unit: 4, level: 'easy',
-    title: 'Young Volunteers Making a Difference',
-    content: `<p>Volunteering means helping others without expecting payment. Many young people around the world are volunteering in their communities. They help at animal shelters, visit elderly people, and clean up local parks.</p>
-    <p>Emma, 14, volunteers at a food bank every Saturday. "I pack boxes of food for families who need help," she explains. "It makes me feel good to know I'm making a difference."</p>
-    <p>Schools often encourage students to volunteer. It teaches important life skills like teamwork, responsibility, and communication. Volunteering also looks good on university applications and helps students discover their interests.</p>`,
-    vocabulary: ['volunteering', 'communities', 'encourage', 'responsibility', 'discover'],
+    title: 'Being a Good Friend',
+    content: `<p>Good friends make life better. They listen when you need to talk and help when you have problems. Being a good friend is about caring for others and treating them kindly.</p>
+    <p>There are many ways to show friendship. You can share your lunch with someone who forgot theirs. You can include a lonely classmate in your game. Small acts of kindness can make a big difference in someone's day.</p>
+    <p>Good friends are honest with each other. They tell the truth, even when it's difficult. But they also know how to be gentle and choose their words carefully so they don't hurt feelings.</p>
+    <p>Remember that everyone makes mistakes. Good friends forgive each other and don't hold grudges. They support each other through good times and bad times.</p>`,
+    vocabulary: ['caring', 'kindness', 'honest', 'forgive', 'support'],
     questions: [
-      { q: 'What is volunteering?', options: ['Helping without payment', 'Working for money', 'Studying at school', 'Playing sports'], answer: 0 },
-      { q: 'Where does Emma volunteer?', options: ['At a food bank', 'At a hospital', 'At a school', 'At a shop'], answer: 0 },
-      { q: 'What skills does volunteering teach?', options: ['Teamwork and responsibility', 'Only cooking', 'Only reading', 'Nothing useful'], answer: 0 },
-      { q: 'Why is volunteering good for university applications?', options: ['It looks good', 'It doesn\'t help', 'Universities don\'t care', 'It wastes time'], answer: 0 },
-      { q: 'How does Emma feel about volunteering?', options: ['Good about making a difference', 'Bored and tired', 'Angry and frustrated', 'Indifferent'], answer: 0 }
+      { q: 'What do good friends do when you need to talk?', options: ['They listen', 'They ignore you', 'They leave', 'They laugh'], answer: 0 },
+      { q: 'What is one way to show friendship?', options: ['Share your lunch', 'Take things from others', 'Be mean', 'Stay alone'], answer: 0 },
+      { q: 'What are good friends honest about?', options: ['They tell the truth', 'They lie often', 'They hide things', 'They never speak'], answer: 0 },
+      { q: 'What do good friends do when someone makes a mistake?', options: ['They forgive', 'They get angry forever', 'They stop being friends', 'They tell everyone'], answer: 0 },
+      { q: 'When do friends support each other?', options: ['In good and bad times', 'Only in good times', 'Never', 'Only at school'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Volunteers expect to be paid.', answer: false },
-      { statement: 'Emma volunteers at a food bank.', answer: true },
-      { statement: 'Volunteering teaches life skills.', answer: true },
-      { statement: 'Schools never encourage volunteering.', answer: false }
+      { statement: 'Good friends ignore each other.', answer: false },
+      { statement: 'Small acts of kindness can make a big difference.', answer: true },
+      { statement: 'Friends should lie to each other.', answer: false },
+      { statement: 'Good friends forgive mistakes.', answer: true }
     ]
   },
-  // UNIT 5: Let's Play
+  {
+    id: 'u4_medium', unit: 4, level: 'medium',
+    title: 'Youth Volunteering',
+    content: `<p>Young people around the world are making positive differences in their communities through volunteering. From beach clean-ups to helping at food banks, teenagers are proving that age is no barrier to making an impact.</p>
+    <p>Volunteering provides benefits for both the community and the volunteers themselves. Studies show that young people who volunteer develop stronger leadership skills, improved self-confidence, and better communication abilities. These skills prove valuable in education and future careers.</p>
+    <p>Social media has transformed how young people engage with volunteer opportunities. Platforms like Instagram and TikTok spread awareness about causes, making it easier for teenagers to find projects that match their interests and values.</p>
+    <p>However, experts caution against "voluntourism" – short volunteer trips that prioritize the volunteer's experience over genuine community benefit. Effective volunteering requires commitment, cultural sensitivity, and willingness to learn from the communities being served.</p>`,
+    vocabulary: ['impact', 'leadership', 'confidence', 'awareness', 'commitment'],
+    questions: [
+      { q: 'What are teenagers proving through volunteering?', options: ['Age is no barrier to making an impact', 'Only adults can help', 'Volunteering is boring', 'Nothing can change'], answer: 0 },
+      { q: 'What skills do young volunteers develop?', options: ['Leadership and communication', 'Only cooking skills', 'Just reading', 'Nothing useful'], answer: 0 },
+      { q: 'How has social media helped volunteering?', options: ['Spreading awareness about causes', 'Making it harder', 'Stopping all volunteering', 'Only for adults'], answer: 0 },
+      { q: 'What is "voluntourism"?', options: ['Short trips prioritizing volunteer experience', 'Long-term commitment', 'Never volunteering', 'Only local work'], answer: 0 },
+      { q: 'What does effective volunteering require?', options: ['Commitment and cultural sensitivity', 'Just showing up', 'No preparation', 'Only money'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Only adults can make a difference through volunteering.', answer: false },
+      { statement: 'Volunteering can improve leadership skills.', answer: true },
+      { statement: 'Social media has not affected volunteering.', answer: false },
+      { statement: 'All volunteer trips are equally effective.', answer: false }
+    ]
+  },
+  {
+    id: 'u4_hard', unit: 4, level: 'hard',
+    title: 'The Psychology of Altruism',
+    content: `<p>Altruism – the selfless concern for others' welfare – has long puzzled evolutionary biologists and psychologists. If natural selection favours genes that promote individual survival and reproduction, why do humans frequently sacrifice their own interests to help others, including strangers?</p>
+    <p>Research suggests multiple mechanisms underlying altruistic behaviour. Kin selection explains why we help relatives, as they share our genes. Reciprocal altruism accounts for helping non-relatives, as cooperation often produces mutual benefits over time. Reputation effects also play a role – generous individuals attract more social support.</p>
+    <p>Neuroscience has identified specific brain regions activated during generous acts. The reward centres of the brain show increased activity when people donate to charity, suggesting that helping others provides intrinsic pleasure. This "warm glow" effect may have evolved to encourage prosocial behaviour.</p>
+    <p>Cultural factors significantly influence altruistic tendencies. Societies emphasizing collective welfare typically demonstrate higher levels of charitable giving than those prioritizing individual achievement. Understanding these variations helps organizations design more effective appeals for support.</p>`,
+    vocabulary: ['altruism', 'evolutionary', 'mechanisms', 'reciprocal', 'intrinsic'],
+    questions: [
+      { q: 'What puzzle does altruism present to scientists?', options: ['Why we sacrifice for others despite natural selection', 'Why animals eat', 'How plants grow', 'When seasons change'], answer: 0 },
+      { q: 'What is "kin selection"?', options: ['Why we help relatives who share our genes', 'A sports competition', 'A type of food', 'A computer program'], answer: 0 },
+      { q: 'What happens in the brain during generous acts?', options: ['Reward centres are activated', 'Nothing happens', 'Memory disappears', 'Vision improves'], answer: 0 },
+      { q: 'What is the "warm glow" effect?', options: ['Pleasure from helping others', 'Feeling cold', 'Being angry', 'Sleeping well'], answer: 0 },
+      { q: 'What influences altruistic behaviour across societies?', options: ['Cultural factors', 'Only weather', 'Just age', 'Only language'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Altruism is easily explained by natural selection alone.', answer: false },
+      { statement: 'Helping others can activate reward centres in the brain.', answer: true },
+      { statement: 'All cultures show identical levels of altruism.', answer: false },
+      { statement: 'Reputation can influence helping behaviour.', answer: true }
+    ]
+  },
+
+  // ========== UNIT 5: LET'S PLAY ==========
   {
     id: 'u5_easy', unit: 5, level: 'easy',
-    title: 'Board Games vs Video Games',
-    content: `<p>Both board games and video games are popular forms of entertainment. Board games have been around for thousands of years, while video games are a modern invention. Each type has its own advantages.</p>
-    <p>Board games bring people together face to face. Players can see each other's expressions and reactions. Games like chess develop strategic thinking, while party games create laughter and fun memories.</p>
-    <p>Video games can improve hand-eye coordination and problem-solving skills. Many games now allow players to connect online with friends around the world. However, experts recommend limiting screen time and balancing gaming with other activities.</p>`,
-    vocabulary: ['entertainment', 'advantages', 'expressions', 'strategic', 'coordination'],
+    title: 'The Magic of Board Games',
+    content: `<p>Board games have been popular for thousands of years. Ancient Egyptians played a game called Senet, and chess has been around for over 1,500 years! Today, there are thousands of different board games to choose from.</p>
+    <p>Playing board games is fun for many reasons. You can spend time with family and friends without screens. Everyone sits around a table, laughing and talking while playing. This creates special memories together.</p>
+    <p>Board games also help your brain. Strategy games teach you to plan ahead. Word games improve your vocabulary. Even simple games help younger children learn to count and take turns.</p>
+    <p>Starting a family game night is easy. Pick a game everyone can enjoy, make some snacks, and turn off the television. You might be surprised how much fun you have!</p>`,
+    vocabulary: ['ancient', 'strategy', 'vocabulary', 'memories', 'surprised'],
     questions: [
-      { q: 'Which type of game is older?', options: ['Board games', 'Video games', 'They are the same age', 'Card games'], answer: 0 },
-      { q: 'What do board games allow players to do?', options: ['See each other\'s expressions', 'Play alone', 'Connect online', 'Watch movies'], answer: 0 },
-      { q: 'What skill does chess develop?', options: ['Strategic thinking', 'Running speed', 'Cooking ability', 'Drawing skills'], answer: 0 },
-      { q: 'What can video games improve?', options: ['Hand-eye coordination', 'Nothing', 'Physical strength only', 'Sleep quality'], answer: 0 },
-      { q: 'What do experts recommend about gaming?', options: ['Limit screen time', 'Play all day', 'Never play games', 'Only play video games'], answer: 0 }
+      { q: 'How long has chess existed?', options: ['Over 1,500 years', '50 years', '10 years', '2 years'], answer: 0 },
+      { q: 'What do board games create with family?', options: ['Special memories', 'Problems', 'Loneliness', 'Confusion'], answer: 0 },
+      { q: 'What do strategy games teach?', options: ['Planning ahead', 'Only cooking', 'Just sleeping', 'Nothing'], answer: 0 },
+      { q: 'What do word games improve?', options: ['Vocabulary', 'Running speed', 'Swimming', 'Driving'], answer: 0 },
+      { q: 'What should you turn off for game night?', options: ['Television', 'The lights', 'Your brain', 'The game'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Video games are older than board games.', answer: false },
-      { statement: 'Board games bring people together face to face.', answer: true },
-      { statement: 'Video games can improve problem-solving skills.', answer: true },
-      { statement: 'Experts say screen time doesn\'t matter.', answer: false }
+      { statement: 'Board games are a recent invention.', answer: false },
+      { statement: 'Board games help you spend time with family.', answer: true },
+      { statement: 'Strategy games don\'t require thinking.', answer: false },
+      { statement: 'Games can help children learn to count.', answer: true }
     ]
   },
-  // UNIT 6: Move It!
+  {
+    id: 'u5_medium', unit: 5, level: 'medium',
+    title: 'Video Games: Friend or Foe?',
+    content: `<p>Video games are among the most popular forms of entertainment today, with billions of players worldwide. Yet debate continues about whether gaming is beneficial or harmful, particularly for young people.</p>
+    <p>Research reveals both positive and negative effects. Action games can improve visual attention and spatial reasoning. Puzzle games enhance problem-solving abilities. Multiplayer games teach cooperation and communication skills when players work together toward common goals.</p>
+    <p>However, excessive gaming carries risks. Some players develop addictive behaviours, neglecting school, sleep, and real-world relationships. Certain games contain violent or inappropriate content. The sedentary nature of gaming may contribute to health problems if physical activity is neglected.</p>
+    <p>Most experts recommend balance. Setting time limits, choosing age-appropriate games, and ensuring gaming doesn't replace physical activity and face-to-face socializing helps maximize benefits while minimizing risks. When approached thoughtfully, games can be valuable tools for learning and social connection.</p>`,
+    vocabulary: ['beneficial', 'spatial', 'enhance', 'excessive', 'sedentary'],
+    questions: [
+      { q: 'How many people play video games?', options: ['Billions worldwide', 'Just a few', 'Only children', 'No one'], answer: 0 },
+      { q: 'What can action games improve?', options: ['Visual attention', 'Nothing', 'Only hearing', 'Just taste'], answer: 0 },
+      { q: 'What is a risk of excessive gaming?', options: ['Addictive behaviours', 'Too much exercise', 'Eating too healthy', 'Reading too much'], answer: 0 },
+      { q: 'What do experts recommend about gaming?', options: ['Balance and time limits', 'Play all day', 'Never play', 'Only violent games'], answer: 0 },
+      { q: 'What shouldn\'t gaming replace?', options: ['Physical activity and socializing', 'Nothing important', 'Sleeping too much', 'Watching TV'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Video games have no positive effects.', answer: false },
+      { statement: 'Puzzle games can improve problem-solving.', answer: true },
+      { statement: 'All gaming is dangerous.', answer: false },
+      { statement: 'Experts recommend balance in gaming.', answer: true }
+    ]
+  },
+  {
+    id: 'u5_hard', unit: 5, level: 'hard',
+    title: 'The Science of Play',
+    content: `<p>Play is not merely frivolous entertainment but a fundamental biological necessity with profound implications for cognitive, social, and emotional development. Researchers across disciplines increasingly recognize play as essential for healthy brain development and lifelong wellbeing.</p>
+    <p>Neuroscientific studies reveal that play stimulates the prefrontal cortex, the brain region responsible for executive functions such as planning, decision-making, and impulse control. During play, neural connections strengthen and new pathways form, enhancing cognitive flexibility and creativity.</p>
+    <p>The phenomenon extends beyond humans. Young mammals across species engage in play behaviour, suggesting evolutionary advantages. Play-fighting among puppies, for instance, teaches bite inhibition and social boundaries. Primates use play to establish and maintain social hierarchies without serious conflict.</p>
+    <p>Paradoxically, contemporary societies often undervalue play, replacing it with structured activities and academic preparation. This "play deficit" concerns developmental psychologists, who argue that declining play opportunities may contribute to rising rates of anxiety and depression among young people.</p>`,
+    vocabulary: ['frivolous', 'cognitive', 'neuroscientific', 'inhibition', 'paradoxically'],
+    questions: [
+      { q: 'What do researchers now recognize about play?', options: ['It\'s essential for brain development', 'It\'s a waste of time', 'Only children need it', 'It\'s harmful'], answer: 0 },
+      { q: 'What brain region does play stimulate?', options: ['The prefrontal cortex', 'The stomach', 'The feet', 'Nothing'], answer: 0 },
+      { q: 'What do puppies learn from play-fighting?', options: ['Bite inhibition and social boundaries', 'How to be mean', 'Nothing useful', 'Only how to eat'], answer: 0 },
+      { q: 'What is "play deficit"?', options: ['Declining play opportunities', 'Too much play', 'A video game', 'A sport'], answer: 0 },
+      { q: 'What may the lack of play contribute to?', options: ['Anxiety and depression', 'Better grades only', 'More happiness', 'Nothing'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Play is only entertainment with no biological importance.', answer: false },
+      { statement: 'Play helps form neural connections in the brain.', answer: true },
+      { statement: 'Only humans engage in play behaviour.', answer: false },
+      { statement: 'Modern societies always prioritize play.', answer: false }
+    ]
+  },
+
+  // ========== UNIT 6: MOVE IT! ==========
   {
     id: 'u6_easy', unit: 6, level: 'easy',
-    title: 'Staying Healthy as a Teenager',
-    content: `<p>Being healthy involves taking care of your body and mind. Regular exercise keeps your muscles strong and your heart healthy. Experts recommend that teenagers get at least 60 minutes of physical activity every day.</p>
-    <p>Eating well is equally important. A balanced diet includes fruits, vegetables, proteins, and whole grains. Drinking water helps your body function properly. Try to limit sugary drinks and processed foods.</p>
-    <p>Sleep is often forgotten, but it's essential for teenagers. During sleep, your body repairs itself and your brain processes what you learned during the day. Aim for 8-10 hours of sleep each night.</p>`,
-    vocabulary: ['involves', 'recommend', 'balanced', 'function', 'essential'],
+    title: 'Why Exercise Makes You Happy',
+    content: `<p>Have you ever noticed that you feel good after exercising? That's not just your imagination – it's science! When you move your body, your brain releases special chemicals called endorphins that make you feel happy.</p>
+    <p>Exercise helps your body in many ways. Your heart gets stronger when you run, swim, or cycle. Your muscles grow when you use them. Even your bones become healthier with regular physical activity.</p>
+    <p>You don't need to become a professional athlete to get these benefits. Walking for 30 minutes a day is enough to improve your health. Dancing to your favourite music counts as exercise too!</p>
+    <p>The best exercise is one you enjoy. If you like team sports, join a club. If you prefer being alone, try running or cycling. The important thing is to move your body regularly and have fun doing it.</p>`,
+    vocabulary: ['chemicals', 'endorphins', 'muscles', 'athlete', 'regularly'],
     questions: [
-      { q: 'How much exercise should teenagers get daily?', options: ['At least 60 minutes', '10 minutes', '5 hours', 'No exercise needed'], answer: 0 },
-      { q: 'What does a balanced diet include?', options: ['Fruits, vegetables, proteins', 'Only pizza', 'Just sweets', 'Only meat'], answer: 0 },
-      { q: 'Why is water important?', options: ['It helps the body function', 'It tastes good', 'It\'s not important', 'It helps you sleep'], answer: 0 },
-      { q: 'What happens during sleep?', options: ['Body repairs and brain processes', 'Nothing important', 'You get weaker', 'You forget everything'], answer: 0 },
-      { q: 'How many hours of sleep should teenagers get?', options: ['8-10 hours', '4-5 hours', '12-14 hours', '2-3 hours'], answer: 0 }
+      { q: 'What does the brain release during exercise?', options: ['Endorphins', 'Water', 'Sugar', 'Oxygen'], answer: 0 },
+      { q: 'What becomes stronger when you run or swim?', options: ['Your heart', 'Only hair', 'Just nails', 'Nothing'], answer: 0 },
+      { q: 'How long should you walk daily for benefits?', options: ['30 minutes', '1 minute', '10 seconds', '24 hours'], answer: 0 },
+      { q: 'Does dancing count as exercise?', options: ['Yes, it does', 'Never', 'Only professionally', 'Just for children'], answer: 0 },
+      { q: 'What is the best type of exercise?', options: ['One you enjoy', 'The hardest one', 'Only running', 'Never exercising'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Teenagers need at least 60 minutes of exercise daily.', answer: true },
-      { statement: 'A balanced diet includes only proteins.', answer: false },
-      { statement: 'Sleep is not important for teenagers.', answer: false },
-      { statement: 'The body repairs itself during sleep.', answer: true }
+      { statement: 'Exercise releases chemicals that make you happy.', answer: true },
+      { statement: 'Only professional athletes benefit from exercise.', answer: false },
+      { statement: 'Dancing is not a form of exercise.', answer: false },
+      { statement: 'You should choose exercise you enjoy.', answer: true }
     ]
   },
-  // UNIT 7: Skills for Life
+  {
+    id: 'u6_medium', unit: 6, level: 'medium',
+    title: 'Sleep: The Secret to Success',
+    content: `<p>While society often celebrates hard work and busy schedules, researchers are discovering that sleep may be the most underrated factor in health and performance. During sleep, the body repairs tissue, consolidates memories, and regulates hormones essential for growth.</p>
+    <p>Teenagers require more sleep than adults – approximately 8-10 hours per night – yet most get far less. The consequences include difficulty concentrating, mood swings, and weakened immune systems. Studies show that sleep-deprived students perform significantly worse on tests than well-rested peers.</p>
+    <p>Electronic devices particularly affect teen sleep. The blue light from screens suppresses melatonin production, making it harder to fall asleep. Experts recommend putting devices away at least one hour before bedtime and keeping phones out of bedrooms overnight.</p>
+    <p>Improving sleep habits can produce remarkable results. Students who prioritize sleep often find that they accomplish more in less time, as their focused, rested brains work more efficiently than exhausted ones pushing through late nights.</p>`,
+    vocabulary: ['consolidates', 'hormones', 'immune', 'suppresses', 'efficiently'],
+    questions: [
+      { q: 'What happens to memories during sleep?', options: ['They are consolidated', 'They disappear', 'Nothing happens', 'They get worse'], answer: 0 },
+      { q: 'How much sleep do teenagers need?', options: ['8-10 hours', '2-3 hours', '12-15 hours', '1 hour'], answer: 0 },
+      { q: 'What does blue light from screens do?', options: ['Suppresses melatonin', 'Helps sleep', 'Does nothing', 'Makes you hungry'], answer: 0 },
+      { q: 'When should devices be put away before bed?', options: ['At least one hour before', 'Right before sleep', 'Never', 'After sleeping'], answer: 0 },
+      { q: 'What can happen when students prioritize sleep?', options: ['They accomplish more efficiently', 'They fail more tests', 'Nothing changes', 'They become weaker'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Teenagers need less sleep than adults.', answer: false },
+      { statement: 'Sleep-deprived students perform worse on tests.', answer: true },
+      { statement: 'Blue light helps you fall asleep faster.', answer: false },
+      { statement: 'Rested brains work more efficiently.', answer: true }
+    ]
+  },
+  {
+    id: 'u6_hard', unit: 6, level: 'hard',
+    title: 'The Gut-Brain Connection',
+    content: `<p>Emerging research has revealed a sophisticated communication network between the gastrointestinal system and the brain, revolutionizing our understanding of how diet influences mental health. This "gut-brain axis" involves neural, hormonal, and immunological signalling pathways that operate bidirectionally.</p>
+    <p>The gut microbiome – the trillions of bacteria residing in our intestines – plays a crucial role in this communication. These microorganisms produce neurotransmitters, including approximately 95% of the body's serotonin, a chemical essential for mood regulation. Disruptions to the microbiome have been linked to anxiety, depression, and cognitive decline.</p>
+    <p>Dietary choices significantly impact microbiome composition. Fibre-rich foods promote beneficial bacteria, while highly processed foods and excessive sugar encourage harmful species. This explains why Mediterranean diets, rich in vegetables, whole grains, and fermented foods, are associated with lower rates of mental health disorders.</p>
+    <p>This research has practical implications for personal health. By choosing foods that nourish beneficial gut bacteria, individuals may improve not only physical health but also emotional wellbeing and cognitive function. The ancient wisdom that "you are what you eat" has acquired new scientific validity.</p>`,
+    vocabulary: ['gastrointestinal', 'bidirectionally', 'microbiome', 'neurotransmitters', 'cognitive'],
+    questions: [
+      { q: 'What does the gut-brain axis connect?', options: ['The digestive system and brain', 'Only bones', 'Just muscles', 'Eyes and ears'], answer: 0 },
+      { q: 'What percentage of serotonin is produced in the gut?', options: ['About 95%', 'Only 5%', 'None', '50%'], answer: 0 },
+      { q: 'What has disruption to the microbiome been linked to?', options: ['Anxiety and depression', 'Only hunger', 'Better sleep', 'Nothing'], answer: 0 },
+      { q: 'What type of food promotes beneficial bacteria?', options: ['Fibre-rich foods', 'Only sugar', 'Processed foods', 'Nothing we eat'], answer: 0 },
+      { q: 'What diet is associated with better mental health?', options: ['Mediterranean diet', 'Only fast food', 'Just sweets', 'No food'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'The gut has no connection to the brain.', answer: false },
+      { statement: 'Gut bacteria produce neurotransmitters.', answer: true },
+      { statement: 'Highly processed foods are best for the microbiome.', answer: false },
+      { statement: 'Diet can affect mental health.', answer: true }
+    ]
+  },
+
+  // ========== UNIT 7: SKILLS FOR LIFE ==========
   {
     id: 'u7_easy', unit: 7, level: 'easy',
-    title: 'Learning to Cook: A Life Skill',
-    content: `<p>Cooking is one of the most important life skills you can learn. When you know how to cook, you can prepare healthy meals for yourself and others. It also saves money compared to eating out or buying ready meals.</p>
-    <p>Start with simple recipes. First, read all the instructions carefully. Then, prepare your ingredients before you begin. This is called "mise en place" in French, which means "everything in its place."</p>
-    <p>Don't be afraid to make mistakes. Every good cook has burnt food or added too much salt at some point. Learning from errors is part of the process. With practice, you'll become more confident in the kitchen.</p>`,
-    vocabulary: ['prepare', 'instructions', 'ingredients', 'mistakes', 'confident'],
+    title: 'Learning to Cook',
+    content: `<p>Cooking is one of the most useful skills you can learn. When you know how to cook, you can make healthy meals for yourself and your family. It's also much cheaper than eating out or buying ready meals.</p>
+    <p>Start with simple recipes. First, read all the instructions before you begin. Then, gather all your ingredients. This way, you won't be surprised by missing something halfway through.</p>
+    <p>Basic cooking skills include boiling pasta, frying eggs, and making salads. Once you're comfortable with these, try more challenging dishes. Don't worry about making mistakes – every good cook has burnt food at some point!</p>
+    <p>Cooking can also be creative and fun. You can experiment with different flavours and create your own recipes. Sharing homemade food with others is a wonderful way to show you care.</p>`,
+    vocabulary: ['ingredients', 'recipes', 'comfortable', 'experiment', 'homemade'],
     questions: [
-      { q: 'Why is cooking an important skill?', options: ['You can prepare healthy meals', 'It\'s not important', 'Only chefs need it', 'It wastes time'], answer: 0 },
-      { q: 'What should you do first with a recipe?', options: ['Read the instructions', 'Start cooking immediately', 'Buy expensive tools', 'Call a friend'], answer: 0 },
-      { q: 'What does "mise en place" mean?', options: ['Everything in its place', 'Start cooking', 'Clean the kitchen', 'Eat quickly'], answer: 0 },
-      { q: 'What should you do when you make mistakes?', options: ['Learn from them', 'Stop cooking forever', 'Get angry', 'Blame others'], answer: 0 },
-      { q: 'What happens with practice?', options: ['You become more confident', 'Nothing changes', 'You get worse', 'You forget everything'], answer: 0 }
+      { q: 'Why is cooking a useful skill?', options: ['You can make healthy meals', 'It\'s not useful', 'Only chefs need it', 'It wastes time'], answer: 0 },
+      { q: 'What should you do first when cooking?', options: ['Read all instructions', 'Start immediately', 'Buy more food', 'Skip the recipe'], answer: 0 },
+      { q: 'What are basic cooking skills?', options: ['Boiling pasta and frying eggs', 'Only ordering food', 'Just eating', 'Nothing simple'], answer: 0 },
+      { q: 'What should you do when you make mistakes?', options: ['Don\'t worry, everyone makes them', 'Stop cooking forever', 'Get angry', 'Throw everything away'], answer: 0 },
+      { q: 'How can sharing homemade food show you care?', options: ['It\'s a thoughtful gesture', 'It doesn\'t show care', 'Only bought food matters', 'Food isn\'t important'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Cooking can save money.', answer: true },
-      { statement: 'You should start cooking before reading the recipe.', answer: false },
+      { statement: 'Cooking is more expensive than eating out.', answer: false },
+      { statement: 'You should read instructions before cooking.', answer: true },
       { statement: 'Good cooks never make mistakes.', answer: false },
-      { statement: 'Practice helps you become confident.', answer: true }
+      { statement: 'Cooking can be creative.', answer: true }
     ]
   },
-  // UNIT 8: What a Year!
   {
-    id: 'u8_easy', unit: 8, level: 'easy',
-    title: 'Planning Your Summer Holiday',
-    content: `<p>Summer holidays are a great time to relax, travel, and try new things. Planning ahead can help you make the most of your free time. Start by thinking about what you want to do and who you want to spend time with.</p>
-    <p>If you're travelling with family, discuss everyone's preferences. Some people love beaches, while others prefer mountains or cities. Finding activities everyone enjoys makes the trip more fun.</p>
-    <p>Even if you're staying home, you can have a great summer. Visit local attractions, learn a new skill, or volunteer in your community. The most important thing is to create memories you'll remember for years.</p>`,
-    vocabulary: ['relax', 'planning', 'preferences', 'attractions', 'memories'],
+    id: 'u7_medium', unit: 7, level: 'medium',
+    title: 'Time Management for Students',
+    content: `<p>Effective time management separates struggling students from successful ones. With multiple subjects, extracurricular activities, and social lives to balance, learning to prioritize and organize becomes essential.</p>
+    <p>The key principle is distinguishing between urgent and important tasks. Urgent tasks demand immediate attention but aren't always significant. Important tasks contribute to long-term goals but often lack pressing deadlines. Successful students focus on important tasks before they become urgent.</p>
+    <p>Practical strategies include using planners or digital calendars, breaking large projects into smaller tasks, and establishing consistent study routines. Research shows that studying in focused sessions of 25-50 minutes, followed by short breaks, improves retention compared to marathon cramming sessions.</p>
+    <p>Perhaps most importantly, effective time management includes scheduling rest and recreation. Students who build in time for exercise, socializing, and hobbies often perform better academically than those who attempt to study constantly, as breaks prevent burnout and maintain motivation.</p>`,
+    vocabulary: ['prioritize', 'distinguishing', 'urgent', 'retention', 'burnout'],
     questions: [
-      { q: 'What helps you make the most of summer?', options: ['Planning ahead', 'Doing nothing', 'Staying in bed', 'Ignoring everything'], answer: 0 },
-      { q: 'What should families discuss when travelling?', options: ['Everyone\'s preferences', 'Nothing important', 'Only the parents\' ideas', 'The weather'], answer: 0 },
-      { q: 'Can you have a good summer without travelling?', options: ['Yes, by doing local activities', 'No, you must travel', 'No, summer will be boring', 'Only with money'], answer: 0 },
-      { q: 'What is the most important thing about summer?', options: ['Creating memories', 'Spending money', 'Working hard', 'Watching TV'], answer: 0 },
-      { q: 'What can you do at home during summer?', options: ['Learn new skills', 'Nothing interesting', 'Only sleep', 'Just homework'], answer: 0 }
+      { q: 'What separates successful students from struggling ones?', options: ['Effective time management', 'Only intelligence', 'Just luck', 'Nothing'], answer: 0 },
+      { q: 'What\'s the difference between urgent and important?', options: ['Urgent demands immediate attention, important affects long-term goals', 'They\'re the same', 'Only urgent matters', 'Neither matters'], answer: 0 },
+      { q: 'How long should focused study sessions be?', options: ['25-50 minutes', '5 minutes', '8 hours straight', '24 hours'], answer: 0 },
+      { q: 'What should time management include?', options: ['Rest and recreation', 'Only studying', 'No breaks ever', 'Just sleeping'], answer: 0 },
+      { q: 'What do breaks help prevent?', options: ['Burnout', 'Learning', 'Success', 'Nothing'], answer: 0 }
     ],
     trueFalse: [
-      { statement: 'Planning helps make the most of summer.', answer: true },
-      { statement: 'You must travel to have a good summer.', answer: false },
-      { statement: 'Discussing preferences helps family trips.', answer: true },
-      { statement: 'The only good summer activity is going to the beach.', answer: false }
+      { statement: 'All urgent tasks are also important.', answer: false },
+      { statement: 'Breaking projects into smaller tasks helps.', answer: true },
+      { statement: 'Studying constantly without breaks is best.', answer: false },
+      { statement: 'Rest is part of effective time management.', answer: true }
+    ]
+  },
+  {
+    id: 'u7_hard', unit: 7, level: 'hard',
+    title: 'Critical Thinking in the Information Age',
+    content: `<p>In an era of information abundance, the ability to think critically has become more valuable than mere knowledge accumulation. The challenge is no longer accessing information but evaluating its reliability, detecting bias, and synthesizing diverse sources into coherent understanding.</p>
+    <p>Media literacy forms a crucial component of contemporary critical thinking. Understanding how algorithms curate content, recognizing sponsored material disguised as journalism, and identifying manipulation techniques in persuasive messaging all require systematic training that traditional education often neglects.</p>
+    <p>Psychological biases complicate critical thinking. Confirmation bias leads us to accept information supporting existing beliefs while dismissing contradictory evidence. The Dunning-Kruger effect causes those with limited knowledge to overestimate their expertise. Awareness of these tendencies is the first step toward counteracting them.</p>
+    <p>Developing strong critical thinking requires deliberate practice: questioning sources, seeking multiple perspectives, acknowledging uncertainty, and being willing to revise conclusions when evidence warrants. These skills prove invaluable not only academically but in navigating the complex decisions of adult life.</p>`,
+    vocabulary: ['synthesizing', 'algorithms', 'manipulation', 'confirmation', 'contradictory'],
+    questions: [
+      { q: 'What\'s more valuable than knowledge accumulation today?', options: ['Critical thinking', 'Memorizing facts', 'Avoiding information', 'Only reading'], answer: 0 },
+      { q: 'What does media literacy help us recognize?', options: ['Sponsored content and manipulation', 'Only entertainment', 'Just news', 'Nothing important'], answer: 0 },
+      { q: 'What is confirmation bias?', options: ['Accepting information that supports existing beliefs', 'Being open-minded', 'Questioning everything', 'Having no opinions'], answer: 0 },
+      { q: 'What does strong critical thinking require?', options: ['Deliberate practice', 'No effort', 'Only reading', 'Avoiding all media'], answer: 0 },
+      { q: 'Where are critical thinking skills valuable?', options: ['In academics and adult life decisions', 'Nowhere', 'Only in school', 'Just at work'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Access to information is the main challenge today.', answer: false },
+      { statement: 'Algorithms affect what content we see.', answer: true },
+      { statement: 'Confirmation bias helps us think more clearly.', answer: false },
+      { statement: 'Being willing to revise conclusions is important.', answer: true }
+    ]
+  },
+
+  // ========== UNIT 8: WHAT A YEAR! ==========
+  {
+    id: 'u8_easy', unit: 8, level: 'easy',
+    title: 'Planning the Perfect Summer',
+    content: `<p>Summer holidays are a great time to relax and try new things. With some planning, you can make the most of your free time and create wonderful memories.</p>
+    <p>Think about what you'd like to do. Would you prefer to travel or stay home? Would you like to learn a new skill, like swimming or playing guitar? Making a list of goals can help you stay organized.</p>
+    <p>Even without travelling far, you can have adventures. Visit local museums or parks you've never explored. Have picnics with friends. Try cooking new recipes. The best summers don't require expensive trips.</p>
+    <p>Remember to balance fun with rest. Summer is also a time to recharge before the new school year. Reading for pleasure, spending time with family, and simply relaxing are all valuable ways to use your holiday.</p>`,
+    vocabulary: ['memories', 'adventures', 'exploring', 'balance', 'recharge'],
+    questions: [
+      { q: 'What should you think about for summer?', options: ['What you\'d like to do', 'Only schoolwork', 'Nothing', 'Just sleeping'], answer: 0 },
+      { q: 'Can you have adventures without travelling far?', options: ['Yes, explore locally', 'No, only abroad', 'Adventures aren\'t possible', 'Only with money'], answer: 0 },
+      { q: 'What doesn\'t the best summer require?', options: ['Expensive trips', 'Any planning', 'Friends', 'Fun'], answer: 0 },
+      { q: 'Why is rest important in summer?', options: ['To recharge before school', 'It\'s not important', 'Only for adults', 'To get bored'], answer: 0 },
+      { q: 'What are valuable ways to spend holidays?', options: ['Reading and family time', 'Only watching TV', 'Working all day', 'Nothing at all'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'You need expensive trips for a good summer.', answer: false },
+      { statement: 'Making a list of goals can help.', answer: true },
+      { statement: 'Summer is only for travelling.', answer: false },
+      { statement: 'Rest is an important part of summer.', answer: true }
+    ]
+  },
+  {
+    id: 'u8_medium', unit: 8, level: 'medium',
+    title: 'Choosing Your Future Career',
+    content: `<p>Making career decisions can feel overwhelming, but approaching the process systematically can reduce anxiety and lead to better choices. Rather than expecting to identify the "perfect" job immediately, view career exploration as an ongoing journey.</p>
+    <p>Self-assessment forms the foundation of career planning. Consider your interests – what subjects and activities engage you? Evaluate your skills – what do you do well? Reflect on your values – what aspects of work matter most to you? Understanding yourself helps identify suitable career paths.</p>
+    <p>Research different occupations thoroughly. Job shadowing, internships, and informational interviews provide insights that online descriptions cannot capture. Speaking with professionals reveals the daily realities of various careers, including challenges that aren't immediately apparent.</p>
+    <p>Remember that careers evolve. Most people change jobs multiple times, and entirely new professions emerge regularly. Developing transferable skills – communication, problem-solving, adaptability – prepares you for opportunities that may not exist yet.</p>`,
+    vocabulary: ['systematically', 'self-assessment', 'occupations', 'transferable', 'adaptability'],
+    questions: [
+      { q: 'How should you approach career decisions?', options: ['Systematically as an ongoing journey', 'Find the perfect job immediately', 'Don\'t think about it', 'Only listen to parents'], answer: 0 },
+      { q: 'What forms the foundation of career planning?', options: ['Self-assessment', 'Only grades', 'Just luck', 'Nothing'], answer: 0 },
+      { q: 'What provides insights online descriptions can\'t?', options: ['Job shadowing and internships', 'Only websites', 'Just books', 'Nothing else'], answer: 0 },
+      { q: 'What do most people do with their careers?', options: ['Change jobs multiple times', 'Keep the same job forever', 'Never work', 'Only work one year'], answer: 0 },
+      { q: 'Why develop transferable skills?', options: ['To prepare for future opportunities', 'They\'re not useful', 'Only for one job', 'To avoid working'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'You must know your perfect career immediately.', answer: false },
+      { statement: 'Self-assessment helps career planning.', answer: true },
+      { statement: 'Careers never change or evolve.', answer: false },
+      { statement: 'Transferable skills prepare you for future jobs.', answer: true }
+    ]
+  },
+  {
+    id: 'u8_hard', unit: 8, level: 'hard',
+    title: 'Global Citizenship in the 21st Century',
+    content: `<p>The concept of citizenship has expanded beyond national boundaries as global interconnectedness increases. Climate change, pandemics, and economic systems now operate at scales that transcend individual nations, demanding collaborative responses and shared responsibility.</p>
+    <p>Global citizenship encompasses awareness of world issues, understanding of diverse perspectives, and commitment to contributing positively to the broader human community. This doesn't diminish local or national identity but rather adds an additional layer of belonging and responsibility.</p>
+    <p>Education plays a vital role in developing global citizens. Learning languages opens doors to understanding different cultures. Studying geography and history contextualizes current events. Engaging with diverse media sources prevents parochial perspectives that can lead to misunderstanding and conflict.</p>
+    <p>Young people demonstrate global citizenship through various actions: supporting international causes, participating in cultural exchanges, making ethical consumption choices, and using social media to connect with peers worldwide. These seemingly small acts collectively contribute to building a more interconnected and understanding world.</p>`,
+    vocabulary: ['transcend', 'collaborative', 'encompasses', 'parochial', 'ethical'],
+    questions: [
+      { q: 'Why has the concept of citizenship expanded?', options: ['Global interconnectedness has increased', 'Countries have disappeared', 'Nothing has changed', 'People travel less'], answer: 0 },
+      { q: 'What does global citizenship NOT diminish?', options: ['Local or national identity', 'All connections', 'Every relationship', 'Cultural awareness'], answer: 0 },
+      { q: 'What role does education play?', options: ['Developing global citizens', 'Only teaching one language', 'Avoiding world issues', 'Stopping travel'], answer: 0 },
+      { q: 'What can prevent parochial perspectives?', options: ['Engaging with diverse media', 'Only local news', 'Avoiding all media', 'Never reading'], answer: 0 },
+      { q: 'How can young people show global citizenship?', options: ['Supporting international causes and ethical choices', 'Ignoring everything', 'Only focusing on self', 'Avoiding other cultures'], answer: 0 }
+    ],
+    trueFalse: [
+      { statement: 'Global citizenship replaces national identity.', answer: false },
+      { statement: 'Climate change transcends national boundaries.', answer: true },
+      { statement: 'Learning languages is unimportant for global citizenship.', answer: false },
+      { statement: 'Young people can contribute to global understanding.', answer: true }
     ]
   }
 ];
@@ -664,17 +1017,13 @@ let streak = 0;
 let bestStreak = 0;
 let correctCount = 0;
 let textsRead = 0;
-let timerSeconds = 0;
-let timerInterval = null;
-let isPaused = false;
 
-// DOM
+// DOM REFS
 const loginScreen = document.getElementById('login-screen');
 const mainScreen = document.getElementById('main-screen');
 
 // INIT
 function init() {
-  // Check for saved player
   if (typeof PIT_SCORE !== 'undefined') {
     const player = PIT_SCORE.getPlayer();
     if (player.name) {
@@ -687,16 +1036,15 @@ function init() {
   initUnitSelect();
   initModeTabs();
   
-  if (playerName) {
-    startApp();
-  }
+  if (playerName) startApp();
 }
 
 function initUnitSelect() {
   const select = document.getElementById('unitSelect');
   select.innerHTML = '<option value="all">All Units</option>';
+  const titles = ['Then and Now', 'Art and Design', 'Fresh Air', 'A Helping Hand', 'Let\'s Play', 'Move It!', 'Skills for Life', 'What a Year!'];
   for (let i = 1; i <= 8; i++) {
-    select.innerHTML += `<option value="${i}">Unit ${i}</option>`;
+    select.innerHTML += `<option value="${i}">Unit ${i}: ${titles[i-1]}</option>`;
   }
   select.addEventListener('change', e => { currentUnit = e.target.value; loadNewText(); });
   document.getElementById('levelSelect').addEventListener('change', e => { currentLevel = e.target.value; loadNewText(); });
@@ -719,10 +1067,7 @@ function startApp() {
   if (!playerName && input) {
     playerName = input.value.trim();
     if (!playerName) { alert('Enter your name'); return; }
-    
-    if (typeof PIT_SCORE !== 'undefined') {
-      PIT_SCORE.setName(playerName);
-    }
+    if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.setName(playerName);
   }
   
   loginScreen.classList.remove('active');
@@ -730,62 +1075,31 @@ function startApp() {
   document.getElementById('playerName').textContent = playerName;
   
   loadNewText();
-  startTimer();
 }
 
-// TIMER
-function startTimer() {
-  if (timerInterval) return;
-  timerInterval = setInterval(() => {
-    if (!isPaused) {
-      timerSeconds++;
-      const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-      const s = String(timerSeconds % 60).padStart(2, '0');
-      document.getElementById('timer').textContent = `${m}:${s}`;
-    }
-  }, 1000);
-}
-
-function toggleTimer() {
-  isPaused = !isPaused;
-  document.getElementById('timerBtn').textContent = isPaused ? 'Resume' : 'Pause';
-}
-
-// LOAD TEXT
 function loadNewText() {
   let filtered = TEXTS.filter(t => t.level === currentLevel);
-  if (currentUnit !== 'all') {
-    filtered = filtered.filter(t => t.unit === parseInt(currentUnit));
-  }
-  
-  if (filtered.length === 0) {
-    filtered = TEXTS.filter(t => t.level === currentLevel);
-  }
+  if (currentUnit !== 'all') filtered = filtered.filter(t => t.unit === parseInt(currentUnit));
+  if (filtered.length === 0) filtered = TEXTS.filter(t => t.level === currentLevel);
   
   currentText = filtered[Math.floor(Math.random() * filtered.length)];
   questionIndex = 0;
+  correctCount = 0;
   
   document.getElementById('textTitle').textContent = currentText.title;
-  document.getElementById('textMeta').textContent = `Unit ${currentText.unit} • ${currentText.level.toUpperCase()}`;
+  document.getElementById('textMeta').textContent = `Unit ${currentText.unit} • ${currentText.level.toUpperCase()} • ${currentText.vocabulary.length} key words`;
   document.getElementById('textContent').innerHTML = currentText.content;
-  
-  // Vocabulary
-  document.getElementById('vocabList').innerHTML = currentText.vocabulary.map(w => 
-    `<span class="vocab-word">${w}</span>`
-  ).join('');
+  document.getElementById('illustrationImg').src = ILLUSTRATIONS[currentText.id] || '';
+  document.getElementById('vocabList').innerHTML = currentText.vocabulary.map(w => `<span class="vocab-word">${w}</span>`).join('');
   
   loadQuestion();
   updateStats();
 }
 
-// LOAD QUESTION
 function loadQuestion() {
-  const questions = getQuestions();
+  const questions = currentMode === 'truefalse' ? currentText.trueFalse : currentText.questions;
   
-  if (questionIndex >= questions.length) {
-    showComplete();
-    return;
-  }
+  if (questionIndex >= questions.length) { showComplete(); return; }
   
   const q = questions[questionIndex];
   document.getElementById('questionNum').textContent = questionIndex + 1;
@@ -797,14 +1111,7 @@ function loadQuestion() {
     document.getElementById('questionText').textContent = q.statement;
     document.getElementById('optionsBox').innerHTML = `
       <button class="option-btn" onclick="answerTF(true)">True</button>
-      <button class="option-btn" onclick="answerTF(false)">False</button>
-    `;
-  } else if (currentMode === 'summary') {
-    document.getElementById('questionText').textContent = 'Summarize the main idea:';
-    document.getElementById('optionsBox').innerHTML = `
-      <textarea id="summaryInput" style="width:100%;height:80px;border:2px solid #22c55e;border-radius:8px;padding:10px;font-family:inherit;"></textarea>
-      <button class="option-btn" onclick="checkSummary()" style="margin-top:8px;background:#22c55e;color:white;border-color:#22c55e;">Submit Summary</button>
-    `;
+      <button class="option-btn" onclick="answerTF(false)">False</button>`;
   } else {
     document.getElementById('questionText').textContent = q.q;
     document.getElementById('optionsBox').innerHTML = q.options.map((opt, i) => 
@@ -813,13 +1120,6 @@ function loadQuestion() {
   }
 }
 
-function getQuestions() {
-  if (currentMode === 'truefalse') return currentText.trueFalse;
-  if (currentMode === 'summary') return [{ type: 'summary' }];
-  return currentText.questions; // comprehension or vocabulary
-}
-
-// ANSWER
 window.answer = function(selected, correct) {
   const btns = document.querySelectorAll('.option-btn');
   btns.forEach((btn, i) => {
@@ -827,72 +1127,36 @@ window.answer = function(selected, correct) {
     if (i === correct) btn.classList.add('correct');
     if (i === selected && selected !== correct) btn.classList.add('wrong');
   });
-  
-  const isCorrect = selected === correct;
-  handleAnswer(isCorrect);
+  handleAnswer(selected === correct);
 };
 
 window.answerTF = function(selected) {
   const q = currentText.trueFalse[questionIndex];
-  const isCorrect = selected === q.answer;
-  
   const btns = document.querySelectorAll('.option-btn');
   btns.forEach(btn => {
     btn.disabled = true;
-    const btnValue = btn.textContent === 'True';
-    if (btnValue === q.answer) btn.classList.add('correct');
-    if (btnValue === selected && !isCorrect) btn.classList.add('wrong');
+    const isTrue = btn.textContent === 'True';
+    if (isTrue === q.answer) btn.classList.add('correct');
+    if (isTrue === selected && selected !== q.answer) btn.classList.add('wrong');
   });
-  
-  handleAnswer(isCorrect);
-};
-
-window.checkSummary = function() {
-  const input = document.getElementById('summaryInput').value.trim();
-  if (input.length < 20) {
-    showFeedback('Write at least 20 characters.', false);
-    return;
-  }
-  
-  // Simple check - has key words
-  const keywords = currentText.vocabulary.slice(0, 3);
-  const hasKeywords = keywords.some(kw => input.toLowerCase().includes(kw.toLowerCase()));
-  
-  handleAnswer(true); // Give points for attempting
-  score += hasKeywords ? 10 : 5;
-  showFeedback(hasKeywords ? 'Great summary! +10 bonus' : 'Good effort! +5', true);
+  handleAnswer(selected === q.answer);
 };
 
 function handleAnswer(isCorrect) {
   const fb = document.getElementById('feedback');
-  
   if (isCorrect) {
-    score += 10;
-    streak++;
-    correctCount++;
+    score += 10; streak++; correctCount++;
     if (streak > bestStreak) bestStreak = streak;
     fb.textContent = 'Correct! +10 points';
     fb.className = 'feedback success';
   } else {
     streak = 0;
-    fb.textContent = 'Incorrect. Keep trying!';
+    fb.textContent = 'Incorrect';
     fb.className = 'feedback error';
   }
-  
   fb.style.display = 'block';
   updateStats();
-  
-  setTimeout(() => {
-    questionIndex++;
-    loadQuestion();
-  }, 1200);
-}
-
-function showFeedback(text, success) {
-  const fb = document.getElementById('feedback');
-  fb.textContent = text;
-  fb.className = success ? 'feedback success' : 'feedback error';
-  fb.style.display = 'block';
+  setTimeout(() => { questionIndex++; loadQuestion(); }, 1000);
 }
 
 function updateStats() {
@@ -901,38 +1165,28 @@ function updateStats() {
   document.getElementById('textsRead').textContent = textsRead;
   document.getElementById('correctCount').textContent = correctCount;
   document.getElementById('bestStreak').textContent = bestStreak;
-  document.getElementById('pointsEarned').textContent = score;
+  document.getElementById('totalPoints').textContent = score;
 }
 
-// COMPLETE
 function showComplete() {
   textsRead++;
-  
-  // Save to global score
   if (typeof PIT_SCORE !== 'undefined') {
     PIT_SCORE.addScore('reading', score);
     PIT_SCORE.updateStation('reading', { textsRead, bestStreak });
   }
   
-  const questions = getQuestions();
-  document.getElementById('finalScore').textContent = `${correctCount}/${questions.length}`;
+  const total = currentMode === 'truefalse' ? currentText.trueFalse.length : currentText.questions.length;
+  document.getElementById('finalScore').textContent = `${correctCount}/${total}`;
   
-  const pct = (correctCount / questions.length) * 100;
-  let msg = 'Keep practicing!';
-  if (pct >= 80) msg = 'Excellent reading comprehension!';
-  else if (pct >= 60) msg = 'Good job! Keep improving!';
-  
+  const pct = (correctCount / total) * 100;
+  let msg = pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good job!' : 'Keep practicing!';
   document.getElementById('modalMessage').textContent = msg;
   document.getElementById('completeModal').classList.add('active');
-  
   updateStats();
 }
 
-function closeModal() {
-  document.getElementById('completeModal').classList.remove('active');
-}
+function closeModal() { document.getElementById('completeModal').classList.remove('active'); }
 
-// START
 init();
 </script>
 </body>

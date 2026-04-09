@@ -2,248 +2,664 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Listening Station</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listening Station - THE PIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-
-/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
-body {
-    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+:root {
+  --bg1:#fff7ed;--bg2:#f59e0b;--bg3:#78350f;--panel:#fff;--accent:#f59e0b;--accent2:#fbbf24;
+  --text:#1f2937;--muted:#6b7280;--success:#16a34a;--error:#ef4444;--warning:#f59e0b;
 }
-
-/* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
-.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
-.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
-.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
-.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
-.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
-.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
-.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
-
-/* FIXED BOTTOM BAR — PURPLE */
-.fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #6A1B9A;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 9999;
-    border-top: 2px solid #4A0072;
-    backdrop-filter: blur(6px);
-}
-
-/* YELLOW BUTTONS */
-.bar-btn {
-    background: #FFEB3B;
-    color: #1A1A1A;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-.bar-btn:hover { background: #FBC02D; color: black; }
-
-/* GENERAL LAYOUT */
-.screen {
-    display: none;
-    padding: 30px;
-    margin-bottom: 100px;
-    border-radius: 12px;
-}
-#main {
-    padding: 30px;
-    margin-bottom: 100px;
-}
-button {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: #4FC3F7;
-    cursor: pointer;
-    font-size: 18px;
-    color: black;
-}
-button:hover { background: #0288D1; color: white; }
-
-/* ========================= */
-/* UNIVERSAL HUD CSS */
-/* ========================= */
-
-#progress-container {
-    width: 100%;
-    height: 12px;
-    background: #444;
-    border-bottom: 2px solid #222;
-}
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #FFEB3B;
-    transition: width 0.4s ease;
-}
-
-#hud-row {
-    display: flex;
-    gap: 10px;
-    padding: 10px 20px;
-}
-
-#score-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #6A1B9A;
-    border-radius: 10px;
-}
-
-#timer-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #AB47BC;
-    border-radius: 10px;
-}
-
-#tip-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #333;
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 2px solid #FFEB3B;
-    font-size: 16px;
-    max-width: 250px;
-    color: white;
-    z-index: 9999;
-}
-
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:radial-gradient(ellipse at top,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);min-height:100vh;padding:15px}
+.container{max-width:1200px;margin:0 auto}
+header{background:var(--panel);border-radius:16px;padding:16px 24px;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+h1{margin:0 0 12px;font-family:'Orbitron',sans-serif;font-size:clamp(20px,3vw,28px);color:var(--bg3);letter-spacing:2px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+select,button{padding:8px 14px;border-radius:10px;border:2px solid var(--accent);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;background:#fff;color:var(--bg3);transition:all .2s}
+button:hover:not(:disabled){background:var(--accent);color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+.back-btn{background:var(--bg3);color:#fff;border-color:var(--bg3)}
+.mode-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.mode-tab{padding:10px 16px;border-radius:10px;border:2px solid #e5e7eb;background:#fff;color:var(--text);font-weight:700;font-size:12px;cursor:pointer}
+.mode-tab:hover{border-color:var(--accent);background:#fff7ed}
+.mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hud{display:flex;gap:10px;flex-wrap:wrap}
+.hud-item{background:linear-gradient(135deg,var(--accent),var(--bg3));color:#fff;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700}
+.login-box{background:#fff;border-radius:20px;padding:36px 30px;max-width:480px;margin:30px auto;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.login-box h2{color:var(--bg3);margin-bottom:8px;font-family:'Orbitron',sans-serif;font-size:24px}
+.login-box .sub{color:var(--muted);font-size:14px;margin-bottom:20px;line-height:1.5}
+.login-box input{width:100%;padding:12px;border:2px solid var(--accent);border-radius:10px;font-size:16px;margin-bottom:16px}
+.login-modes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;text-align:left}
+.login-mode-card{padding:12px;border:2px solid #e5e7eb;border-radius:12px;font-size:12px;line-height:1.5}
+.login-mode-card strong{display:block;color:var(--accent);font-size:13px;margin-bottom:4px}
+.screen{display:none}.screen.active{display:block}
+.area{display:grid;grid-template-columns:1fr 300px;gap:16px}
+@media(max-width:900px){.area{grid-template-columns:1fr}.login-modes{grid-template-columns:1fr 1fr}}
+.main-panel{background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.ex-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e5e7eb}
+.ex-title{font-weight:800;font-size:18px;color:var(--bg3)}
+.ex-meta{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;background:var(--accent);color:#fff}
+.badge-easy{background:var(--success)}.badge-hard{background:var(--error)}
+.howto{background:#fef3c7;border:2px solid #fbbf24;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;color:#92400e}
+.howto strong{color:#78350f}
+/* PLAYER */
+.player-box{background:#fff7ed;border:2px solid var(--accent2);border-radius:14px;padding:20px;text-align:center;margin-bottom:16px}
+.play-btn{padding:14px 32px;border:none;background:var(--accent);color:#fff;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;margin:8px}
+.play-btn:hover{background:var(--bg3);transform:scale(1.05)}
+.play-count{font-size:12px;color:var(--muted);margin-top:8px}
+.speed-btns{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.speed-btn{padding:4px 12px;border-radius:8px;font-size:11px;border:2px solid var(--accent2);background:#fff;cursor:pointer;font-weight:700}
+.speed-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* QUESTIONS */
+.q-box{background:#fff7ed;border:2px solid var(--accent2);border-radius:12px;padding:14px;margin-bottom:12px}
+.q-text{font-weight:700;font-size:14px;margin-bottom:10px;color:var(--bg3)}
+.q-options{display:flex;flex-direction:column;gap:6px}
+.q-opt{padding:10px 14px;border:2px solid #e5e7eb;border-radius:10px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:all .2s}
+.q-opt:hover{border-color:var(--accent);background:#fff7ed}
+.q-opt.correct{background:#dcfce7;border-color:var(--success);color:#166534}
+.q-opt.wrong{background:#fee2e2;border-color:var(--error);color:#991b1b}
+.q-opt:disabled{cursor:default}
+/* DICTATION */
+.dict-sentence{background:#fff7ed;border:2px solid var(--accent2);border-radius:12px;padding:16px;margin-bottom:12px}
+.dict-input{width:100%;padding:12px;border:2px solid var(--accent2);border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:8px}
+.dict-input:focus{border-color:var(--accent);outline:none}
+/* NOTE */
+.note-field{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.note-label{font-size:13px;font-weight:700;color:var(--bg3);min-width:100px}
+.note-input{flex:1;padding:8px 12px;border:2px solid var(--accent2);border-radius:8px;font-family:inherit;font-size:13px;min-width:150px}
+.note-input:focus{border-color:var(--accent);outline:none}
+/* FEEDBACK */
+.fb{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:8px}
+.fb.ok{background:#dcfce7;color:#166534}.fb.bad{background:#fee2e2;color:#991b1b}.fb.info{background:#fef3c7;color:#92400e}
+/* SIDE */
+.side{display:flex;flex-direction:column;gap:12px}
+.card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.card h4{margin:0 0 10px;font-size:13px;color:var(--bg3);font-weight:800}
+.stat-row{display:flex;justify-content:space-between;font-size:12px;margin:6px 0}
+.stat-row span:last-child{font-weight:700;color:var(--accent)}
+.pbar{height:8px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:8px;transition:width .3s}
+.tip{background:#fff7ed;border:2px solid var(--accent2);border-radius:10px;padding:10px;font-size:12px;line-height:1.6;color:var(--bg3)}
+.tip strong{display:block;margin-bottom:4px;color:var(--accent)}
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-box{background:#fff;border-radius:20px;padding:32px;text-align:center;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal-icon{font-size:50px;margin-bottom:16px}
+.modal-title{font-size:24px;font-weight:800;color:var(--bg3);margin-bottom:8px}
+.modal-score{font-size:40px;font-weight:800;color:var(--accent);margin-bottom:16px}
+.modal-btn{padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
 </style>
 </head>
-
 <body>
-
-<!-- ========================= -->
-<!-- UNIVERSAL HUD BLOCK -->
-<!-- ========================= -->
-
-<div id="progress-container">
-    <div id="progress-bar"></div>
+<div class="container">
+<!-- LOGIN -->
+<div id="login" class="screen active">
+<div class="login-box">
+  <h2 data-testid="listening-title">LISTENING STATION</h2>
+  <p class="sub">Train your ears! Listen to passages and dialogues, then prove you understood.</p>
+  <div class="login-modes">
+    <div class="login-mode-card"><strong>Comprehension</strong>Listen to a passage and answer multiple-choice questions about it.</div>
+    <div class="login-mode-card"><strong>Dictation</strong>Hear sentences and write exactly what you hear. Spelling counts!</div>
+    <div class="login-mode-card"><strong>Note-taking</strong>Listen for specific details like names, numbers, and places.</div>
+  </div>
+  <input type="text" id="nameInput" data-testid="name-input" placeholder="Your name" onkeydown="if(event.key==='Enter')startApp()">
+  <button data-testid="start-btn" onclick="startApp()" style="width:100%;padding:14px;font-size:16px">START LISTENING</button>
+</div>
 </div>
 
-<div id="hud-row">
-    <div id="score-box">Score: <span id="score">0</span></div>
-    <div id="timer-box">Time: <span id="timer">00:00</span></div>
+<!-- MAIN -->
+<div id="main" class="screen">
+<header>
+  <h1>LISTENING STATION</h1>
+  <div class="controls">
+    <button class="back-btn" data-testid="menu-btn" onclick="location.href='../index.html'">MENU</button>
+    <select id="unitSel" data-testid="unit-select"></select>
+    <select id="diffSel" data-testid="diff-select"><option value="all">All Levels</option><option value="easy">Easy</option><option value="hard">Hard</option></select>
+    <button data-testid="next-btn" onclick="loadExercise()">Next Exercise</button>
+  </div>
+  <div class="mode-tabs" data-testid="mode-tabs">
+    <button class="mode-tab active" data-mode="comp">Comprehension</button>
+    <button class="mode-tab" data-mode="dict">Dictation</button>
+    <button class="mode-tab" data-mode="note">Note-taking</button>
+  </div>
+  <div class="hud">
+    <div class="hud-item">Listener: <span id="pName" data-testid="player-name">-</span></div>
+    <div class="hud-item">Score: <span id="hScore" data-testid="score-display">0</span></div>
+    <div class="hud-item">Streak: <span id="hStreak" data-testid="streak-display">0</span></div>
+    <div class="hud-item">Done: <span id="hDone" data-testid="done-display">0</span></div>
+  </div>
+</header>
+
+<div class="area">
+<div class="main-panel">
+  <div class="ex-header">
+    <div>
+      <div class="ex-title" id="exTitle" data-testid="ex-title">-</div>
+      <div class="ex-meta" id="exMeta" data-testid="ex-meta">-</div>
+    </div>
+    <div class="badges">
+      <div class="badge" id="focusBadge" data-testid="focus-badge">-</div>
+      <div class="badge" id="diffBadge" data-testid="diff-badge">-</div>
+    </div>
+  </div>
+
+  <!-- AUDIO PLAYER -->
+  <div class="player-box" id="playerBox" data-testid="player-box">
+    <button class="play-btn" data-testid="play-btn" onclick="playAudio()">PLAY</button>
+    <button class="play-btn" data-testid="replay-btn" onclick="playAudio()" style="background:var(--bg3)">REPLAY</button>
+    <div class="play-count" id="playCount" data-testid="play-count">Plays: 0 / 3</div>
+    <div class="speed-btns">
+      <button class="speed-btn" data-speed="0.7" onclick="setSpeed(this,0.7)">Slow</button>
+      <button class="speed-btn active" data-speed="1" onclick="setSpeed(this,1)">Normal</button>
+      <button class="speed-btn" data-speed="1.2" onclick="setSpeed(this,1.2)">Fast</button>
+    </div>
+  </div>
+
+  <!-- COMPREHENSION -->
+  <div id="comp-mode" class="mode-content">
+    <div class="howto" data-testid="comp-howto"><strong>How to play:</strong> Listen to the passage (max 3 plays). Then answer the questions below. Choose carefully — you only get one try per question!</div>
+    <div id="compQs" data-testid="comp-questions"></div>
+    <div id="compFb" class="fb info" data-testid="comp-feedback">Press PLAY to listen, then answer the questions.</div>
+  </div>
+
+  <!-- DICTATION -->
+  <div id="dict-mode" class="mode-content" style="display:none">
+    <div class="howto" data-testid="dict-howto"><strong>How to play:</strong> Listen to individual sentences (max 3 plays each). Type exactly what you hear. Spelling and punctuation matter!</div>
+    <div id="dictArea" data-testid="dict-area"></div>
+    <div id="dictFb" class="fb info" data-testid="dict-feedback">Press PLAY to hear the first sentence.</div>
+  </div>
+
+  <!-- NOTE-TAKING -->
+  <div id="note-mode" class="mode-content" style="display:none">
+    <div class="howto" data-testid="note-howto"><strong>How to play:</strong> Listen to the passage and fill in the specific details asked below. Focus on names, numbers, times, and places!</div>
+    <div id="noteFields" data-testid="note-fields"></div>
+    <button data-testid="note-check-btn" onclick="checkNotes()" style="margin-top:8px">Check Answers</button>
+    <div id="noteFb" class="fb info" data-testid="note-feedback">Press PLAY to listen, then fill in the details.</div>
+  </div>
 </div>
 
-<div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose a listening activity to begin!</span>
+<!-- SIDE -->
+<div class="side">
+  <div class="card">
+    <h4>Progress</h4>
+    <div class="pbar"><div class="pfill" id="progBar" data-testid="progress-bar"></div></div>
+    <div class="stat-row"><span>Correct</span><span id="sCorrect" data-testid="correct-count">0</span></div>
+    <div class="stat-row"><span>Best Streak</span><span id="sBest" data-testid="best-streak">0</span></div>
+    <div class="stat-row"><span>Total Points</span><span id="sTotal" data-testid="total-points">0</span></div>
+  </div>
+  <div class="card">
+    <h4>Listening Tip</h4>
+    <div class="tip" id="tipBox" data-testid="tip-box">
+      <strong>Focus on key words</strong>
+      Don't try to understand every word. Listen for the main ideas and key vocabulary.
+    </div>
+  </div>
+  <div class="card">
+    <h4>Key Vocabulary</h4>
+    <div id="keyVocab" data-testid="key-vocab" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+  </div>
+</div>
+</div>
+</div>
 </div>
 
-<!-- ========================= -->
-<!-- END HUD BLOCK -->
-<!-- ========================= -->
-
-<!-- FIXED BOTTOM BAR -->
-<div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
-    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+<div class="modal" id="doneModal">
+<div class="modal-box">
+  <div class="modal-icon">&#127911;</div>
+  <div class="modal-title">Exercise Complete!</div>
+  <div class="modal-score" id="finalScore" data-testid="final-score">0</div>
+  <p id="modalMsg">Great listening!</p>
+  <button class="modal-btn" data-testid="modal-next-btn" onclick="loadExercise()">Next Exercise</button>
+  <button class="modal-btn" onclick="closeModal()" style="background:#6b7280">Close</button>
+</div>
 </div>
 
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Listening Station</h1>
-    <button onclick="openScreen('listen1')">Listening Activity 1</button>
-    <button onclick="openScreen('listen2')">Listening Activity 2</button>
-    <button onclick="openScreen('listen3')">Listening Activity 3</button>
-</div>
-
-<!-- LISTENING 1 -->
-<div id="listen1" class="screen listen-theme">
-    <h2>Listening Activity 1</h2>
-    <p>Listen and answer the questions.</p>
-</div>
-
-<!-- LISTENING 2 -->
-<div id="listen2" class="screen listen-theme">
-    <h2>Listening Activity 2</h2>
-    <p>Listen and complete the sentences.</p>
-</div>
-
-<!-- LISTENING 3 -->
-<div id="listen3" class="screen listen-theme">
-    <h2>Listening Activity 3</h2>
-    <p>Listen and choose the correct option.</p>
-</div>
-
+<script src="pit-score.js"></script>
 <script>
+const UNITS=['','Identity & Daily Life','School Life','Technology','Future Plans','Health','Travel','Environment','Entertainment'];
 
-/* SCREEN NAVIGATION */
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
+const EXERCISES=[
+// UNIT 1
+{unit:1,difficulty:'easy',title:'My New Friend',focus:'Present Simple',
+tip:'<strong>Listen for routines</strong>Words like "usually", "always", "every day" signal habits.',
+vocab:['wake up','usually','after school','favourite','weekends'],
+passage:"Hi, my name is Emma. I'm 14 years old and I live in Manchester. I wake up at seven o'clock every morning. I usually have cereal for breakfast. After school, I play tennis with my friend Lucy. My favourite subject is English. At weekends, I like reading books and watching films with my family.",
+questions:[
+  {q:'How old is Emma?',opts:['12','14','15','16'],ans:1},
+  {q:'What does Emma have for breakfast?',opts:['Toast','Fruit','Cereal','Nothing'],ans:2},
+  {q:'What sport does Emma play?',opts:['Football','Basketball','Tennis','Swimming'],ans:2},
+  {q:'What is her favourite subject?',opts:['Maths','Science','English','Art'],ans:2},
+  {q:'What does she do at weekends?',opts:['Goes shopping','Reads books and watches films','Plays video games','Does homework'],ans:1}
+],
+dictSentences:['I wake up at seven o\'clock every morning.','After school, I play tennis with my friend Lucy.','At weekends, I like reading books and watching films.'],
+noteFields:[{label:'Name',answer:'emma'},{label:'Age',answer:'14'},{label:'City',answer:'manchester'},{label:'Breakfast',answer:'cereal'},{label:'Sport',answer:'tennis'},{label:'Favourite subject',answer:'english'}]
+},
+{unit:1,difficulty:'hard',title:'A Day in Two Cities',focus:'Present Simple vs Continuous',
+tip:'<strong>Compare and contrast</strong>Listen for differences. Words like "but", "however", "while" signal contrasts.',
+vocab:['commute','whereas','currently','rush hour','meanwhile'],
+passage:"Tom lives in London and works in an office. He commutes by underground every day. He usually leaves home at half past seven. Right now, Tom is sitting on the train and reading his phone. Meanwhile, his sister Anna lives in Edinburgh. She works from home as a web designer. She usually wakes up at eight and starts work at nine. Today, she is working on a new project for a Scottish restaurant. Tom earns more money, but Anna has more free time. However, they both love their jobs.",
+questions:[
+  {q:'How does Tom commute to work?',opts:['By bus','By car','By underground','On foot'],ans:2},
+  {q:'What time does Tom leave home?',opts:['7:00','7:30','8:00','8:30'],ans:1},
+  {q:'What is Tom doing right now?',opts:['Working','Eating','Reading his phone on the train','Sleeping'],ans:2},
+  {q:'What is Anna\'s job?',opts:['Teacher','Web designer','Doctor','Chef'],ans:1},
+  {q:'Who has more free time?',opts:['Tom','Anna','Both equal','Neither'],ans:1}
+],
+dictSentences:['He commutes by underground every day.','She usually wakes up at eight and starts work at nine.','Tom earns more money, but Anna has more free time.'],
+noteFields:[{label:'Tom\'s city',answer:'london'},{label:'Tom leaves at',answer:'half past seven'},{label:'Anna\'s city',answer:'edinburgh'},{label:'Anna\'s job',answer:'web designer'},{label:'Anna\'s project',answer:'scottish restaurant'}]
+},
+// UNIT 2
+{unit:2,difficulty:'easy',title:'School Announcement',focus:'Present Simple',
+tip:'<strong>Listen for facts</strong>School announcements have specific times, places, and rules. Focus on these details.',
+vocab:['assembly','canteen','permission','field trip','library'],
+passage:"Good morning, students. This is an important announcement. Tomorrow there will be no assembly. Instead, all students must go directly to their first class. The school canteen will be closed on Friday for cleaning, so please bring your own lunch. Also, the Year 8 field trip to the Science Museum is next Wednesday. You need written permission from your parents. Please collect the form from the school office. Finally, the library will stay open until five o'clock this week for exam revision.",
+questions:[
+  {q:'What happens tomorrow?',opts:['No school','No assembly','A field trip','Sports day'],ans:1},
+  {q:'Why is the canteen closing on Friday?',opts:['Holiday','Repairs','Cleaning','Event'],ans:2},
+  {q:'Where is the field trip going?',opts:['The zoo','A park','The Science Museum','A factory'],ans:2},
+  {q:'What do students need for the trip?',opts:['Money','Permission from parents','Special clothes','A packed lunch'],ans:1},
+  {q:'Until what time is the library open this week?',opts:['3 o\'clock','4 o\'clock','5 o\'clock','6 o\'clock'],ans:2}
+],
+dictSentences:['Tomorrow there will be no assembly.','The school canteen will be closed on Friday for cleaning.','The library will stay open until five o\'clock this week.'],
+noteFields:[{label:'Day with no assembly',answer:'tomorrow'},{label:'Canteen closed on',answer:'friday'},{label:'Trip destination',answer:'science museum'},{label:'Trip day',answer:'wednesday'},{label:'Library closes at',answer:'five'}]
+},
+{unit:2,difficulty:'hard',title:'Two Students\' Schedules',focus:'Comparing Routines',
+tip:'<strong>Track two speakers</strong>Note WHO says WHAT. Use names to separate the information.',
+vocab:['timetable','break time','revision','choir','debate club'],
+passage:"Jake: My timetable this term is really busy. On Mondays I have double Maths in the morning, which I hate. Then after lunch I have Art, which is my favourite. I always go to football practice after school on Mondays and Wednesdays. Sophie: My schedule is different. I love Mondays because I have Music first thing. I'm in the school choir and we practise every Tuesday lunchtime. After school on Thursdays I go to debate club. Jake: Do you do any sport? Sophie: Yes, I play netball on Wednesdays. I also do homework club on Fridays because I like to finish everything before the weekend. Jake: That's smart. I usually leave my homework until Sunday night!",
+questions:[
+  {q:'What does Jake have on Monday mornings?',opts:['English','Art','Double Maths','Science'],ans:2},
+  {q:'When does Jake play football?',opts:['Mondays and Wednesdays','Tuesdays and Thursdays','Every day','Weekends'],ans:0},
+  {q:'What is Sophie\'s favourite day?',opts:['Friday','Wednesday','Tuesday','Monday'],ans:3},
+  {q:'When does the choir practise?',opts:['Monday morning','Tuesday lunchtime','Wednesday after school','Thursday evening'],ans:1},
+  {q:'When does Jake usually do his homework?',opts:['Friday evening','Saturday morning','Sunday night','Monday morning'],ans:2}
+],
+dictSentences:['On Mondays I have double Maths in the morning.','I\'m in the school choir and we practise every Tuesday lunchtime.','I usually leave my homework until Sunday night.'],
+noteFields:[{label:'Jake\'s favourite subject',answer:'art'},{label:'Jake\'s sport',answer:'football'},{label:'Sophie\'s club (Tuesdays)',answer:'choir'},{label:'Sophie\'s sport',answer:'netball'},{label:'Sophie\'s Friday activity',answer:'homework club'}]
+},
+// UNIT 3
+{unit:3,difficulty:'easy',title:'My Phone',focus:'Technology Vocabulary',
+tip:'<strong>Listen for opinions</strong>Words like "I think", "I love", "I don\'t like" tell you what someone feels.',
+vocab:['smartphone','apps','screen time','social media','download'],
+passage:"I got my first smartphone when I was twelve. It's really useful for school because I can look things up quickly. My favourite apps are Instagram and Spotify. I spend about two hours a day on my phone. My mum says that's too much screen time. She wants me to read more books. I think she's right, but I really enjoy watching YouTube videos. I don't use TikTok because I think it's a waste of time. I also use my phone to message my friends and take photos.",
+questions:[
+  {q:'How old was the speaker when they got their phone?',opts:['10','11','12','13'],ans:2},
+  {q:'What are their favourite apps?',opts:['TikTok and YouTube','Instagram and Spotify','WhatsApp and Facebook','Snapchat and Twitter'],ans:1},
+  {q:'How much time do they spend on their phone?',opts:['30 minutes','1 hour','2 hours','3 hours'],ans:2},
+  {q:'What does their mum want them to do?',opts:['Delete apps','Read more books','Get a new phone','Study more'],ans:1},
+  {q:'Why don\'t they use TikTok?',opts:['Parents banned it','Phone is too old','They think it\'s a waste of time','They prefer YouTube'],ans:2}
+],
+dictSentences:['I got my first smartphone when I was twelve.','My mum says that\'s too much screen time.','I don\'t use TikTok because I think it\'s a waste of time.'],
+noteFields:[{label:'Age got phone',answer:'twelve'},{label:'Favourite apps',answer:'instagram and spotify'},{label:'Daily screen time',answer:'two hours'},{label:'App they avoid',answer:'tiktok'},{label:'Mum wants them to',answer:'read more books'}]
+},
+{unit:3,difficulty:'hard',title:'Technology Debate',focus:'Opinions & Arguments',
+tip:'<strong>For and Against</strong>In debates, identify arguments on both sides. Listen for "however", "on the other hand".',
+vocab:['cyberbullying','artificial intelligence','privacy','addicted','benefit'],
+passage:"Teacher: Today we're debating whether technology is good for teenagers. Lucas, you're starting. Lucas: I believe technology is mostly positive. We can learn anything online for free. Educational apps help us study better. Also, we can communicate with people all around the world. Teacher: Thank you. Maya, what's your view? Maya: I disagree. Many teenagers are addicted to their phones. Studies show that too much social media causes anxiety. There's also the problem of cyberbullying, which didn't exist before smartphones. Lucas: That's true, but we can learn to use technology responsibly. The benefits outweigh the risks. Maya: I think we need stricter rules. For example, no phones in schools and age limits for social media. Teacher: Both excellent arguments.",
+questions:[
+  {q:'Who thinks technology is mostly positive?',opts:['The teacher','Maya','Lucas','Both students'],ans:2},
+  {q:'What does Lucas say about learning?',opts:['Schools are better','You can learn anything online for free','Books are the best way','Technology is confusing'],ans:1},
+  {q:'What problem does Maya mention?',opts:['Expensive phones','No internet access','Cyberbullying','Broken screens'],ans:2},
+  {q:'What does Maya want?',opts:['More technology','Stricter rules','Free phones','New apps'],ans:1},
+  {q:'What does the teacher think?',opts:['Lucas is right','Maya is right','Both have good arguments','The debate is pointless'],ans:2}
+],
+dictSentences:['Many teenagers are addicted to their phones.','The benefits outweigh the risks.','No phones in schools and age limits for social media.'],
+noteFields:[{label:'Lucas\'s position',answer:'positive'},{label:'Problem Maya mentions',answer:'cyberbullying'},{label:'Maya\'s solution',answer:'stricter rules'},{label:'Effect of social media',answer:'anxiety'},{label:'Teacher\'s conclusion',answer:'both excellent arguments'}]
+},
+// UNIT 4
+{unit:4,difficulty:'easy',title:'Holiday Plans',focus:'Going to / Will',
+tip:'<strong>Future markers</strong>Listen for "going to", "will", "planning to", "hope to" — these signal future plans.',
+vocab:['going to','flight','sightseeing','looking forward to','pack'],
+passage:"Next summer, my family and I are going to visit Italy. We're going to fly from London to Rome. The flight takes about two hours. We're planning to stay for ten days. First, we're going to visit the Colosseum and do some sightseeing. Then we'll take a train to Florence to see the art galleries. I think we'll eat lots of pizza and pasta! My dad says he'll try to learn some Italian before we go. I'm really looking forward to it. I still need to pack my suitcase. I think I'll buy a new swimsuit.",
+questions:[
+  {q:'Where are they going?',opts:['Spain','France','Italy','Greece'],ans:2},
+  {q:'How long will they stay?',opts:['One week','Ten days','Two weeks','A month'],ans:1},
+  {q:'How will they get to Florence?',opts:['By car','By bus','By train','By plane'],ans:2},
+  {q:'What does the dad want to do?',opts:['Learn Italian','Buy a guidebook','Book a hotel','Rent a car'],ans:0},
+  {q:'What will the speaker buy?',opts:['A camera','A hat','A new swimsuit','Sunglasses'],ans:2}
+],
+dictSentences:['Next summer, my family and I are going to visit Italy.','We\'re planning to stay for ten days.','My dad says he\'ll try to learn some Italian.'],
+noteFields:[{label:'Destination country',answer:'italy'},{label:'Departure city',answer:'london'},{label:'Duration',answer:'ten days'},{label:'First city',answer:'rome'},{label:'Second city',answer:'florence'}]
+},
+{unit:4,difficulty:'hard',title:'Career Day Interview',focus:'Future Plans & Ambitions',
+tip:'<strong>Track intentions</strong>"I want to", "I\'d like to", "my dream is" — these reveal goals and ambitions.',
+vocab:['ambition','degree','experience','volunteer','entrepreneur'],
+passage:"Interviewer: Welcome to Career Day. First up is Aisha. Tell us about your plans. Aisha: After school, I want to study Medicine at university. I'd like to become a surgeon. It takes many years, but I'm determined. I've already started volunteering at a local hospital on Saturdays. Interviewer: Impressive! And next we have Daniel. Daniel: I'm quite different. I don't want to go to university straight away. I'm going to take a gap year and travel to South America. After that, I'd like to start my own business. My dream is to become an entrepreneur and create a technology company. I've already built two apps. Interviewer: Both of you have exciting futures ahead!",
+questions:[
+  {q:'What does Aisha want to study?',opts:['Law','Medicine','Engineering','Art'],ans:1},
+  {q:'Where does Aisha volunteer?',opts:['A school','A charity shop','A hospital','An animal shelter'],ans:2},
+  {q:'What will Daniel do first after school?',opts:['Go to university','Get a job','Take a gap year','Start a business'],ans:2},
+  {q:'Where does Daniel want to travel?',opts:['Asia','Africa','Europe','South America'],ans:3},
+  {q:'How many apps has Daniel built?',opts:['None','One','Two','Three'],ans:2}
+],
+dictSentences:['I\'d like to become a surgeon.','I\'m going to take a gap year and travel to South America.','My dream is to become an entrepreneur.'],
+noteFields:[{label:'Aisha\'s goal',answer:'surgeon'},{label:'Aisha volunteers at',answer:'hospital'},{label:'Daniel\'s gap year destination',answer:'south america'},{label:'Daniel\'s dream job',answer:'entrepreneur'},{label:'Apps Daniel built',answer:'two'}]
+},
+// UNIT 5
+{unit:5,difficulty:'easy',title:'At the Pharmacy',focus:'Health Vocabulary',
+tip:'<strong>Symptoms and advice</strong>Listen for "What\'s wrong?", "I have a...", "You should..." patterns.',
+vocab:['sore throat','cough','temperature','medicine','rest'],
+passage:"Pharmacist: Good morning. How can I help you? Customer: I don't feel very well. I've had a sore throat for two days. Pharmacist: Do you have any other symptoms? Customer: Yes, I have a cough and I think I have a temperature. Pharmacist: It sounds like you might have a cold. I recommend these throat lozenges. Take one every four hours. Customer: Should I see a doctor? Pharmacist: Not yet. Rest at home, drink lots of water, and take paracetamol for the temperature. If you're not better in three days, then see your doctor. Customer: Thank you very much.",
+questions:[
+  {q:'How long has the customer had a sore throat?',opts:['One day','Two days','Three days','A week'],ans:1},
+  {q:'What other symptoms does the customer have?',opts:['Headache and cold','Cough and temperature','Stomach ache','Broken arm'],ans:1},
+  {q:'What does the pharmacist recommend?',opts:['Antibiotics','Throat lozenges','Cough syrup','An injection'],ans:1},
+  {q:'How often should the lozenges be taken?',opts:['Every 2 hours','Every 4 hours','Every 6 hours','Once a day'],ans:1},
+  {q:'When should the customer see a doctor?',opts:['Immediately','In one day','In three days if not better','Next week'],ans:2}
+],
+dictSentences:['I\'ve had a sore throat for two days.','Take one every four hours.','Rest at home and drink lots of water.'],
+noteFields:[{label:'Main problem',answer:'sore throat'},{label:'Other symptoms',answer:'cough and temperature'},{label:'Medicine given',answer:'throat lozenges'},{label:'Frequency',answer:'every four hours'},{label:'See doctor if not better in',answer:'three days'}]
+},
+{unit:5,difficulty:'hard',title:'Health Radio Show',focus:'Health Advice',
+tip:'<strong>Expert advice</strong>Doctors often use "should", "must", "need to", "it\'s important to" for recommendations.',
+vocab:['balanced diet','mental health','screen time','wellbeing','stress'],
+passage:"Presenter: Welcome to Teen Health Radio. Today Dr. Chen is here to talk about healthy habits for teenagers. Dr. Chen, what's the most important thing? Dr. Chen: I'd say sleep. Teenagers need between eight and ten hours of sleep every night, but most get less than seven. Lack of sleep affects concentration, mood, and even physical health. Presenter: What about diet? Dr. Chen: A balanced diet is essential. Teenagers should eat five portions of fruit and vegetables daily. Many skip breakfast, which is a mistake. Your brain needs fuel to work properly. Presenter: And what about mental health? Dr. Chen: Great question. Physical exercise is one of the best things for mental health. Just thirty minutes of activity a day can reduce stress and anxiety. Also, limiting screen time to two hours helps improve sleep quality. Presenter: Thank you, Dr. Chen!",
+questions:[
+  {q:'What does Dr. Chen say is most important?',opts:['Diet','Exercise','Sleep','Studying'],ans:2},
+  {q:'How many hours of sleep do teenagers need?',opts:['6 to 8','7 to 9','8 to 10','9 to 11'],ans:2},
+  {q:'How many portions of fruit and vegetables daily?',opts:['Three','Four','Five','Six'],ans:2},
+  {q:'How much exercise helps mental health?',opts:['10 minutes','20 minutes','30 minutes','1 hour'],ans:2},
+  {q:'What should screen time be limited to?',opts:['1 hour','2 hours','3 hours','4 hours'],ans:1}
+],
+dictSentences:['Teenagers need between eight and ten hours of sleep.','Many skip breakfast, which is a mistake.','Limiting screen time to two hours helps improve sleep quality.'],
+noteFields:[{label:'Most important habit',answer:'sleep'},{label:'Sleep needed',answer:'eight to ten hours'},{label:'Daily fruit/veg portions',answer:'five'},{label:'Exercise per day',answer:'thirty minutes'},{label:'Max screen time',answer:'two hours'}]
+},
+// UNIT 6
+{unit:6,difficulty:'easy',title:'Tourist Information',focus:'Directions & Places',
+tip:'<strong>Directions</strong>Listen for "turn left/right", "go straight", "opposite", "next to", "between".',
+vocab:['straight ahead','roundabout','opposite','pedestrian','landmark'],
+passage:"Tourist: Excuse me, can you help me? I'm looking for the Natural History Museum. Guide: Of course! Go straight ahead along this road for about five minutes. When you reach the roundabout, turn right. The museum is on your left, opposite the park. You can't miss it — it's a big old building with columns. Tourist: Is there a cafe nearby? Guide: Yes, there's a nice cafe called The Garden, right next to the museum entrance. Tourist: And how do I get to the train station from there? Guide: From the museum, walk back to the roundabout and turn left. The station is about ten minutes' walk. It's between the post office and the supermarket. Tourist: Perfect, thank you!",
+questions:[
+  {q:'How far is the museum?',opts:['2 minutes','5 minutes','10 minutes','15 minutes'],ans:1},
+  {q:'Which direction at the roundabout?',opts:['Left','Right','Straight','Back'],ans:1},
+  {q:'What is opposite the museum?',opts:['A shop','The station','The park','A school'],ans:2},
+  {q:'What is the cafe called?',opts:['The Park','The Garden','The Museum','The Corner'],ans:1},
+  {q:'The station is between which buildings?',opts:['Museum and cafe','Church and school','Post office and supermarket','Bank and library'],ans:2}
+],
+dictSentences:['Go straight ahead along this road for about five minutes.','The museum is on your left, opposite the park.','The station is between the post office and the supermarket.'],
+noteFields:[{label:'Destination',answer:'natural history museum'},{label:'Direction at roundabout',answer:'right'},{label:'Cafe name',answer:'the garden'},{label:'Walk to station',answer:'ten minutes'},{label:'Station is between',answer:'post office and supermarket'}]
+},
+{unit:6,difficulty:'hard',title:'Airport Announcement',focus:'Travel Language',
+tip:'<strong>Numbers and codes</strong>Airports use flight numbers, gate numbers, and times. Write them down immediately!',
+vocab:['departure','gate','boarding','delayed','terminal'],
+passage:"Attention please. This is an important announcement for passengers travelling to Barcelona. Flight BA2490 has been delayed by approximately forty-five minutes. The new departure time is fourteen thirty. Boarding will begin at fourteen hundred at Gate B22. Please make sure you have your boarding pass and passport ready. We apologise for the inconvenience. For passengers on flight LH738 to Berlin, boarding is now complete. Please proceed immediately to Gate A15. The gate will close in five minutes. Also, would passenger Mrs. Johnson travelling to New York on flight AA109 please come to the information desk at Terminal 3. Thank you for your attention.",
+questions:[
+  {q:'How long is the Barcelona flight delayed?',opts:['30 minutes','45 minutes','1 hour','2 hours'],ans:1},
+  {q:'What is the new departure time?',opts:['13:30','14:00','14:30','15:00'],ans:2},
+  {q:'Which gate for Barcelona?',opts:['A15','B22','C10','D5'],ans:1},
+  {q:'Which flight is boarding complete?',opts:['BA2490','AA109','LH738','EJ555'],ans:2},
+  {q:'Where should Mrs. Johnson go?',opts:['Gate A15','Gate B22','Information desk Terminal 3','The boarding area'],ans:2}
+],
+dictSentences:['Flight BA2490 has been delayed by approximately forty-five minutes.','Boarding will begin at fourteen hundred at Gate B22.','Would passenger Mrs. Johnson please come to the information desk.'],
+noteFields:[{label:'Barcelona flight number',answer:'ba2490'},{label:'Delay length',answer:'forty-five minutes'},{label:'Barcelona gate',answer:'b22'},{label:'Berlin gate',answer:'a15'},{label:'Mrs. Johnson\'s destination',answer:'new york'}]
+},
+// UNIT 7
+{unit:7,difficulty:'easy',title:'Recycling at School',focus:'Environment Vocabulary',
+tip:'<strong>Cause and effect</strong>Listen for "because", "so", "this means", "as a result" to understand connections.',
+vocab:['recycling','plastic','reduce','carbon footprint','waste'],
+passage:"Our school has started a new recycling programme. We now have three different bins in every classroom: blue for paper, yellow for plastic, and green for organic waste. Last month, we reduced our general waste by thirty percent. The head teacher, Mrs. Williams, says she's very proud of the students. We also started a campaign to reduce plastic bottles. Students can now fill up their water bottles at five new water fountains around the school. Some classes are growing vegetables in the school garden. This helps us learn about food and reduces our carbon footprint.",
+questions:[
+  {q:'How many types of bins are there?',opts:['Two','Three','Four','Five'],ans:1},
+  {q:'What colour is the paper bin?',opts:['Green','Yellow','Blue','Red'],ans:2},
+  {q:'How much was waste reduced by?',opts:['10%','20%','30%','40%'],ans:2},
+  {q:'How many new water fountains are there?',opts:['Three','Four','Five','Six'],ans:2},
+  {q:'What are some classes growing?',opts:['Flowers','Trees','Vegetables','Herbs'],ans:2}
+],
+dictSentences:['We now have three different bins in every classroom.','Last month, we reduced our general waste by thirty percent.','Students can now fill up their water bottles at new water fountains.'],
+noteFields:[{label:'Paper bin colour',answer:'blue'},{label:'Plastic bin colour',answer:'yellow'},{label:'Waste reduction',answer:'thirty percent'},{label:'Number of water fountains',answer:'five'},{label:'Head teacher name',answer:'mrs williams'}]
+},
+{unit:7,difficulty:'hard',title:'Climate Documentary',focus:'Environment Issues',
+tip:'<strong>Statistics and facts</strong>Documentaries use numbers heavily. Focus on percentages, temperatures, and years.',
+vocab:['global warming','renewable','fossil fuels','emissions','endangered'],
+passage:"Narrator: The Earth's average temperature has risen by one point one degrees Celsius since eighteen eighty. Scientists say we must limit warming to one point five degrees to avoid catastrophic changes. Currently, seventy-three percent of global emissions come from burning fossil fuels. If we switch to renewable energy like solar and wind power, we could reduce emissions by up to seventy percent by twenty fifty. The Arctic is warming twice as fast as the rest of the planet. This is causing sea levels to rise by three point three millimetres per year. Over one million species are now at risk of extinction. Young people around the world are demanding action. In twenty nineteen, over seven million people joined climate protests globally.",
+questions:[
+  {q:'How much has the Earth warmed since 1880?',opts:['0.5°C','1.1°C','1.5°C','2°C'],ans:1},
+  {q:'What percentage of emissions come from fossil fuels?',opts:['53%','63%','73%','83%'],ans:2},
+  {q:'By how much could renewables reduce emissions?',opts:['30%','50%','60%','70%'],ans:3},
+  {q:'How fast is the Arctic warming compared to the rest?',opts:['Same speed','1.5 times','Twice as fast','Three times'],ans:2},
+  {q:'How many people joined climate protests in 2019?',opts:['1 million','3 million','5 million','7 million'],ans:3}
+],
+dictSentences:['The Earth\'s average temperature has risen by one point one degrees.','Seventy-three percent of global emissions come from fossil fuels.','Over one million species are now at risk of extinction.'],
+noteFields:[{label:'Temperature rise',answer:'one point one degrees'},{label:'Fossil fuel emissions',answer:'seventy-three percent'},{label:'Renewable reduction target',answer:'seventy percent'},{label:'Sea level rise per year',answer:'three point three millimetres'},{label:'Climate protesters in 2019',answer:'seven million'}]
+},
+// UNIT 8
+{unit:8,difficulty:'easy',title:'Film Review',focus:'Entertainment Opinions',
+tip:'<strong>Positive and negative</strong>Listen for "amazing", "boring", "recommend" — these tell you the reviewer\'s opinion.',
+vocab:['recommend','plot','acting','special effects','soundtrack'],
+passage:"I went to see the new Spider-Man film last weekend with my friends. It was absolutely amazing! The special effects were incredible, especially the fight scenes. The acting was really good too. The main actor was very funny. The plot was exciting — there were so many surprises. I didn't expect the ending at all! The only bad thing was that the film was quite long — two hours and forty minutes. My friend Jack fell asleep during the middle part. The soundtrack was also great, with lots of popular songs. I would definitely recommend it. I'd give it nine out of ten.",
+questions:[
+  {q:'What film did the speaker see?',opts:['Batman','Spider-Man','Superman','Iron Man'],ans:1},
+  {q:'What was amazing about the film?',opts:['The food','The seats','The special effects','The popcorn'],ans:2},
+  {q:'How long was the film?',opts:['1h 40min','2h 00min','2h 20min','2h 40min'],ans:3},
+  {q:'What happened to Jack?',opts:['He cried','He left early','He fell asleep','He laughed too loud'],ans:2},
+  {q:'What score does the speaker give?',opts:['7/10','8/10','9/10','10/10'],ans:2}
+],
+dictSentences:['The special effects were incredible.','I didn\'t expect the ending at all.','I would definitely recommend it.'],
+noteFields:[{label:'Film seen',answer:'spider-man'},{label:'Film length',answer:'two hours and forty minutes'},{label:'Friend\'s name',answer:'jack'},{label:'Score given',answer:'nine out of ten'},{label:'Best feature',answer:'special effects'}]
+},
+{unit:8,difficulty:'hard',title:'Music Festival Report',focus:'Past Narration',
+tip:'<strong>Sequence of events</strong>Listen for "first", "then", "after that", "finally" to follow the timeline.',
+vocab:['headline','encore','atmosphere','crowd','merchandise'],
+passage:"Reporter: I'm here at Reading Festival, one of the biggest music festivals in Britain. It's been an incredible three days. On Friday, the festival opened with indie bands on the smaller stages. The surprise act was a secret DJ set that started at midnight. On Saturday, the headline act was Arctic Monkeys. They played for two hours and the crowd went absolutely wild. They played three encore songs. The atmosphere was electric. On Sunday, the final day, it rained all morning but nobody cared. Billie Eilish closed the festival with an emotional performance. Over two hundred thousand people attended across the three days. Merchandise sales broke records, with over five million pounds spent on t-shirts and souvenirs alone. This was truly a festival to remember.",
+questions:[
+  {q:'How many days was the festival?',opts:['Two','Three','Four','Five'],ans:1},
+  {q:'Who was the Saturday headline act?',opts:['Billie Eilish','Ed Sheeran','Arctic Monkeys','Coldplay'],ans:2},
+  {q:'How many encore songs were played?',opts:['One','Two','Three','Four'],ans:2},
+  {q:'What happened on Sunday morning?',opts:['It was sunny','It rained','It was cancelled','It snowed'],ans:1},
+  {q:'How much was spent on merchandise?',opts:['1 million','3 million','5 million','10 million'],ans:2}
+],
+dictSentences:['The headline act was Arctic Monkeys.','Over two hundred thousand people attended across the three days.','Merchandise sales broke records.'],
+noteFields:[{label:'Festival name',answer:'reading festival'},{label:'Friday surprise',answer:'secret dj set'},{label:'Saturday headline',answer:'arctic monkeys'},{label:'Sunday closing act',answer:'billie eilish'},{label:'Total attendance',answer:'two hundred thousand'}]
+}
+];
 
-    setTip("Listen carefully and complete the task!");
-    startTimer();
-    setProgress(20);
+// STATE
+let playerName='',currentEx=null,currentMode='comp',currentUnit='all',currentDiff='all';
+let score=0,streak=0,bestStreak=0,correctCount=0,done=0;
+let plays=0,maxPlays=3,speechRate=1;
+let dictIdx=0,dictChecked=[];
+
+function init(){
+  if(typeof PIT_SCORE!=='undefined'){const p=PIT_SCORE.getPlayer();if(p.name){playerName=p.name;done=p.stations.listening?.exercises||0;score=p.stations.listening?.score||0}}
+  const sel=document.getElementById('unitSel');
+  sel.innerHTML='<option value="all">All Units</option>';
+  for(let i=1;i<=8;i++)sel.innerHTML+='<option value="'+i+'">Unit '+i+': '+UNITS[i]+'</option>';
+  sel.addEventListener('change',e=>{currentUnit=e.target.value;loadExercise()});
+  document.getElementById('diffSel').addEventListener('change',e=>{currentDiff=e.target.value;loadExercise()});
+  document.querySelectorAll('.mode-tab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');currentMode=t.dataset.mode;
+    document.querySelectorAll('.mode-content').forEach(m=>m.style.display='none');
+    document.getElementById(currentMode+'-mode').style.display='block';
+    loadExercise();
+  }));
+  if(playerName)startApp();
 }
 
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
-
-    stopTimer();
-    setTip("Choose a listening activity to begin!");
-    setProgress(0);
+function startApp(){
+  const inp=document.getElementById('nameInput');
+  if(!playerName&&inp){playerName=inp.value.trim();if(!playerName){alert('Enter your name');return}if(typeof PIT_SCORE!=='undefined')PIT_SCORE.setName(playerName)}
+  document.getElementById('login').classList.remove('active');
+  document.getElementById('main').classList.add('active');
+  document.getElementById('pName').textContent=playerName;
+  loadExercise();
 }
 
-/* ========================= */
-/* UNIVERSAL HUD JS */
-/* ========================= */
-
-function setProgress(percent) {
-    document.getElementById("progress-bar").style.width = percent + "%";
+function getFiltered(){
+  let f=EXERCISES;
+  if(currentUnit!=='all')f=f.filter(e=>e.unit===parseInt(currentUnit));
+  if(currentDiff!=='all')f=f.filter(e=>e.difficulty===currentDiff);
+  return f.length?f:EXERCISES;
 }
 
-let score = 0;
-function addScore(points) {
-    score += points;
-    document.getElementById("score").textContent = score;
+function loadExercise(){
+  const f=getFiltered();currentEx=f[Math.floor(Math.random()*f.length)];
+  plays=0;dictIdx=0;dictChecked=[];
+  document.getElementById('exTitle').textContent=currentEx.title;
+  document.getElementById('exMeta').textContent='Unit '+currentEx.unit+': '+UNITS[currentEx.unit]+' | '+currentEx.focus;
+  document.getElementById('focusBadge').textContent=currentEx.focus;
+  const db=document.getElementById('diffBadge');db.textContent=currentEx.difficulty.toUpperCase();db.className='badge badge-'+currentEx.difficulty;
+  document.getElementById('tipBox').innerHTML=currentEx.tip;
+  document.getElementById('keyVocab').innerHTML=currentEx.vocab.map(v=>'<span style="padding:4px 10px;background:#fff7ed;border:1px solid var(--accent2);border-radius:6px;font-size:11px;font-weight:600">'+v+'</span>').join('');
+  document.getElementById('playCount').textContent='Plays: 0 / '+maxPlays;
+  closeModal();
+  if(currentMode==='comp')setupComp();
+  else if(currentMode==='dict')setupDict();
+  else setupNote();
+  updateStats();
 }
 
-let time = 0;
-let timerInterval;
-
-function startTimer() {
-    stopTimer();
-    time = 0;
-    timerInterval = setInterval(() => {
-        time++;
-        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-        let seconds = String(time % 60).padStart(2, '0');
-        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
-    }, 1000);
+function playAudio(){
+  if(plays>=maxPlays){document.getElementById('playCount').textContent='No more plays!';return}
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  let text=currentEx.passage;
+  if(currentMode==='dict')text=currentEx.dictSentences[dictIdx]||'';
+  const msg=new SpeechSynthesisUtterance(text);msg.lang='en-GB';msg.rate=speechRate;
+  window.speechSynthesis.speak(msg);
+  plays++;document.getElementById('playCount').textContent='Plays: '+plays+' / '+maxPlays;
 }
 
-function stopTimer() {
-    clearInterval(timerInterval);
+function setSpeed(btn,rate){
+  document.querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');speechRate=rate;
 }
 
-function setTip(text) {
-    document.getElementById("tip-text").textContent = text;
+// COMPREHENSION
+function setupComp(){
+  const el=document.getElementById('compQs');el.innerHTML='';
+  currentEx.questions.forEach((q,qi)=>{
+    let h='<div class="q-box" id="q'+qi+'"><div class="q-text">'+(qi+1)+'. '+q.q+'</div><div class="q-options">';
+    q.opts.forEach((o,oi)=>{h+='<button class="q-opt" data-testid="q'+qi+'-opt'+oi+'" onclick="answerComp('+qi+','+oi+')">'+o+'</button>'});
+    h+='</div></div>';el.innerHTML+=h;
+  });
+  document.getElementById('compFb').textContent='Press PLAY to listen, then answer the questions.';
+  document.getElementById('compFb').className='fb info';
 }
 
+window.answerComp=function(qi,oi){
+  const box=document.getElementById('q'+qi);if(box.dataset.done)return;box.dataset.done='1';
+  const btns=box.querySelectorAll('.q-opt');btns.forEach(b=>b.disabled=true);
+  const correct=currentEx.questions[qi].ans;
+  btns[correct].classList.add('correct');
+  if(oi===correct){btns[oi].classList.add('correct');score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak}
+  else{btns[oi].classList.add('wrong');streak=0}
+  updateStats();
+  // Check if all done
+  const allDone=currentEx.questions.every((_,i)=>document.getElementById('q'+i).dataset.done);
+  if(allDone){
+    const pct=Math.round(correctCount/(correctCount+1)*100);
+    document.getElementById('compFb').textContent='All questions answered! '+correctCount+' correct.';
+    document.getElementById('compFb').className='fb ok';
+    setTimeout(()=>completeExercise(),1000);
+  }
+};
+
+// DICTATION
+function setupDict(){
+  dictIdx=0;dictChecked=[];plays=0;
+  document.getElementById('playCount').textContent='Plays: 0 / '+maxPlays;
+  showDictSentence();
+}
+
+function showDictSentence(){
+  if(dictIdx>=currentEx.dictSentences.length){completeExercise();return}
+  const el=document.getElementById('dictArea');
+  el.innerHTML='<div class="dict-sentence"><p style="font-size:14px;font-weight:700;color:var(--bg3);margin:0 0 8px">Sentence '+(dictIdx+1)+' / '+currentEx.dictSentences.length+'</p><input class="dict-input" id="dictInput" data-testid="dict-input" placeholder="Type exactly what you hear..." onkeydown="if(event.key===\'Enter\')checkDict()"><button onclick="checkDict()" style="margin-top:4px">Check</button></div>';
+  plays=0;document.getElementById('playCount').textContent='Plays: 0 / '+maxPlays;
+  document.getElementById('dictFb').textContent='Press PLAY to hear sentence '+(dictIdx+1)+', then type it.';
+  document.getElementById('dictFb').className='fb info';
+  updateProgress();
+}
+
+window.checkDict=function(){
+  const input=document.getElementById('dictInput');if(!input)return;
+  const typed=input.value.trim();if(!typed)return;
+  const target=currentEx.dictSentences[dictIdx];
+  const acc=similarityScore(target,typed);
+  if(acc>=0.8){score+=15;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
+    document.getElementById('dictFb').innerHTML='Excellent! '+Math.round(acc*100)+'% match. +15 points';
+    document.getElementById('dictFb').className='fb ok';
+  }else if(acc>=0.5){score+=5;
+    document.getElementById('dictFb').innerHTML='Close! '+Math.round(acc*100)+'% match. +5 points. Correct: <strong>'+esc(target)+'</strong>';
+    document.getElementById('dictFb').className='fb info';streak=0;
+  }else{streak=0;
+    document.getElementById('dictFb').innerHTML='Not quite ('+Math.round(acc*100)+'%). Correct: <strong>'+esc(target)+'</strong>';
+    document.getElementById('dictFb').className='fb bad';
+  }
+  updateStats();
+  setTimeout(()=>{dictIdx++;showDictSentence()},2000);
+};
+
+// NOTE-TAKING
+function setupNote(){
+  const el=document.getElementById('noteFields');el.innerHTML='';
+  currentEx.noteFields.forEach((f,i)=>{
+    el.innerHTML+='<div class="note-field"><span class="note-label">'+f.label+':</span><input class="note-input" id="note'+i+'" data-testid="note-input-'+i+'" placeholder="..."></div>';
+  });
+  document.getElementById('noteFb').textContent='Press PLAY to listen, then fill in the details.';
+  document.getElementById('noteFb').className='fb info';
+}
+
+window.checkNotes=function(){
+  let correct=0;
+  currentEx.noteFields.forEach((f,i)=>{
+    const inp=document.getElementById('note'+i);
+    const val=inp.value.trim().toLowerCase();
+    if(val&&f.answer.toLowerCase().includes(val)||val===f.answer.toLowerCase()){
+      inp.style.borderColor='var(--success)';inp.style.background='#dcfce7';correct++;
+    }else{
+      inp.style.borderColor='var(--error)';inp.style.background='#fee2e2';
+      inp.value=inp.value+' → '+f.answer;
+    }
+    inp.disabled=true;
+  });
+  const pts=correct*10;score+=pts;correctCount+=correct;
+  if(correct===currentEx.noteFields.length){streak++;if(streak>bestStreak)bestStreak=streak}else streak=0;
+  document.getElementById('noteFb').textContent=correct+'/'+currentEx.noteFields.length+' correct! +'+pts+' points';
+  document.getElementById('noteFb').className=correct>=currentEx.noteFields.length/2?'fb ok':'fb bad';
+  updateStats();
+  setTimeout(()=>completeExercise(),1500);
+};
+
+function completeExercise(){
+  done++;
+  if(typeof PIT_SCORE!=='undefined'){PIT_SCORE.addScore('listening',score);PIT_SCORE.updateStation('listening',{exercises:done})}
+  document.getElementById('finalScore').textContent=score+' pts';
+  document.getElementById('modalMsg').textContent=correctCount>3?'Great listening skills!':'Keep practising!';
+  document.getElementById('doneModal').classList.add('active');
+  updateStats();
+}
+
+function closeModal(){document.getElementById('doneModal').classList.remove('active')}
+
+function updateStats(){
+  document.getElementById('hScore').textContent=score;
+  document.getElementById('hStreak').textContent=streak;
+  document.getElementById('hDone').textContent=done;
+  document.getElementById('sCorrect').textContent=correctCount;
+  document.getElementById('sBest').textContent=bestStreak;
+  document.getElementById('sTotal').textContent=score;
+  updateProgress();
+}
+
+function updateProgress(){
+  let total=1,cur=0;
+  if(currentMode==='comp'){total=currentEx?currentEx.questions.length:1;cur=document.querySelectorAll('.q-box[data-done]').length}
+  else if(currentMode==='dict'){total=currentEx?currentEx.dictSentences.length:1;cur=dictIdx}
+  else{total=currentEx?currentEx.noteFields.length:1;cur=document.querySelectorAll('.note-input:disabled').length}
+  document.getElementById('progBar').style.width=Math.min(cur/total*100,100)+'%';
+}
+
+function normalizeText(t){return t.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim()}
+function similarityScore(a,b){if(!a||!b)return 0;const aw=normalizeText(a).split(' ').filter(Boolean);const bw=new Set(normalizeText(b).split(' ').filter(Boolean));return aw.length?aw.filter(w=>bw.has(w)).length/aw.length:0}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+init();
 </script>
-
 </body>
 </html>

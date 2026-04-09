@@ -469,6 +469,7 @@ button:hover:not(:disabled) {
   </div>
 </div>
 
+<script src="pit-score.js"></script>
 <script>
 // VOCABULARY DATABASE (aligned with Vocabulary Station)
 const VOCAB_UNITS = {
@@ -1036,6 +1037,7 @@ function submitWriting() {
   if (feedback.type === "success") {
     score += 20;
     document.getElementById("score").textContent = score;
+    if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.addScore('writing', score);
     showFeedback("Well done! +20 points. Moving to next task...", "success");
     setTimeout(() => {
       nextTask();

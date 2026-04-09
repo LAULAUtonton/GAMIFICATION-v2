@@ -16,7 +16,8 @@ const PIT_SCORE = {
           grammar: { score: 0, sessions: 0, exercisesDone: 0 },
           listening: { score: 0, sessions: 0, audioCompleted: 0 },
           speaking: { score: 0, sessions: 0, dialogues: 0 },
-          games: { score: 0, sessions: 0, gamesWon: 0 }
+          games: { score: 0, sessions: 0, gamesWon: 0 },
+          funnycorner: { score: 0, sessions: 0, learned: 0 }
         },
         achievements: [],
         lastActive: null

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Funny Corner - THE PIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg1:#fdf2f8;--bg2:#ec4899;--bg3:#831843;--panel:#fff;--accent:#ec4899;--accent2:#f472b6;
+  --text:#1f2937;--muted:#6b7280;--success:#16a34a;--error:#ef4444;--warning:#f59e0b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:radial-gradient(ellipse at top,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);min-height:100vh;padding:15px}
+.container{max-width:1000px;margin:0 auto}
+header{background:var(--panel);border-radius:16px;padding:16px 24px;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+h1{margin:0 0 12px;font-family:'Orbitron',sans-serif;font-size:clamp(18px,3vw,26px);color:var(--bg3);letter-spacing:2px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+select,button{padding:8px 14px;border-radius:10px;border:2px solid var(--accent);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;background:#fff;color:var(--bg3);transition:all .2s}
+button:hover:not(:disabled){background:var(--accent);color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+.back-btn{background:var(--bg3);color:#fff;border-color:var(--bg3)}
+.mode-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.mode-tab{padding:10px 16px;border-radius:10px;border:2px solid #e5e7eb;background:#fff;color:var(--text);font-weight:700;font-size:12px;cursor:pointer}
+.mode-tab:hover{border-color:var(--accent);background:#fdf2f8}
+.mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hud{display:flex;gap:10px;flex-wrap:wrap}
+.hud-item{background:linear-gradient(135deg,var(--accent),var(--bg3));color:#fff;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700}
+/* LOGIN */
+.login-box{background:#fff;border-radius:20px;padding:36px 30px;max-width:460px;margin:30px auto;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.login-box h2{color:var(--bg3);margin-bottom:8px;font-family:'Orbitron',sans-serif;font-size:22px}
+.login-box .sub{color:var(--muted);font-size:14px;margin-bottom:20px;line-height:1.5}
+.login-box input{width:100%;padding:12px;border:2px solid var(--accent);border-radius:10px;font-size:16px;margin-bottom:16px}
+.login-preview{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;text-align:left}
+.preview-card{padding:12px;border:2px solid #e5e7eb;border-radius:12px;font-size:12px;line-height:1.5}
+.preview-card strong{display:block;color:var(--accent);font-size:13px;margin-bottom:4px}
+.screen{display:none}.screen.active{display:block}
+/* MAIN AREA */
+.game-area{display:grid;grid-template-columns:1fr 280px;gap:16px}
+@media(max-width:800px){.game-area{grid-template-columns:1fr}.login-preview{grid-template-columns:1fr}}
+.main-panel{background:#fff;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+/* IDIOM CARD */
+.idiom-card{background:linear-gradient(135deg,#fdf2f8,#fce7f3);border:3px solid var(--accent2);border-radius:16px;padding:24px;text-align:center;margin-bottom:20px;position:relative}
+.idiom-number{position:absolute;top:-12px;left:20px;background:var(--accent);color:#fff;padding:4px 14px;border-radius:8px;font-size:12px;font-weight:800}
+.idiom-text{font-size:22px;font-weight:800;color:var(--bg3);margin:12px 0 8px;line-height:1.4;font-style:italic}
+.idiom-example{font-size:13px;color:var(--muted);font-style:italic;margin-top:8px}
+.listen-btn{padding:8px 18px;border:none;background:var(--accent);color:#fff;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;margin-top:10px}
+.listen-btn:hover{background:var(--bg3)}
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.opt{padding:14px 18px;border:2px solid #e5e7eb;border-radius:12px;background:#fff;font-size:14px;font-weight:600;cursor:pointer;text-align:left;transition:all .2s}
+.opt:hover{border-color:var(--accent);background:#fdf2f8}
+.opt.correct{background:#dcfce7;border-color:var(--success);color:#166534}
+.opt.wrong{background:#fee2e2;border-color:var(--error);color:#991b1b}
+.opt:disabled{cursor:default}
+.opt .opt-letter{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;background:var(--accent2);color:#fff;border-radius:50%;font-size:12px;font-weight:800;margin-right:10px}
+/* FEEDBACK */
+.fb{padding:12px 16px;border-radius:12px;font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.fb.ok{background:#dcfce7;color:#166534}.fb.bad{background:#fee2e2;color:#991b1b}.fb.info{background:#fce7f3;color:#9d174d}
+.fb .origin{display:block;margin-top:6px;font-weight:400;font-style:italic;color:var(--muted)}
+/* MATCH MODE */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.match-col h4{font-size:13px;color:var(--bg3);margin:0 0 8px;font-weight:800}
+.match-item{padding:10px 14px;border:2px solid #e5e7eb;border-radius:10px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;transition:all .2s}
+.match-item:hover{border-color:var(--accent)}
+.match-item.selected{border-color:var(--accent);background:#fce7f3}
+.match-item.matched{border-color:var(--success);background:#dcfce7;cursor:default}
+.match-item.wrong-match{border-color:var(--error);background:#fee2e2}
+/* SITUATION MODE */
+.situation-box{background:#fdf2f8;border:2px solid var(--accent2);border-radius:14px;padding:18px;margin-bottom:16px;font-size:14px;line-height:1.6;color:var(--bg3)}
+.situation-box strong{color:var(--accent)}
+/* SIDE */
+.side{display:flex;flex-direction:column;gap:12px}
+.card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.card h4{margin:0 0 10px;font-size:13px;color:var(--bg3);font-weight:800}
+.stat-row{display:flex;justify-content:space-between;font-size:12px;margin:6px 0}
+.stat-row span:last-child{font-weight:700;color:var(--accent)}
+.pbar{height:8px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:8px;transition:width .3s}
+.learned-list{display:flex;flex-wrap:wrap;gap:6px;max-height:200px;overflow-y:auto}
+.learned-tag{padding:4px 10px;background:#fdf2f8;border:1px solid var(--accent2);border-radius:6px;font-size:11px;font-weight:600;color:var(--bg3)}
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-box{background:#fff;border-radius:20px;padding:32px;text-align:center;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal-icon{font-size:50px;margin-bottom:16px}
+.modal-title{font-size:24px;font-weight:800;color:var(--bg3);margin-bottom:8px}
+.modal-score{font-size:40px;font-weight:800;color:var(--accent);margin-bottom:16px}
+.modal-btn{padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- LOGIN -->
+<div id="login" class="screen active">
+<div class="login-box">
+  <h2 data-testid="funny-title">THE FUNNY CORNER</h2>
+  <p class="sub">Learn the craziest English expressions! Did you know "break a leg" means "good luck"? Discover why!</p>
+  <div class="login-preview">
+    <div class="preview-card"><strong>Guess the Meaning</strong>Hear an idiom and choose what it really means from 4 options.</div>
+    <div class="preview-card"><strong>Match Up</strong>Match idioms to their correct meanings. Can you pair them all?</div>
+    <div class="preview-card"><strong>Situation</strong>Read a situation and pick the idiom that fits best.</div>
+    <div class="preview-card"><strong>Listen & Choose</strong>Hear the idiom spoken, then select the right meaning. Train your ear!</div>
+  </div>
+  <input type="text" id="nameInput" data-testid="name-input" placeholder="Your name" onkeydown="if(event.key==='Enter')startApp()">
+  <button data-testid="start-btn" onclick="startApp()" style="width:100%;padding:14px;font-size:16px">LET'S GO!</button>
+</div>
+</div>
+
+<!-- MAIN -->
+<div id="main" class="screen">
+<header>
+  <h1>THE FUNNY CORNER</h1>
+  <div class="controls">
+    <button class="back-btn" data-testid="menu-btn" onclick="location.href='../index.html'">MENU</button>
+    <select id="catSel" data-testid="cat-select"><option value="all">All Categories</option></select>
+    <button data-testid="next-btn" onclick="nextRound()">Next Round</button>
+  </div>
+  <div class="mode-tabs" data-testid="mode-tabs">
+    <button class="mode-tab active" data-mode="guess">Guess the Meaning</button>
+    <button class="mode-tab" data-mode="match">Match Up</button>
+    <button class="mode-tab" data-mode="situation">Situation</button>
+    <button class="mode-tab" data-mode="listenmc">Listen & Choose</button>
+  </div>
+  <div class="hud">
+    <div class="hud-item">Player: <span id="pName" data-testid="player-name">-</span></div>
+    <div class="hud-item">Score: <span id="hScore" data-testid="score-display">0</span></div>
+    <div class="hud-item">Streak: <span id="hStreak" data-testid="streak-display">0</span></div>
+    <div class="hud-item">Learned: <span id="hLearned" data-testid="learned-display">0</span> / <span id="hTotal">0</span></div>
+  </div>
+</header>
+
+<div class="game-area">
+<div class="main-panel">
+  <!-- GUESS -->
+  <div id="guess-mode" class="mode-content">
+    <div class="idiom-card" id="idiomCard" data-testid="idiom-card">
+      <div class="idiom-number" id="idiomNum" data-testid="idiom-number">#1</div>
+      <div class="idiom-text" id="idiomText" data-testid="idiom-text">Loading...</div>
+      <button class="listen-btn" data-testid="listen-idiom-btn" onclick="speakIdiom()">LISTEN</button>
+      <div class="idiom-example" id="idiomExample" data-testid="idiom-example"></div>
+    </div>
+    <div class="options" id="guessOpts" data-testid="guess-options"></div>
+    <div class="fb info" id="guessFb" data-testid="guess-feedback">What does this expression mean? Choose an answer!</div>
+  </div>
+
+  <!-- MATCH -->
+  <div id="match-mode" class="mode-content" style="display:none">
+    <p style="font-size:13px;color:var(--muted);margin:0 0 12px"><strong>Match each idiom to its meaning.</strong> Click an idiom, then click its meaning.</p>
+    <div class="match-grid">
+      <div><h4>Idioms</h4><div id="matchIdioms" data-testid="match-idioms"></div></div>
+      <div><h4>Meanings</h4><div id="matchMeanings" data-testid="match-meanings"></div></div>
+    </div>
+    <div class="fb info" id="matchFb" data-testid="match-feedback">Click an idiom on the left, then its meaning on the right.</div>
+  </div>
+
+  <!-- SITUATION -->
+  <div id="situation-mode" class="mode-content" style="display:none">
+    <div class="situation-box" id="sitBox" data-testid="situation-box"><strong>Situation:</strong> Loading...</div>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 10px"><strong>Which expression fits this situation?</strong></p>
+    <div class="options" id="sitOpts" data-testid="situation-options"></div>
+    <div class="fb info" id="sitFb" data-testid="situation-feedback">Read the situation and pick the best expression.</div>
+  </div>
+
+  <!-- LISTEN & CHOOSE -->
+  <div id="listenmc-mode" class="mode-content" style="display:none">
+    <div class="idiom-card">
+      <div class="idiom-number" id="lmcNum">#1</div>
+      <div style="font-size:16px;font-weight:700;color:var(--bg3);margin:12px 0">Listen to the expression:</div>
+      <button class="listen-btn" data-testid="lmc-play-btn" onclick="playLMC()" style="font-size:16px;padding:12px 28px">PLAY</button>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px">You can play it 3 times</div>
+    </div>
+    <div class="options" id="lmcOpts" data-testid="lmc-options"></div>
+    <div class="fb info" id="lmcFb" data-testid="lmc-feedback">Press PLAY, then choose the correct meaning.</div>
+  </div>
+</div>
+
+<!-- SIDE -->
+<div class="side">
+  <div class="card">
+    <h4>Progress</h4>
+    <div class="pbar"><div class="pfill" id="progBar" data-testid="progress-bar"></div></div>
+    <div class="stat-row"><span>Correct</span><span id="sCorrect" data-testid="correct-count">0</span></div>
+    <div class="stat-row"><span>Best Streak</span><span id="sBest" data-testid="best-streak">0</span></div>
+    <div class="stat-row"><span>Total Points</span><span id="sTotal" data-testid="total-points">0</span></div>
+  </div>
+  <div class="card">
+    <h4>Idioms Learned</h4>
+    <div class="learned-list" id="learnedList" data-testid="learned-list"></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="doneModal">
+<div class="modal-box">
+  <div class="modal-icon">&#129315;</div>
+  <div class="modal-title">Round Complete!</div>
+  <div class="modal-score" id="finalScore" data-testid="final-score">0</div>
+  <p id="modalMsg">You're learning fast!</p>
+  <button class="modal-btn" data-testid="modal-next-btn" onclick="nextRound()">Next Round</button>
+  <button class="modal-btn" onclick="closeModal()" style="background:#6b7280">Close</button>
+</div>
+</div>
+
+<script src="pit-score.js"></script>
+<script>
+const IDIOMS=[
+// ANIMALS
+{idiom:"It's raining cats and dogs",meaning:"It's raining very heavily",example:"Take an umbrella — it's raining cats and dogs!",origin:"This idiom may come from 17th century England when heavy storms washed animals through the streets.",category:"Animals",situation:"You look out the window and see a massive storm with very heavy rain."},
+{idiom:"Let the cat out of the bag",meaning:"To reveal a secret accidentally",example:"I let the cat out of the bag about the surprise party.",origin:"Possibly from market fraud — sellers would put a cat in a bag instead of a piglet.",category:"Animals",situation:"Your friend accidentally tells everyone about the surprise birthday party you were planning."},
+{idiom:"Hold your horses",meaning:"Wait, be patient, slow down",example:"Hold your horses! We haven't finished yet.",origin:"From horse riding — you literally had to hold your horses to stop them.",category:"Animals",situation:"Your friend is rushing to leave but you haven't finished getting ready yet."},
+{idiom:"The elephant in the room",meaning:"An obvious problem nobody wants to talk about",example:"His bad grades were the elephant in the room at dinner.",origin:"It's hard to ignore an elephant in a room — just like a big obvious problem!",category:"Animals",situation:"Everyone at dinner knows that Dad lost his job, but nobody mentions it."},
+{idiom:"Kill two birds with one stone",meaning:"Achieve two things with one action",example:"I'll visit Grandma and pick up the cake — kill two birds with one stone!",origin:"Very old proverb about efficiency — probably not about actual birds!",category:"Animals",situation:"You need to go to the shop AND visit your friend, and they live next to each other."},
+// BODY
+{idiom:"Break a leg",meaning:"Good luck (especially before a performance)",example:"You're going on stage? Break a leg!",origin:"Theatre superstition — saying 'good luck' was considered bad luck!",category:"Body",situation:"Your friend is about to go on stage for the school play and looks nervous."},
+{idiom:"Cost an arm and a leg",meaning:"To be extremely expensive",example:"That new phone costs an arm and a leg.",origin:"From the idea that you'd have to give up body parts to pay for something.",category:"Body",situation:"You see a beautiful jacket in a shop, but the price tag says 300 euros."},
+{idiom:"Pull someone's leg",meaning:"To joke with someone, to tease them",example:"I'm just pulling your leg — I didn't really fail the test!",origin:"In old London, thieves would trip people by pulling their legs to rob them.",category:"Body",situation:"Your friend tells you school is cancelled forever, then laughs and says it's a joke."},
+{idiom:"Keep your chin up",meaning:"Stay positive, don't be discouraged",example:"Keep your chin up — things will get better!",origin:"With your chin up, you look confident and ready. Looking down shows defeat.",category:"Body",situation:"Your friend just failed a test and feels really sad about it."},
+{idiom:"Get cold feet",meaning:"To become nervous and want to quit",example:"He got cold feet before the presentation.",origin:"Soldiers who were too scared to fight said their feet were frozen.",category:"Body",situation:"You were excited to audition for the school band, but now you're too scared."},
+// FOOD
+{idiom:"Piece of cake",meaning:"Something very easy to do",example:"That maths test was a piece of cake!",origin:"Cake is pleasant and easy to eat — so an easy task is 'a piece of cake'!",category:"Food",situation:"You finish the exam in 10 minutes because all the questions were things you studied."},
+{idiom:"Spill the beans",meaning:"To reveal secret information",example:"Come on, spill the beans — what's the surprise?",origin:"From ancient Greek voting where beans were spilled from a jar to reveal votes.",category:"Food",situation:"You know your friend has a crush on someone, and you want them to tell you who."},
+{idiom:"In a nutshell",meaning:"To summarise briefly",example:"In a nutshell, the film was great but too long.",origin:"Imagine fitting a whole story inside a tiny nutshell — that's how brief it is!",category:"Food",situation:"The teacher asks you to give a very short summary of a long book you read."},
+{idiom:"Cry over spilt milk",meaning:"To be upset about something that cannot be changed",example:"The match is lost — no use crying over spilt milk.",origin:"Once milk is spilt, you can't put it back. So don't waste time being upset!",category:"Food",situation:"You accidentally deleted your homework file and there's no backup."},
+{idiom:"Butter someone up",meaning:"To flatter someone to get what you want",example:"He buttered up the teacher to get extra marks.",origin:"From an ancient Indian custom of throwing butter at statues of gods for favours.",category:"Food",situation:"You want your mum to let you go to a party, so you do all the housework first and say nice things."},
+// WEATHER & NATURE
+{idiom:"Under the weather",meaning:"Feeling slightly ill or unwell",example:"I'm feeling a bit under the weather today.",origin:"Sailors who were sick went below deck, literally 'under' the weather.",category:"Weather",situation:"You wake up with a headache and a runny nose and don't feel great."},
+{idiom:"Every cloud has a silver lining",meaning:"There's something positive in every bad situation",example:"I missed the bus but met my best friend — every cloud has a silver lining!",origin:"From a poem by John Milton: clouds blocking the sun still have bright edges.",category:"Weather",situation:"You didn't get into the football team, but now you have time to join the art club you always wanted."},
+{idiom:"Beat around the bush",meaning:"To avoid talking about the main topic",example:"Stop beating around the bush and tell me what happened!",origin:"From bird hunting — beaters would tap bushes to scare birds out, going around them.",category:"Weather",situation:"You ask your friend a simple question but they keep talking about other things instead of answering."},
+{idiom:"A storm in a teacup",meaning:"Making a big fuss about something unimportant",example:"They argued about the TV remote — a real storm in a teacup.",origin:"A dramatic storm happening in something as small as a teacup = overreaction.",category:"Weather",situation:"Two classmates have a huge argument about who gets to sit in a particular chair."},
+{idiom:"On cloud nine",meaning:"Extremely happy",example:"She was on cloud nine after winning the competition.",origin:"The US Weather Bureau classified cloud types — cloud 9 (cumulonimbus) is the highest and fluffiest!",category:"Weather",situation:"You just found out you got the highest mark in the class on your English exam."},
+// SCHOOL & LIFE
+{idiom:"Hit the books",meaning:"To study hard",example:"I need to hit the books — the exam is tomorrow!",origin:"Simply means to open your books and study intensely.",category:"School",situation:"Your big exam is tomorrow and you haven't started revising yet."},
+{idiom:"Burning the midnight oil",meaning:"Working or studying very late at night",example:"She was burning the midnight oil to finish her project.",origin:"Before electricity, people burned oil lamps to work late at night.",category:"School",situation:"It's 2 AM and you're still working on your Science project that's due tomorrow."},
+{idiom:"Back to square one",meaning:"Starting again from the beginning",example:"The experiment failed, so it's back to square one.",origin:"From board games where you go back to the first square.",category:"School",situation:"Your computer crashed and you lost all the work on your essay, so you have to start over."},
+{idiom:"The ball is in your court",meaning:"It's your turn to make a decision or take action",example:"I've done my part — the ball is in your court now.",origin:"From tennis — the ball is on your side, so it's your turn to play.",category:"School",situation:"Your group finished their part of the project and now it's your turn to write the conclusion."},
+{idiom:"Bite off more than you can chew",meaning:"To take on more than you can handle",example:"Joining three clubs was biting off more than I could chew.",origin:"Literally taking too much food in your mouth — you can't chew it properly!",category:"School",situation:"You signed up for football, choir, drama, AND homework club, and now you can't manage them all."},
+];
+
+const CATEGORIES=[...new Set(IDIOMS.map(i=>i.category))];
+
+// STATE
+let playerName='',currentMode='guess',currentCat='all';
+let score=0,streak=0,bestStreak=0,correctCount=0,roundNum=0;
+let guessQueue=[],guessIdx=0;
+let matchItems=[],selectedIdiom=null,matchedCount=0;
+let sitQueue=[],sitIdx=0;
+let lmcQueue=[],lmcIdx=0,lmcPlays=0;
+let learnedSet=new Set();
+
+function init(){
+  if(typeof PIT_SCORE!=='undefined'){const p=PIT_SCORE.getPlayer();if(p.name){playerName=p.name;score=p.stations.funnycorner?.score||0}}
+  const sel=document.getElementById('catSel');
+  sel.innerHTML='<option value="all">All Categories</option>';
+  CATEGORIES.forEach(c=>sel.innerHTML+='<option value="'+c+'">'+c+'</option>');
+  sel.addEventListener('change',e=>{currentCat=e.target.value;nextRound()});
+  document.querySelectorAll('.mode-tab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');currentMode=t.dataset.mode;
+    document.querySelectorAll('.mode-content').forEach(m=>m.style.display='none');
+    document.getElementById(currentMode+'-mode').style.display='block';
+    nextRound();
+  }));
+  document.getElementById('hTotal').textContent=IDIOMS.length;
+  if(playerName)startApp();
+}
+
+function startApp(){
+  const inp=document.getElementById('nameInput');
+  if(!playerName&&inp){playerName=inp.value.trim();if(!playerName){alert('Enter your name');return}if(typeof PIT_SCORE!=='undefined')PIT_SCORE.setName(playerName)}
+  document.getElementById('login').classList.remove('active');
+  document.getElementById('main').classList.add('active');
+  document.getElementById('pName').textContent=playerName;
+  nextRound();
+}
+
+function getFiltered(){let f=IDIOMS;if(currentCat!=='all')f=f.filter(i=>i.category===currentCat);return f.length?f:IDIOMS}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function nextRound(){
+  closeModal();roundNum++;
+  if(currentMode==='guess')setupGuess();
+  else if(currentMode==='match')setupMatch();
+  else if(currentMode==='situation')setupSituation();
+  else setupLMC();
+  updateStats();
+}
+
+function speakIdiom(){speak(document.getElementById('idiomText').textContent)}
+function speak(t){if(!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const m=new SpeechSynthesisUtterance(t);m.lang='en-GB';m.rate=0.9;window.speechSynthesis.speak(m)}
+
+// ===== GUESS THE MEANING =====
+function setupGuess(){
+  guessQueue=shuffle(getFiltered()).slice(0,5);guessIdx=0;
+  showGuessQ();
+}
+
+function showGuessQ(){
+  if(guessIdx>=guessQueue.length){completeRound();return}
+  const item=guessQueue[guessIdx];
+  document.getElementById('idiomNum').textContent='#'+(guessIdx+1)+'/'+guessQueue.length;
+  document.getElementById('idiomText').textContent='"'+item.idiom+'"';
+  document.getElementById('idiomExample').textContent='Example: '+item.example;
+  // Build options: 1 correct + 3 distractors
+  const wrong=shuffle(IDIOMS.filter(i=>i.idiom!==item.idiom)).slice(0,3).map(i=>i.meaning);
+  const opts=shuffle([item.meaning,...wrong]);
+  const letters=['A','B','C','D'];
+  document.getElementById('guessOpts').innerHTML=opts.map((o,i)=>
+    '<button class="opt" data-testid="guess-opt-'+i+'" onclick="answerGuess(this,'+i+','+opts.indexOf(item.meaning)+')"><span class="opt-letter">'+letters[i]+'</span>'+esc(o)+'</button>'
+  ).join('');
+  document.getElementById('guessFb').textContent='What does "'+item.idiom+'" mean?';
+  document.getElementById('guessFb').className='fb info';
+  updateProgress();
+}
+
+window.answerGuess=function(btn,chosen,correct){
+  const btns=document.querySelectorAll('#guessOpts .opt');btns.forEach(b=>b.disabled=true);
+  btns[correct].classList.add('correct');
+  const item=guessQueue[guessIdx];
+  if(chosen===correct){
+    score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
+    learnedSet.add(item.idiom);
+    document.getElementById('guessFb').innerHTML='Correct! +10 points<span class="origin">'+esc(item.origin)+'</span>';
+    document.getElementById('guessFb').className='fb ok';
+  }else{
+    btn.classList.add('wrong');streak=0;
+    document.getElementById('guessFb').innerHTML='Not quite! It means: "'+esc(item.meaning)+'"<span class="origin">'+esc(item.origin)+'</span>';
+    document.getElementById('guessFb').className='fb bad';
+  }
+  updateStats();
+  setTimeout(()=>{guessIdx++;showGuessQ()},2500);
+};
+
+// ===== MATCH UP =====
+function setupMatch(){
+  matchItems=shuffle(getFiltered()).slice(0,5);selectedIdiom=null;matchedCount=0;
+  const shuffledMeanings=shuffle([...matchItems]);
+  document.getElementById('matchIdioms').innerHTML=matchItems.map((item,i)=>
+    '<div class="match-item" data-testid="match-idiom-'+i+'" data-idx="'+i+'" onclick="selectIdiom(this,'+i+')">'+esc(item.idiom)+'</div>'
+  ).join('');
+  document.getElementById('matchMeanings').innerHTML=shuffledMeanings.map((item,i)=>{
+    const origIdx=matchItems.indexOf(item);
+    return '<div class="match-item" data-testid="match-meaning-'+i+'" data-idx="'+origIdx+'" onclick="selectMeaning(this,'+origIdx+')">'+esc(item.meaning)+'</div>';
+  }).join('');
+  document.getElementById('matchFb').textContent='Click an idiom, then click its meaning. Match all 5!';
+  document.getElementById('matchFb').className='fb info';
+}
+
+window.selectIdiom=function(el,idx){
+  if(el.classList.contains('matched'))return;
+  document.querySelectorAll('#matchIdioms .match-item').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');selectedIdiom=idx;
+};
+
+window.selectMeaning=function(el,idx){
+  if(selectedIdiom===null||el.classList.contains('matched'))return;
+  if(selectedIdiom===idx){
+    // Correct match
+    const idiomEl=document.querySelector('#matchIdioms .match-item[data-idx="'+idx+'"]');
+    idiomEl.classList.remove('selected');idiomEl.classList.add('matched');
+    el.classList.add('matched');
+    matchedCount++;score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
+    learnedSet.add(matchItems[idx].idiom);
+    document.getElementById('matchFb').textContent='Matched! '+matchedCount+'/'+matchItems.length;
+    document.getElementById('matchFb').className='fb ok';
+    selectedIdiom=null;
+    updateStats();updateProgress();
+    if(matchedCount===matchItems.length)setTimeout(()=>completeRound(),800);
+  }else{
+    el.classList.add('wrong-match');streak=0;
+    setTimeout(()=>el.classList.remove('wrong-match'),600);
+    document.getElementById('matchFb').textContent='Not a match! Try again.';
+    document.getElementById('matchFb').className='fb bad';
+    updateStats();
+  }
+};
+
+// ===== SITUATION =====
+function setupSituation(){
+  sitQueue=shuffle(getFiltered()).slice(0,5);sitIdx=0;
+  showSitQ();
+}
+
+function showSitQ(){
+  if(sitIdx>=sitQueue.length){completeRound();return}
+  const item=sitQueue[sitIdx];
+  document.getElementById('sitBox').innerHTML='<strong>Situation:</strong> '+esc(item.situation);
+  const wrong=shuffle(IDIOMS.filter(i=>i.idiom!==item.idiom)).slice(0,3).map(i=>i.idiom);
+  const opts=shuffle([item.idiom,...wrong]);
+  const letters=['A','B','C','D'];
+  document.getElementById('sitOpts').innerHTML=opts.map((o,i)=>
+    '<button class="opt" data-testid="sit-opt-'+i+'" onclick="answerSit(this,'+i+','+opts.indexOf(item.idiom)+')"><span class="opt-letter">'+letters[i]+'</span>"'+esc(o)+'"</button>'
+  ).join('');
+  document.getElementById('sitFb').textContent='Which expression fits this situation? ('+(sitIdx+1)+'/'+sitQueue.length+')';
+  document.getElementById('sitFb').className='fb info';
+  updateProgress();
+}
+
+window.answerSit=function(btn,chosen,correct){
+  const btns=document.querySelectorAll('#sitOpts .opt');btns.forEach(b=>b.disabled=true);
+  btns[correct].classList.add('correct');
+  const item=sitQueue[sitIdx];
+  if(chosen===correct){
+    score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
+    learnedSet.add(item.idiom);
+    document.getElementById('sitFb').innerHTML='Correct! "'+esc(item.idiom)+'" — '+esc(item.meaning);
+    document.getElementById('sitFb').className='fb ok';
+  }else{
+    btn.classList.add('wrong');streak=0;
+    document.getElementById('sitFb').innerHTML='The answer was: "'+esc(item.idiom)+'" — '+esc(item.meaning);
+    document.getElementById('sitFb').className='fb bad';
+  }
+  updateStats();
+  setTimeout(()=>{sitIdx++;showSitQ()},2200);
+};
+
+// ===== LISTEN & CHOOSE =====
+function setupLMC(){
+  lmcQueue=shuffle(getFiltered()).slice(0,5);lmcIdx=0;lmcPlays=0;
+  showLMCQ();
+}
+
+function showLMCQ(){
+  if(lmcIdx>=lmcQueue.length){completeRound();return}
+  lmcPlays=0;
+  document.getElementById('lmcNum').textContent='#'+(lmcIdx+1)+'/'+lmcQueue.length;
+  const item=lmcQueue[lmcIdx];
+  const wrong=shuffle(IDIOMS.filter(i=>i.idiom!==item.idiom)).slice(0,3).map(i=>i.meaning);
+  const opts=shuffle([item.meaning,...wrong]);
+  const letters=['A','B','C','D'];
+  document.getElementById('lmcOpts').innerHTML=opts.map((o,i)=>
+    '<button class="opt" data-testid="lmc-opt-'+i+'" onclick="answerLMC(this,'+i+','+opts.indexOf(item.meaning)+')"><span class="opt-letter">'+letters[i]+'</span>'+esc(o)+'</button>'
+  ).join('');
+  document.getElementById('lmcFb').textContent='Press PLAY to hear the expression, then choose its meaning.';
+  document.getElementById('lmcFb').className='fb info';
+  updateProgress();
+}
+
+window.playLMC=function(){
+  if(lmcPlays>=3)return;
+  speak(lmcQueue[lmcIdx].idiom);
+  lmcPlays++;
+};
+
+window.answerLMC=function(btn,chosen,correct){
+  const btns=document.querySelectorAll('#lmcOpts .opt');btns.forEach(b=>b.disabled=true);
+  btns[correct].classList.add('correct');
+  const item=lmcQueue[lmcIdx];
+  if(chosen===correct){
+    score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
+    learnedSet.add(item.idiom);
+    document.getElementById('lmcFb').innerHTML='Correct! "'+esc(item.idiom)+'" means: '+esc(item.meaning)+'<span class="origin">'+esc(item.origin)+'</span>';
+    document.getElementById('lmcFb').className='fb ok';
+  }else{
+    btn.classList.add('wrong');streak=0;
+    document.getElementById('lmcFb').innerHTML='"'+esc(item.idiom)+'" means: '+esc(item.meaning)+'<span class="origin">'+esc(item.origin)+'</span>';
+    document.getElementById('lmcFb').className='fb bad';
+  }
+  updateStats();
+  setTimeout(()=>{lmcIdx++;showLMCQ()},2500);
+};
+
+// ===== SHARED =====
+function completeRound(){
+  if(typeof PIT_SCORE!=='undefined'){PIT_SCORE.addScore('funnycorner',score);PIT_SCORE.updateStation('funnycorner',{learned:learnedSet.size})}
+  document.getElementById('finalScore').textContent=score+' pts';
+  document.getElementById('modalMsg').textContent=streak>=3?'You\'re on fire!':correctCount>2?'Great job!':'Keep practising!';
+  document.getElementById('doneModal').classList.add('active');
+  updateStats();
+}
+
+function closeModal(){document.getElementById('doneModal').classList.remove('active')}
+
+function updateStats(){
+  document.getElementById('hScore').textContent=score;
+  document.getElementById('hStreak').textContent=streak;
+  document.getElementById('hLearned').textContent=learnedSet.size;
+  document.getElementById('sCorrect').textContent=correctCount;
+  document.getElementById('sBest').textContent=bestStreak;
+  document.getElementById('sTotal').textContent=score;
+  document.getElementById('learnedList').innerHTML=[...learnedSet].map(i=>'<span class="learned-tag">'+esc(i)+'</span>').join('');
+  updateProgress();
+}
+
+function updateProgress(){
+  let total=5,cur=0;
+  if(currentMode==='guess')cur=guessIdx;
+  else if(currentMode==='match')cur=matchedCount;
+  else if(currentMode==='situation')cur=sitIdx;
+  else cur=lmcIdx;
+  document.getElementById('progBar').style.width=Math.min(cur/total*100,100)+'%';
+}
+
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+init();
+</script>
+</body>
+</html>

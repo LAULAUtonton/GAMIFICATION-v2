@@ -3,540 +3,1594 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Speaking Mode</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-
+<title>Speaking Station - THE PIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#bae6fd 0%,#0ea5e9 55%,#082f49 100%);
-  color:#111827;
+:root {
+  --bg1: #eff6ff;
+  --bg2: #3b82f6;
+  --bg3: #1e3a5f;
+  --panel: #ffffff;
+  --accent: #3b82f6;
+  --accent2: #60a5fa;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --success: #16a34a;
+  --error: #ef4444;
+  --warning: #f59e0b;
 }
 
-.speakingContainer{
-  width:92%;
-  max-width:1100px;
-  margin:34px auto 120px auto;
-  background:white;
-  padding:32px;
-  border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.55);
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(ellipse at top, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+  min-height: 100vh;
+  padding: 15px;
 }
 
-.speakingTitle{
-  text-align:center;
-  font-size:30px;
-  color:#0c4a6e;
-  margin:0 0 8px 0;
-  letter-spacing:2px;
+.container { max-width: 1200px; margin: 0 auto; }
+
+header {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.subTitle{
-  text-align:center;
-  margin:0 0 18px 0;
-  font-size:14px;
-  color:#0369a1;
+h1 {
+  margin: 0 0 12px 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);
+  color: var(--bg3);
+  letter-spacing: 2px;
 }
 
-.topRow{
-  display:flex;
-  gap:10px;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  margin-bottom:14px;
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-.pill{
-  padding:8px 12px;
-  border-radius:999px;
-  background:#e0f2fe;
-  border:1px solid #38bdf8;
-  font-weight:800;
-  font-size:13px;
+select, button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 2px solid var(--accent);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  background: white;
+  color: var(--bg3);
+  transition: all 0.2s;
 }
 
-.switchBtn,.startBtn{
-  padding:12px 16px;
-  border-radius:14px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.2s;
-  font-family:'Orbitron',sans-serif;
+button:hover:not(:disabled) { background: var(--accent); color: white; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.back-btn { background: var(--bg3); color: white; border-color: var(--bg3); }
+
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
-.switchBtn{
-  border:2px solid #38bdf8;
-  background:white;
-  color:#0c4a6e;
+.mode-tab {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
 }
 
-.startBtn{
-  border:none;
-  background:#0ea5e9;
-  color:white;
+.mode-tab:hover { border-color: var(--accent); background: #eff6ff; }
+.mode-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+.hud {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.hudRow{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
+.hud-item {
+  background: linear-gradient(135deg, var(--accent), var(--bg3));
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.hudBox{
-  padding:10px 16px;
-  border-radius:12px;
-  font-weight:900;
-  border:2px solid #38bdf8;
-  background:#f0f9ff;
-  color:#0c4a6e;
+/* LOGIN */
+.login-box {
+  background: white;
+  border-radius: 20px;
+  padding: 36px 30px;
+  max-width: 480px;
+  margin: 30px auto;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
-.tipBox{
-  background:#f0f9ff;
-  border:2px solid #38bdf8;
-  border-radius:14px;
-  padding:12px 14px;
-  font-size:14px;
-  margin-bottom:16px;
+.login-box h2 {
+  color: var(--bg3);
+  margin-bottom: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
 }
 
-.progressTrack{
-  width:100%;
-  height:18px;
-  background:#e5e7eb;
-  border-radius:12px;
-  overflow:hidden;
-  margin-bottom:18px;
+.login-box .login-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
-.progressFill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#0ea5e9,#22d3ee);
-  transition:.3s;
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  font-size: 16px;
+  margin-bottom: 16px;
 }
 
-.dialogueGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:14px;
+.login-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-.dialogueCard{
-  background:#f0f9ff;
-  border:2px solid #38bdf8;
-  border-radius:18px;
-  padding:14px;
+.login-mode-card {
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.dialogueMeta{
-  font-size:12px;
-  color:#0369a1;
-  margin-bottom:8px;
-  font-weight:800;
+.login-mode-card strong {
+  display: block;
+  color: var(--accent);
+  font-size: 13px;
+  margin-bottom: 4px;
 }
 
-.roleBox{
-  background:white;
-  border:1px solid #38bdf8;
-  border-radius:10px;
-  padding:8px;
-  margin:6px 0;
-  font-size:13px;
-  line-height:1.35;
+.activity-screen { display: none; }
+.activity-screen.active { display: block; }
+
+/* DIALOGUE AREA */
+.dialogue-area {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
 }
 
-.botLine{
-  margin-top:8px;
-  background:#0c4a6e;
-  color:white;
-  border-radius:12px;
-  padding:10px;
-  min-height:42px;
-  font-size:13px;
+@media (max-width: 900px) { .dialogue-area { grid-template-columns: 1fr; } }
+
+.main-panel {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-.smallNote{
-  font-size:11px;
-  color:#0369a1;
-  margin-top:8px;
+.dialogue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
 }
 
-.answerRow{
-  display:flex;
-  gap:8px;
-  margin-top:8px;
-  flex-wrap:wrap;
+.dialogue-title { font-weight: 800; font-size: 18px; color: var(--bg3); }
+.dialogue-meta { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+
+.dialogue-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.dialogue-badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--accent);
+  color: white;
 }
 
-.answerInput{
-  flex:1;
-  min-width:180px;
-  border:1px solid #7dd3fc;
-  border-radius:10px;
-  padding:8px 10px;
-  font-family:inherit;
-  font-size:12px;
+.badge-easy { background: var(--success); }
+.badge-medium { background: var(--warning); color: #1f2937; }
+.badge-hard { background: var(--error); }
+
+/* HOW TO PLAY */
+.how-to-play {
+  background: #fef3c7;
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #92400e;
 }
 
-.micBtn{
-  border:none;
-  background:#0284c7;
-  color:white;
-  border-radius:10px;
-  padding:8px 10px;
-  font-weight:800;
-  cursor:pointer;
-  font-family:inherit;
-  font-size:11px;
+.how-to-play strong { color: #78350f; }
+
+/* CHAT BUBBLES */
+.chat-area {
+  background: #f0f7ff;
+  border: 2px solid var(--accent2);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 16px;
 }
 
-.feedbackLine{
-  margin-top:8px;
-  font-size:11px;
-  color:#075985;
-  min-height:16px;
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  animation: fadeIn 0.3s;
 }
 
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.statusBadge{
-  display:inline-block;
-  margin-top:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:900;
-  border:1px solid transparent;
+.bubble-a {
+  background: var(--accent);
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
 }
 
-.status-neutral{
-  background:#e0f2fe;
-  color:#075985;
-  border-color:#7dd3fc;
+.bubble-b {
+  background: white;
+  color: var(--text);
+  border: 2px solid var(--accent2);
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
 }
 
-.status-correct{
-  background:#dcfce7;
-  color:#166534;
-  border-color:#86efac;
+.bubble-label {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 0.8;
 }
 
-.status-wrong{
-  background:#fee2e2;
-  color:#991b1b;
-  border-color:#fca5a5;
+/* EXPECTED LINE AREA */
+.expected-area {
+  background: #eff6ff;
+  border: 2px dashed var(--accent2);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.expectedLine{
-  margin-top:8px;
-  background:#f8fafc;
-  border:1px dashed #38bdf8;
-  border-radius:10px;
-  padding:8px;
-  font-size:12px;
-  color:#0c4a6e;
+.expected-area .label { font-size: 11px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+
+.expected-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bg3);
 }
 
-.dialoguePreview{
-  margin-top:10px;
-  padding:8px;
-  border-radius:10px;
-  background:white;
-  border:1px solid #bae6fd;
-  max-height:160px;
-  overflow:auto;
+.expected-text.hidden-text {
+  filter: blur(6px);
+  user-select: none;
+  transition: filter 0.3s;
 }
 
-.previewLine{
-  font-size:12px;
-  margin:4px 0;
-  color:#0f172a;
+.expected-text.hidden-text.revealed { filter: blur(0); }
+
+.hint-btn {
+  padding: 6px 12px;
+  border: 2px solid var(--accent2);
+  border-radius: 8px;
+  background: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.previewLine b{
-  color:#0369a1;
+.hint-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+.listen-btn {
+  padding: 6px 12px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.fixed-bar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#0c4a6e;
-  border-top:2px solid #082f49;
-  padding:10px;
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  z-index:9999;
+.listen-btn:hover { background: var(--bg3); border-color: var(--bg3); }
+
+/* INPUT */
+.input-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.bar-btn{
-  background:#bae6fd;
-  border:none;
-  border-radius:10px;
-  color:#0c4a6e;
-  padding:10px 14px;
-  font-weight:900;
-  cursor:pointer;
-  font-family:'Orbitron',sans-serif;
+.speak-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 2px solid var(--accent2);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.speak-input:focus { border-color: var(--accent); outline: none; }
+
+.mic-btn {
+  padding: 12px 16px;
+  border: none;
+  background: #dc2626;
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 50px;
+}
+
+.mic-btn:hover { background: #b91c1c; }
+.mic-btn.recording { background: #ef4444; animation: pulse 1s infinite; }
+
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+.send-btn {
+  padding: 12px 20px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.send-btn:hover { background: var(--bg3); }
+
+.feedback-bar {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.feedback-bar.success { background: #dcfce7; color: #166534; }
+.feedback-bar.error { background: #fee2e2; color: #991b1b; }
+.feedback-bar.info { background: #dbeafe; color: #1e40af; }
+
+.word-highlight-good { font-weight: 800; }
+.word-highlight-bad { text-decoration: line-through; opacity: 0.6; }
+
+/* SIDE PANEL */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.side-card {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.side-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: var(--bg3);
+  font-weight: 800;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.stat-row span:last-child { font-weight: 700; color: var(--accent); }
+
+.progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 8px;
+  transition: width 0.3s;
+}
+
+.grammar-tip {
+  background: #eff6ff;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bg3);
+}
+
+.grammar-tip strong { display: block; margin-bottom: 4px; color: var(--accent); }
+
+/* LISTEN & REPEAT */
+.listen-repeat-area {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.lr-sentence {
+  background: #f0f7ff;
+  border: 2px solid var(--accent2);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bg3);
+  line-height: 1.6;
+}
+
+.lr-sentence.blurred {
+  filter: blur(8px);
+  user-select: none;
+}
+
+.lr-play-btn {
+  padding: 14px 28px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lr-play-btn:hover { background: var(--bg3); transform: scale(1.05); }
+
+.lr-step-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+/* FILL MODE */
+.fill-sentence {
+  font-size: 16px;
+  line-height: 2;
+  padding: 16px;
+  background: #f0f7ff;
+  border-radius: 12px;
+  border: 2px solid var(--accent2);
+  margin-bottom: 16px;
+}
+
+.fill-blank {
+  display: inline-block;
+  min-width: 100px;
+  border-bottom: 3px solid var(--accent);
+  text-align: center;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 2px 8px;
+}
+
+.word-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.word-option {
+  padding: 8px 16px;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.word-option:hover { background: #eff6ff; border-color: var(--accent); }
+.word-option.correct { background: var(--success); color: white; border-color: var(--success); }
+.word-option.wrong { background: var(--error); color: white; border-color: var(--error); }
+
+/* ORDER MODE */
+.order-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 50px;
+  padding: 12px;
+  background: #f0f7ff;
+  border: 2px dashed var(--accent2);
+  border-radius: 12px;
+}
+
+.order-piece {
+  padding: 8px 14px;
+  border: 2px solid var(--accent2);
+  border-radius: 10px;
+  background: white;
+  font-weight: 600;
+  cursor: grab;
+  transition: all 0.2s;
+  font-size: 13px;
+}
+
+.order-piece:hover { border-color: var(--accent); background: #eff6ff; }
+.order-piece.placed { background: var(--accent); color: white; border-color: var(--accent); }
+
+.answer-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 50px;
+  padding: 12px;
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.modal-icon { font-size: 50px; margin-bottom: 16px; }
+.modal-title { font-size: 24px; font-weight: 800; color: var(--bg3); margin-bottom: 8px; }
+.modal-score { font-size: 40px; font-weight: 800; color: var(--accent); margin-bottom: 16px; }
+.modal-btn {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 4px;
 }
 </style>
 </head>
 <body>
 
-<div class="speakingContainer">
-  <h1 class="speakingTitle">SPEAKING STREAK MODE</h1>
-  <div class="subTitle">Student = Role A • Chatbot = Role B</div>
-
-  <div class="topRow">
-    <div class="pill" id="dialogueCountPill">DIALOGUES: 16</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="switchBtn" onclick="location.href='../index.html'">MAIN MENU</button>
-      <button class="switchBtn" onclick="toggleTimer()">PAUSE / RESUME</button>
-      <button class="startBtn" onclick="resetPractice()">RESET PRACTICE</button>
+<div class="container">
+  <!-- LOGIN -->
+  <div id="login-screen" class="activity-screen active">
+    <div class="login-box">
+      <h2 data-testid="speaking-title">SPEAKING STATION</h2>
+      <p class="login-subtitle">Practice real English conversations! Listen, speak, and build sentences with 16 dialogues across 8 topics.</p>
+      <div class="login-modes">
+        <div class="login-mode-card">
+          <strong>Role Play</strong>
+          Have a conversation with the bot. You play Role A, the bot responds as Role B. Listen first, then speak!
+        </div>
+        <div class="login-mode-card">
+          <strong>Listen & Repeat</strong>
+          Hear a sentence, then try to say it back. Great for pronunciation and memory!
+        </div>
+        <div class="login-mode-card">
+          <strong>Fill the Gap</strong>
+          Complete sentences from the dialogue by choosing the missing word.
+        </div>
+        <div class="login-mode-card">
+          <strong>Word Order</strong>
+          Rebuild scrambled sentences by clicking words in the right order.
+        </div>
+      </div>
+      <input type="text" id="nameInput" data-testid="name-input" placeholder="Your name" onkeydown="if(event.key==='Enter')startApp()">
+      <button data-testid="start-btn" onclick="startApp()" style="width:100%;padding:14px;font-size:16px;">START SPEAKING</button>
     </div>
   </div>
 
-  <div class="hudRow">
-    <div class="hudBox">SCORE: <span id="score">0</span></div>
-    <div class="hudBox">TIME: <span id="timer">00:00</span></div>
-    <div class="hudBox">COMPLETED: <span id="completed">0</span>/16</div>
+  <!-- MAIN -->
+  <div id="main-screen" class="activity-screen">
+    <header>
+      <h1>SPEAKING STATION</h1>
+      <div class="controls">
+        <button class="back-btn" data-testid="menu-btn" onclick="location.href='../index.html'">MENU</button>
+        <select id="unitSelect" data-testid="unit-select"><option value="all">All Units</option></select>
+        <select id="diffSelect" data-testid="diff-select">
+          <option value="all">All Levels</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button data-testid="next-btn" onclick="loadNewDialogue()">Next Dialogue</button>
+      </div>
+      <div class="mode-tabs" data-testid="mode-tabs">
+        <button class="mode-tab active" data-mode="roleplay">Role Play</button>
+        <button class="mode-tab" data-mode="listen">Listen & Repeat</button>
+        <button class="mode-tab" data-mode="fill">Fill the Gap</button>
+        <button class="mode-tab" data-mode="order">Word Order</button>
+      </div>
+      <div class="hud">
+        <div class="hud-item">Speaker: <span id="playerName" data-testid="player-name">-</span></div>
+        <div class="hud-item">Score: <span id="score" data-testid="score-display">0</span></div>
+        <div class="hud-item">Streak: <span id="streak" data-testid="streak-display">0</span></div>
+        <div class="hud-item">Completed: <span id="dialoguesDone" data-testid="dialogues-done">0</span></div>
+      </div>
+    </header>
+
+    <div class="dialogue-area">
+      <div class="main-panel">
+        <div class="dialogue-header">
+          <div>
+            <div class="dialogue-title" id="dialogueTitle" data-testid="dialogue-title">-</div>
+            <div class="dialogue-meta" id="dialogueMeta" data-testid="dialogue-meta">-</div>
+          </div>
+          <div class="dialogue-badges">
+            <div class="dialogue-badge" id="dialogueBadge" data-testid="dialogue-badge">-</div>
+            <div class="dialogue-badge" id="diffBadge" data-testid="diff-badge">-</div>
+          </div>
+        </div>
+
+        <!-- ROLE PLAY MODE -->
+        <div id="roleplay-mode" class="mode-content">
+          <div class="how-to-play" data-testid="roleplay-howto">
+            <strong>How to play:</strong> You are Role A in a conversation. 1) Click LISTEN to hear your line. 2) Try to type or speak it. 3) The bot will respond as Role B. You don't need to be perfect - 70% match is enough!
+          </div>
+          <div class="chat-area" id="chatArea" data-testid="chat-area"></div>
+          <div class="expected-area" id="expectedArea" data-testid="expected-area">
+            <span class="label">YOUR LINE:</span>
+            <span class="expected-text hidden-text" id="expectedText" data-testid="expected-text">Start the dialogue!</span>
+            <button class="listen-btn" data-testid="listen-btn" onclick="listenExpected()">LISTEN</button>
+            <button class="hint-btn" data-testid="hint-btn" onclick="revealHint()">SHOW</button>
+          </div>
+          <div class="input-area">
+            <input type="text" class="speak-input" id="speakInput" data-testid="speak-input" placeholder="Type what you heard, or use the mic..." onkeydown="if(event.key==='Enter')submitLine()">
+            <button class="mic-btn" id="micBtn" data-testid="mic-btn" onclick="recordVoice()">MIC</button>
+            <button class="send-btn" data-testid="send-btn" onclick="submitLine()">SEND</button>
+          </div>
+          <div id="roleplayFeedback" class="feedback-bar info" data-testid="roleplay-feedback">Click LISTEN to hear your line, then try to say or type it.</div>
+        </div>
+
+        <!-- LISTEN & REPEAT MODE -->
+        <div id="listen-mode" class="mode-content" style="display:none">
+          <div class="how-to-play" data-testid="listen-howto">
+            <strong>How to play:</strong> 1) Click PLAY to hear a sentence from the dialogue. 2) The text is hidden - try to type or speak what you heard. 3) Click CHECK to see how you did. Accuracy above 70% earns points!
+          </div>
+          <div class="listen-repeat-area">
+            <div class="lr-step-label" id="lrStepLabel" data-testid="lr-step-label">Sentence 1 / 4</div>
+            <div class="lr-sentence" id="lrSentence" data-testid="lr-sentence">Click PLAY to hear the sentence</div>
+            <div style="margin-bottom:16px;">
+              <button class="lr-play-btn" data-testid="lr-play-btn" onclick="playLRSentence()">PLAY SENTENCE</button>
+            </div>
+            <div class="input-area" style="max-width:600px;margin:0 auto 12px auto;">
+              <input type="text" class="speak-input" id="lrInput" data-testid="lr-input" placeholder="Type what you heard..." onkeydown="if(event.key==='Enter')checkLR()">
+              <button class="mic-btn" id="lrMicBtn" data-testid="lr-mic-btn" onclick="recordLR()">MIC</button>
+              <button class="send-btn" data-testid="lr-check-btn" onclick="checkLR()">CHECK</button>
+            </div>
+            <div style="margin-bottom:8px;">
+              <button class="hint-btn" data-testid="lr-reveal-btn" onclick="revealLR()">REVEAL ANSWER</button>
+            </div>
+            <div id="lrFeedback" class="feedback-bar info" data-testid="lr-feedback">Press PLAY, listen carefully, then type what you heard.</div>
+          </div>
+        </div>
+
+        <!-- FILL THE GAP MODE -->
+        <div id="fill-mode" class="mode-content" style="display:none">
+          <div class="how-to-play" data-testid="fill-howto">
+            <strong>How to play:</strong> A word is missing from the sentence. Click the correct word from the options below. You can click the speaker icon to hear the full sentence.
+          </div>
+          <div class="fill-sentence" id="fillSentence" data-testid="fill-sentence"></div>
+          <div style="margin-bottom:12px;">
+            <button class="listen-btn" data-testid="fill-listen-btn" onclick="listenFill()">LISTEN TO SENTENCE</button>
+          </div>
+          <div class="word-options" id="fillOptions" data-testid="fill-options"></div>
+          <div id="fillFeedback" class="feedback-bar info" data-testid="fill-feedback">Choose the correct word to complete the sentence.</div>
+        </div>
+
+        <!-- WORD ORDER MODE -->
+        <div id="order-mode" class="mode-content" style="display:none">
+          <div class="how-to-play" data-testid="order-howto">
+            <strong>How to play:</strong> The words of a sentence are mixed up. Click them in the correct order to rebuild the sentence. Click a placed word to remove it. Press CHECK when done.
+          </div>
+          <div style="margin-bottom:12px;">
+            <button class="listen-btn" data-testid="order-listen-btn" onclick="listenOrder()">LISTEN TO SENTENCE</button>
+          </div>
+          <div class="answer-slots" id="answerSlots" data-testid="answer-slots"></div>
+          <div class="order-pieces" id="orderPieces" data-testid="order-pieces"></div>
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <button data-testid="check-order-btn" onclick="checkOrder()">Check Answer</button>
+            <button data-testid="clear-order-btn" onclick="clearOrder()">Clear</button>
+          </div>
+          <div id="orderFeedback" class="feedback-bar info" data-testid="order-feedback">Click words in the correct order to build the sentence.</div>
+        </div>
+      </div>
+
+      <!-- SIDE PANEL -->
+      <div class="side-panel">
+        <div class="side-card">
+          <h4>Progress</h4>
+          <div class="progress-bar"><div class="progress-fill" id="progressBar" data-testid="progress-bar"></div></div>
+          <div class="stat-row"><span>Correct</span><span id="correctCount" data-testid="correct-count">0</span></div>
+          <div class="stat-row"><span>Best Streak</span><span id="bestStreak" data-testid="best-streak">0</span></div>
+          <div class="stat-row"><span>Total Points</span><span id="totalPoints" data-testid="total-points">0</span></div>
+        </div>
+
+        <div class="side-card">
+          <h4>Grammar Focus</h4>
+          <div class="grammar-tip" id="grammarTip" data-testid="grammar-tip">
+            <strong>Present Simple</strong>
+            Use for habits, routines, and facts.<br>
+            I play / She plays / Do you play?
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h4>Key Phrases</h4>
+          <div id="keyPhrases" data-testid="key-phrases" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>
+
+        <div class="side-card">
+          <h4>Pronunciation Tip</h4>
+          <div id="pronTip" data-testid="pron-tip" style="font-size:12px;line-height:1.6;color:var(--bg3);">
+            Speak slowly and clearly. Focus on the key words in each sentence.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="tipBox"><strong>Tip:</strong> <span id="tip-text">Read your Role A line first, then click Talk to me.</span></div>
-
-  <div class="progressTrack"><div class="progressFill" id="progress-bar"></div></div>
-
-  <div id="dialogueGrid" class="dialogueGrid"></div>
 </div>
 
-<div class="fixed-bar">
-  <button class="bar-btn" onclick="location.href='../index.html'">MAIN MENU</button>
-  <button class="bar-btn" onclick="toggleTimer()">PAUSE / RESUME</button>
-  <button class="bar-btn" onclick="resetPractice()">RESET</button>
+<!-- MODAL -->
+<div class="modal" id="completeModal">
+  <div class="modal-content">
+    <div class="modal-icon">&#127908;</div>
+    <div class="modal-title">Dialogue Complete!</div>
+    <div class="modal-score" id="finalScore" data-testid="final-score">0</div>
+    <p id="modalMessage">Great speaking practice!</p>
+    <button class="modal-btn" data-testid="next-dialogue-btn" onclick="loadNewDialogue()">Next Dialogue</button>
+    <button class="modal-btn" onclick="closeModal()" style="background:#6b7280">Close</button>
+  </div>
 </div>
 
+<script src="pit-score.js"></script>
 <script>
-const dialogues = [
-{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'New in Class', lines:[['A','Hi, I\'m Daniel. I\'m new here.'],['B','Hi Daniel! I\'m Sara. Where are you from?'],['A','I\'m from Seville.'],['B','Nice! What do you usually do after school?'],['A','I usually play basketball and study in the evening.'],['B','That\'s cool. Are you good at sports?'],['A','Yes, I am. But I don\'t like Maths very much.'],['B','Don\'t worry. I can help you with that.']]},
-{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'Daily Routine', lines:[['A','What time do you wake up?'],['B','I wake up at seven. What about you?'],['A','I wake up at half past seven.'],['B','Do you have breakfast at home?'],['A','Yes, I do. I usually eat toast and fruit.'],['B','I never have time for breakfast!']]},
-{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'Right Now', lines:[['A','What are you doing?'],['B','I\'m finishing my Science project.'],['A','Are you working alone?'],['B','No, I\'m working with Marta.'],['A','The teacher is explaining something now.'],['B','Oh no! We\'re not listening!']]},
-{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'In the Classroom', lines:[['A','Why are you laughing?'],['B','Because Leo is telling a joke.'],['A','Is the teacher watching?'],['B','Yes, she is. She\'s looking at us right now!'],['A','We\'re in trouble…']]},
-{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Online Problem', lines:[['A','You look upset. What happened?'],['B','I posted the wrong photo yesterday.'],['A','Really? Did many people see it?'],['B','Yes, they did. Everyone commented.'],['A','Did you delete it?'],['B','Yes, but it was too late.']]},
-{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Weekend Gaming', lines:[['A','What did you do last night?'],['B','I played video games for three hours.'],['A','Wow! Did you win?'],['B','No, I didn\'t. I lost every match!'],['A','That\'s unlucky.']]},
-{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Weekend Plans', lines:[['A','What are you going to do this weekend?'],['B','I\'m going to visit my grandparents.'],['A','That sounds nice.'],['B','What about you?'],['A','I think I\'ll stay at home and study.'],['B','Don\'t worry. You\'ll do great on the exam.']]},
-{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Predictions', lines:[['A','Look at those clouds.'],['B','Yes, it will rain soon.'],['A','Are you going to bring an umbrella?'],['B','No, I\'ll just run home!']]},
-{unit:'Unit 5 – Health', focus:'Health', title:'At the Doctor', lines:[['A','What\'s the matter?'],['B','I have a terrible headache.'],['A','How long have you had it?'],['B','Since yesterday.'],['A','You should rest and drink water.'],['B','Okay, I will.']]},
-{unit:'Unit 5 – Health', focus:'Health Habits', title:'Healthy Habits', lines:[['A','Do you eat vegetables every day?'],['B','Not really. I prefer fast food.'],['A','That\'s not healthy.'],['B','I know. I\'m going to change my diet.']]},
-{unit:'Unit 6 – Travel', focus:'Directions', title:'Asking for Directions', lines:[['A','Excuse me, how do I get to the museum?'],['B','Go straight ahead and turn left.'],['A','Is it far?'],['B','No, it\'s five minutes from here.'],['A','Thank you very much.'],['B','You\'re welcome!']]},
-{unit:'Unit 6 – Travel', focus:'Airport', title:'At the Airport', lines:[['A','Where are you flying?'],['B','I\'m flying to London.'],['A','Is it your first time there?'],['B','Yes, I\'m very excited.']]},
-{unit:'Unit 7 – Environment', focus:'Eco Ideas', title:'Eco Ideas', lines:[['A','We should recycle more at school.'],['B','That\'s a good idea.'],['A','If we recycle paper, we will save trees.'],['B','And we can use less plastic.']]},
-{unit:'Unit 7 – Environment', focus:'Climate', title:'Climate Talk', lines:[['A','Do you think climate change is serious?'],['B','Yes, it is.'],['A','What can we do?'],['B','We can use bikes instead of cars.']]},
-{unit:'Unit 8 – Entertainment', focus:'Movies', title:'Movie Recommendation', lines:[['A','Have you seen the new superhero film?'],['B','No, is it good?'],['A','Yes, it\'s amazing!'],['B','What\'s it about?'],['A','It\'s about a teenager who saves the city.'],['B','I\'ll watch it tonight.']]},
-{unit:'Unit 8 – Entertainment', focus:'Music', title:'Music Taste', lines:[['A','What kind of music do you like?'],['B','I like pop and hip-hop.'],['A','Really? I prefer rock.'],['B','That\'s interesting. We\'re very different!']]}
+const DIALOGUES = [
+  {
+    unit: 1, difficulty: 'easy', title: 'New in Class', focus: 'Present Simple',
+    grammar: '<strong>Present Simple</strong>Use for habits, routines, and facts.<br>I play / She plays / Do you play?',
+    pronTip: 'The contraction "I\'m" sounds like "ahm". Say "I\'m from..." quickly as one unit.',
+    phrases: ['I\'m from...', 'I usually...', 'What do you...?', 'I don\'t like...'],
+    lines: [
+      ['A','Hi, I\'m Daniel. I\'m new here.'],
+      ['B','Hi Daniel! I\'m Sara. Where are you from?'],
+      ['A','I\'m from Seville.'],
+      ['B','Nice! What do you usually do after school?'],
+      ['A','I usually play basketball and study in the evening.'],
+      ['B','That\'s cool. Are you good at sports?'],
+      ['A','Yes, I am. But I don\'t like Maths very much.'],
+      ['B','Don\'t worry. I can help you with that.']
+    ]
+  },
+  {
+    unit: 1, difficulty: 'easy', title: 'Daily Routine', focus: 'Present Simple',
+    grammar: '<strong>Present Simple</strong>For daily routines: subject + verb.<br>I wake up / Do you have...? / I never...',
+    pronTip: '"What time" links together: say "wut-time" as one word. "Half past" = "hahf pahst".',
+    phrases: ['What time...?', 'I wake up at...', 'What about you?', 'I usually eat...'],
+    lines: [
+      ['A','What time do you wake up?'],
+      ['B','I wake up at seven. What about you?'],
+      ['A','I wake up at half past seven.'],
+      ['B','Do you have breakfast at home?'],
+      ['A','Yes, I do. I usually eat toast and fruit.'],
+      ['B','I never have time for breakfast!']
+    ]
+  },
+  {
+    unit: 2, difficulty: 'easy', title: 'Right Now', focus: 'Present Continuous',
+    grammar: '<strong>Present Continuous</strong>For actions happening now: am/is/are + verb-ing.<br>I\'m working / Are you listening?',
+    pronTip: 'The "-ing" ending: say it as "een" not "ink". "Working" = "wer-king".',
+    phrases: ['What are you doing?', 'I\'m finishing...', 'Are you working...?', 'She\'s looking...'],
+    lines: [
+      ['A','What are you doing?'],
+      ['B','I\'m finishing my Science project.'],
+      ['A','Are you working alone?'],
+      ['B','No, I\'m working with Marta.'],
+      ['A','The teacher is explaining something now.'],
+      ['B','Oh no! We\'re not listening!']
+    ]
+  },
+  {
+    unit: 2, difficulty: 'medium', title: 'In the Classroom', focus: 'Present Continuous',
+    grammar: '<strong>Present Continuous</strong>Describe what\'s happening right now.<br>Why are you...? / He is telling... / She\'s looking...',
+    pronTip: '"Why are you" links: "why-ar-you". Stress the verb: "WHY are you LAUGHing?"',
+    phrases: ['Why are you...?', 'Because... is...', 'Is the teacher...?', 'We\'re in trouble'],
+    lines: [
+      ['A','Why are you laughing?'],
+      ['B','Because Leo is telling a joke.'],
+      ['A','Is the teacher watching?'],
+      ['B','Yes, she is. She\'s looking at us right now!'],
+      ['A','We\'re in trouble...']
+    ]
+  },
+  {
+    unit: 3, difficulty: 'medium', title: 'Online Problem', focus: 'Past Simple',
+    grammar: '<strong>Past Simple</strong>For completed past actions: verb + -ed / irregular.<br>I posted / Did you delete? / It was...',
+    pronTip: 'Past "-ed" has 3 sounds: /t/ (posted), /d/ (played), /id/ (deleted). Listen for the difference!',
+    phrases: ['What happened?', 'I posted...', 'Did you...?', 'It was too late'],
+    lines: [
+      ['A','You look upset. What happened?'],
+      ['B','I posted the wrong photo yesterday.'],
+      ['A','Really? Did many people see it?'],
+      ['B','Yes, they did. Everyone commented.'],
+      ['A','Did you delete it?'],
+      ['B','Yes, but it was too late.']
+    ]
+  },
+  {
+    unit: 3, difficulty: 'easy', title: 'Weekend Gaming', focus: 'Past Simple',
+    grammar: '<strong>Past Simple</strong>For past actions: What did you do?<br>I played / Did you win? / I didn\'t...',
+    pronTip: '"Did you" links together: say "dih-joo". "Last night" = "lahst nayt".',
+    phrases: ['What did you do?', 'I played...', 'Did you win?', 'That\'s unlucky'],
+    lines: [
+      ['A','What did you do last night?'],
+      ['B','I played video games for three hours.'],
+      ['A','Wow! Did you win?'],
+      ['B','No, I didn\'t. I lost every match!'],
+      ['A','That\'s unlucky.']
+    ]
+  },
+  {
+    unit: 4, difficulty: 'medium', title: 'Weekend Plans', focus: 'Will / Going to',
+    grammar: '<strong>Will / Going to</strong>Plans: I\'m going to + verb.<br>Predictions/decisions: I\'ll + verb.',
+    pronTip: '"Going to" in speech becomes "gonna" - but write "going to". "I\'ll" = "ayl".',
+    phrases: ['What are you going to...?', 'I\'m going to...', 'I think I\'ll...', 'You\'ll do great'],
+    lines: [
+      ['A','What are you going to do this weekend?'],
+      ['B','I\'m going to visit my grandparents.'],
+      ['A','That sounds nice.'],
+      ['B','What about you?'],
+      ['A','I think I\'ll stay at home and study.'],
+      ['B','Don\'t worry. You\'ll do great on the exam.']
+    ]
+  },
+  {
+    unit: 4, difficulty: 'easy', title: 'Predictions', focus: 'Will / Going to',
+    grammar: '<strong>Will / Going to</strong>Predictions: It will rain.<br>Plans: Are you going to...?',
+    pronTip: '"Look at those" links: "look-at-those". Use rising intonation for yes/no questions.',
+    phrases: ['Look at those...', 'It will...', 'Are you going to...?', 'I\'ll just...'],
+    lines: [
+      ['A','Look at those clouds.'],
+      ['B','Yes, it will rain soon.'],
+      ['A','Are you going to bring an umbrella?'],
+      ['B','No, I\'ll just run home!']
+    ]
+  },
+  {
+    unit: 5, difficulty: 'medium', title: 'At the Doctor', focus: 'Health Vocabulary',
+    grammar: '<strong>Health Language</strong>What\'s the matter? / I have a...<br>You should + verb / How long have you...?',
+    pronTip: '"What\'s the matter?" = "wuts-the-matter". Stress "terrible": "TER-ri-ble headache".',
+    phrases: ['What\'s the matter?', 'I have a...', 'How long...?', 'You should...'],
+    lines: [
+      ['A','What\'s the matter?'],
+      ['B','I have a terrible headache.'],
+      ['A','How long have you had it?'],
+      ['B','Since yesterday.'],
+      ['A','You should rest and drink water.'],
+      ['B','Okay, I will.']
+    ]
+  },
+  {
+    unit: 5, difficulty: 'easy', title: 'Healthy Habits', focus: 'Health Vocabulary',
+    grammar: '<strong>Health Habits</strong>Do you eat...? / I prefer...<br>That\'s not healthy / I\'m going to change...',
+    pronTip: '"Vegetables" has 3 syllables: "VEJ-tuh-bulz". Don\'t forget the middle sound!',
+    phrases: ['Do you eat...?', 'Not really', 'That\'s not healthy', 'I\'m going to change...'],
+    lines: [
+      ['A','Do you eat vegetables every day?'],
+      ['B','Not really. I prefer fast food.'],
+      ['A','That\'s not healthy.'],
+      ['B','I know. I\'m going to change my diet.']
+    ]
+  },
+  {
+    unit: 6, difficulty: 'easy', title: 'Asking for Directions', focus: 'Directions',
+    grammar: '<strong>Directions</strong>How do I get to...? / Go straight...<br>Turn left/right / It\'s five minutes from...',
+    pronTip: '"Excuse me" = "ex-KYOOZ me". Be polite: rise your voice at the end of questions.',
+    phrases: ['Excuse me...', 'How do I get to...?', 'Go straight...', 'Turn left/right'],
+    lines: [
+      ['A','Excuse me, how do I get to the museum?'],
+      ['B','Go straight ahead and turn left.'],
+      ['A','Is it far?'],
+      ['B','No, it\'s five minutes from here.'],
+      ['A','Thank you very much.'],
+      ['B','You\'re welcome!']
+    ]
+  },
+  {
+    unit: 6, difficulty: 'medium', title: 'At the Airport', focus: 'Travel Vocabulary',
+    grammar: '<strong>Travel Language</strong>Where are you flying? / Is it your first time?<br>I\'m flying to... / I\'m very excited.',
+    pronTip: '"Excited" = "ex-SY-ted" with stress on the middle. "Flying" = "FLY-ing".',
+    phrases: ['Where are you...?', 'I\'m flying to...', 'Is it your first time?', 'I\'m very excited'],
+    lines: [
+      ['A','Where are you flying?'],
+      ['B','I\'m flying to London.'],
+      ['A','Is it your first time there?'],
+      ['B','Yes, I\'m very excited.']
+    ]
+  },
+  {
+    unit: 7, difficulty: 'medium', title: 'Eco Ideas', focus: 'Environment',
+    grammar: '<strong>Conditionals</strong>If we recycle, we will save...<br>We should + verb / We can use less...',
+    pronTip: '"Recycle" = "ree-SY-kul". In conditionals, stress the result: "we WILL save trees".',
+    phrases: ['We should...', 'That\'s a good idea', 'If we... we will...', 'We can use less...'],
+    lines: [
+      ['A','We should recycle more at school.'],
+      ['B','That\'s a good idea.'],
+      ['A','If we recycle paper, we will save trees.'],
+      ['B','And we can use less plastic.']
+    ]
+  },
+  {
+    unit: 7, difficulty: 'hard', title: 'Climate Talk', focus: 'Environment',
+    grammar: '<strong>Opinions</strong>Do you think...? / Yes, it is.<br>What can we do? / We can + verb.',
+    pronTip: '"Climate change" = "CLY-mit chaynj". In opinion questions, stress "think": "Do you THINK?"',
+    phrases: ['Do you think...?', 'Yes, it is', 'What can we do?', 'We can use...'],
+    lines: [
+      ['A','Do you think climate change is serious?'],
+      ['B','Yes, it is.'],
+      ['A','What can we do?'],
+      ['B','We can use bikes instead of cars.']
+    ]
+  },
+  {
+    unit: 8, difficulty: 'medium', title: 'Movie Recommendation', focus: 'Entertainment',
+    grammar: '<strong>Present Perfect</strong>Have you seen...? / No, is it good?<br>It\'s about... / I\'ll watch...',
+    pronTip: '"Have you seen" links: "hav-you-seen". "Amazing" = "uh-MAY-zing".',
+    phrases: ['Have you seen...?', 'Is it good?', 'It\'s about...', 'I\'ll watch it...'],
+    lines: [
+      ['A','Have you seen the new superhero film?'],
+      ['B','No, is it good?'],
+      ['A','Yes, it\'s amazing!'],
+      ['B','What\'s it about?'],
+      ['A','It\'s about a teenager who saves the city.'],
+      ['B','I\'ll watch it tonight.']
+    ]
+  },
+  {
+    unit: 8, difficulty: 'hard', title: 'Music Taste', focus: 'Entertainment',
+    grammar: '<strong>Likes & Preferences</strong>What kind of... do you like?<br>I like... / I prefer... / That\'s interesting.',
+    pronTip: '"What kind of" links: "wut-kinda". "Prefer" stress on 2nd syllable: "prih-FER".',
+    phrases: ['What kind of...?', 'I like...', 'I prefer...', 'That\'s interesting'],
+    lines: [
+      ['A','What kind of music do you like?'],
+      ['B','I like pop and hip-hop.'],
+      ['A','Really? I prefer rock.'],
+      ['B','That\'s interesting. We\'re very different!']
+    ]
+  }
 ];
 
+const UNIT_NAMES = ['', 'Identity & Daily Life', 'School Life', 'Technology', 'Future Plans', 'Health', 'Travel', 'Environment', 'Entertainment'];
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognitionSupported = !!SpeechRecognition;
+const speechSupported = !!SpeechRecognition;
 
+// STATE
+let playerName = '';
+let currentDialogue = null;
+let currentMode = 'roleplay';
+let currentUnit = 'all';
+let currentDiff = 'all';
+let lineIndex = 0;
 let score = 0;
-let time = 0;
-let timerInterval = null;
-let paused = false;
-const state = {};
+let streak = 0;
+let bestStreak = 0;
+let correctCount = 0;
+let dialoguesDone = 0;
+let hintUsed = false;
 
-function normalizeText(text){
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g,' ')
-    .replace(/\s+/g,' ')
-    .trim();
+// Fill & Order state
+let fillQuestions = [];
+let fillQIndex = 0;
+let orderSentence = '';
+let orderWords = [];
+let placedWords = [];
+
+// Listen & Repeat state
+let lrSentences = [];
+let lrIndex = 0;
+let lrPlayed = false;
+let lrRevealed = false;
+
+function init() {
+  if (typeof PIT_SCORE !== 'undefined') {
+    const player = PIT_SCORE.getPlayer();
+    if (player.name) {
+      playerName = player.name;
+      dialoguesDone = player.stations.speaking.dialogues || 0;
+      score = player.stations.speaking.score || 0;
+    }
+  }
+  initUnitSelect();
+  initModeTabs();
+  document.getElementById('diffSelect').addEventListener('change', e => { currentDiff = e.target.value; loadNewDialogue(); });
+  if (playerName) startApp();
 }
 
-function similarityScore(a,b){
-  if(!a || !b) return 0;
-  const expectedWords = normalizeText(a).split(' ').filter(Boolean);
-  const studentWords = new Set(normalizeText(b).split(' ').filter(Boolean));
-  if(!expectedWords.length) return 0;
-  const hits = expectedWords.filter(w=>studentWords.has(w)).length;
-  return hits / expectedWords.length;
+function initUnitSelect() {
+  const sel = document.getElementById('unitSelect');
+  sel.innerHTML = '<option value="all">All Units</option>';
+  for (let i = 1; i <= 8; i++) {
+    sel.innerHTML += '<option value="' + i + '">Unit ' + i + ': ' + UNIT_NAMES[i] + '</option>';
+  }
+  sel.addEventListener('change', e => { currentUnit = e.target.value; loadNewDialogue(); });
 }
 
-
-function isCorrectAnswer(expected, student){
-  const normalizedExpected = normalizeText(expected);
-  const normalizedStudent = normalizeText(student);
-  if(!normalizedExpected || !normalizedStudent) return false;
-
-  if(normalizedExpected === normalizedStudent) return true;
-
-  const expectedWords = normalizedExpected.split(' ').filter(Boolean);
-  const studentWords = normalizedStudent.split(' ').filter(Boolean);
-  const accuracy = similarityScore(expected, student);
-  const lengthRatio = studentWords.length / expectedWords.length;
-
-  return accuracy >= 0.9 && lengthRatio >= 0.8 && lengthRatio <= 1.25;
+function initModeTabs() {
+  document.querySelectorAll('.mode-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentMode = tab.dataset.mode;
+      document.querySelectorAll('.mode-content').forEach(m => m.style.display = 'none');
+      document.getElementById(currentMode + '-mode').style.display = 'block';
+      loadNewDialogue();
+    });
+  });
 }
 
-function setProgress(percent){
-  document.getElementById('progress-bar').style.width = percent + '%';
+function startApp() {
+  const input = document.getElementById('nameInput');
+  if (!playerName && input) {
+    playerName = input.value.trim();
+    if (!playerName) { alert('Please enter your name!'); return; }
+    if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.setName(playerName);
+  }
+  document.getElementById('login-screen').classList.remove('active');
+  document.getElementById('main-screen').classList.add('active');
+  document.getElementById('playerName').textContent = playerName;
+  loadNewDialogue();
 }
 
-function setTip(text){
-  document.getElementById('tip-text').textContent = text;
+function getFiltered() {
+  let filtered = DIALOGUES;
+  if (currentUnit !== 'all') filtered = filtered.filter(d => d.unit === parseInt(currentUnit));
+  if (currentDiff !== 'all') filtered = filtered.filter(d => d.difficulty === currentDiff);
+  if (filtered.length === 0) filtered = DIALOGUES;
+  return filtered;
 }
 
-function updateCompletedCount(){
-  document.getElementById('completed').textContent = Object.keys(state).length;
+function loadNewDialogue() {
+  const filtered = getFiltered();
+  currentDialogue = filtered[Math.floor(Math.random() * filtered.length)];
+  lineIndex = 0;
+  hintUsed = false;
+
+  document.getElementById('dialogueTitle').textContent = currentDialogue.title;
+  document.getElementById('dialogueMeta').textContent = 'Unit ' + currentDialogue.unit + ': ' + UNIT_NAMES[currentDialogue.unit] + ' | Focus: ' + currentDialogue.focus;
+  document.getElementById('dialogueBadge').textContent = currentDialogue.focus;
+
+  const diffBadge = document.getElementById('diffBadge');
+  diffBadge.textContent = currentDialogue.difficulty.toUpperCase();
+  diffBadge.className = 'dialogue-badge badge-' + currentDialogue.difficulty;
+
+  document.getElementById('grammarTip').innerHTML = currentDialogue.grammar;
+  document.getElementById('pronTip').textContent = currentDialogue.pronTip;
+
+  const phrasesEl = document.getElementById('keyPhrases');
+  phrasesEl.innerHTML = currentDialogue.phrases.map(p =>
+    '<span style="padding:4px 10px;background:#eff6ff;border:1px solid var(--accent2);border-radius:6px;font-size:11px;font-weight:600;">' + p + '</span>'
+  ).join('');
+
+  closeModal();
+
+  if (currentMode === 'roleplay') setupRoleplay();
+  else if (currentMode === 'listen') setupListenRepeat();
+  else if (currentMode === 'fill') setupFill();
+  else if (currentMode === 'order') setupOrder();
+
+  updateStats();
 }
 
-function startTimer(){
-  if(timerInterval) return;
-  timerInterval = setInterval(()=>{
-    if(paused) return;
-    time++;
-    const m = String(Math.floor(time/60)).padStart(2,'0');
-    const s = String(time%60).padStart(2,'0');
-    document.getElementById('timer').textContent = `${m}:${s}`;
-  },1000);
+// ===== TEXT TO SPEECH =====
+function speak(text, callback) {
+  if (!('speechSynthesis' in window)) { if (callback) callback(); return; }
+  window.speechSynthesis.cancel();
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.lang = 'en-US';
+  msg.rate = 0.9;
+  if (callback) msg.onend = callback;
+  window.speechSynthesis.speak(msg);
 }
 
-function toggleTimer(){
-  paused = !paused;
-  setTip(paused ? 'Timer paused.' : 'Timer resumed. Keep speaking!');
+// ===== ROLE PLAY =====
+function setupRoleplay() {
+  document.getElementById('chatArea').innerHTML = '';
+  lineIndex = 0;
+  hintUsed = false;
+  showNextExpected();
+  document.getElementById('speakInput').value = '';
+  document.getElementById('roleplayFeedback').textContent = 'Click LISTEN to hear your line, then try to type or speak it.';
+  document.getElementById('roleplayFeedback').className = 'feedback-bar info';
 }
 
-function renderDialogues(){
-  const grid = document.getElementById('dialogueGrid');
-  grid.innerHTML = dialogues.map((d,i)=>{
-    const aLines = d.lines.filter(x=>x[0]==='A').map(x=>`<div class="roleBox">A: ${x[1]}</div>`).join('');
-    const firstALine = d.lines.find(x=>x[0]==='A')?.[1] || 'No Role A line.';
-    const fullPreview = d.lines.map(x=>`<div class="previewLine"><b>${x[0]}:</b> ${x[1]}</div>`).join('');
-    return `<div class="dialogueCard" id="dialogue-card-${i}">
-      <h3>${d.title}</h3>
-      <div class="dialogueMeta">${d.unit} • Focus: ${d.focus}</div>
-      ${aLines}
-      <div class="expectedLine" id="expected-${i}"><strong>Your line now:</strong> ${firstALine}</div>
-      <div class="answerRow">
-        <input id="answer-${i}" class="answerInput" placeholder="Type (or dictate) your last Role A line..." />
-        <button class="micBtn" onclick="recordAnswer(${i})">🎙️ SPEAK</button>
-      </div>
-      <button class="startBtn" onclick="talkToMe(${i})">TALK TO ME</button>
-      <div class="botLine" id="bot-line-${i}">Bot (Role B): Click Talk to me to start.</div>
-      <div class="statusBadge status-neutral" id="status-${i}">⏳ Waiting for your correct answer</div>
-      <div class="feedbackLine" id="feedback-${i}">${recognitionSupported ? 'Voice input ready (browser support detected).' : 'Voice input not supported in this browser. Type your answer instead.'}</div>
-      <div class="smallNote">Say your A line first, then listen/respond.</div>
-      <details class="dialoguePreview"><summary>View full dialogue (A + B)</summary>${fullPreview}</details>
-    </div>`;
+function showNextExpected() {
+  const expectedEl = document.getElementById('expectedText');
+  if (lineIndex >= currentDialogue.lines.length) {
+    expectedEl.textContent = 'Dialogue complete!';
+    expectedEl.classList.remove('hidden-text');
+    return;
+  }
+  // Find next A line
+  while (lineIndex < currentDialogue.lines.length && currentDialogue.lines[lineIndex][0] === 'B') {
+    lineIndex++;
+  }
+  if (lineIndex >= currentDialogue.lines.length) {
+    expectedEl.textContent = 'Dialogue complete!';
+    expectedEl.classList.remove('hidden-text');
+    setTimeout(() => completeDialogue(), 500);
+    return;
+  }
+  expectedEl.textContent = currentDialogue.lines[lineIndex][1];
+  expectedEl.classList.add('hidden-text');
+  expectedEl.classList.remove('revealed');
+  hintUsed = false;
+}
+
+function listenExpected() {
+  const text = document.getElementById('expectedText').textContent;
+  if (text === 'Dialogue complete!') return;
+  speak(text);
+  document.getElementById('roleplayFeedback').textContent = 'Now try to type or speak what you heard!';
+  document.getElementById('roleplayFeedback').className = 'feedback-bar info';
+}
+
+function revealHint() {
+  const el = document.getElementById('expectedText');
+  el.classList.add('revealed');
+  hintUsed = true;
+  document.getElementById('roleplayFeedback').textContent = 'Text revealed (reduced points). Try to memorise it before typing!';
+  document.getElementById('roleplayFeedback').className = 'feedback-bar info';
+}
+
+function submitLine() {
+  const input = document.getElementById('speakInput');
+  const text = input.value.trim();
+  if (!text) return;
+  if (lineIndex >= currentDialogue.lines.length) return;
+
+  const expected = currentDialogue.lines[lineIndex];
+  if (expected[0] !== 'A') return;
+
+  const accuracy = similarityScore(expected[1], text);
+  const chat = document.getElementById('chatArea');
+  const points = hintUsed ? 5 : 10;
+
+  if (accuracy >= 0.7) {
+    chat.innerHTML += '<div class="chat-bubble bubble-a"><div class="bubble-label">You (A)</div>' + escapeHtml(text) + '</div>';
+    lineIndex++;
+    score += points;
+    streak++;
+    correctCount++;
+    if (streak > bestStreak) bestStreak = streak;
+
+    document.getElementById('roleplayFeedback').innerHTML = 'Correct! ' + Math.round(accuracy * 100) + '% match. +' + points + ' points' + (hintUsed ? ' (hint used)' : '');
+    document.getElementById('roleplayFeedback').className = 'feedback-bar success';
+
+    // Bot responds
+    if (lineIndex < currentDialogue.lines.length && currentDialogue.lines[lineIndex][0] === 'B') {
+      const bLine = currentDialogue.lines[lineIndex][1];
+      setTimeout(() => {
+        chat.innerHTML += '<div class="chat-bubble bubble-b"><div class="bubble-label">Bot (B)</div>' + escapeHtml(bLine) + '</div>';
+        chat.scrollTop = chat.scrollHeight;
+        speak(bLine);
+        lineIndex++;
+        showNextExpected();
+        if (lineIndex >= currentDialogue.lines.length) {
+          setTimeout(() => completeDialogue(), 800);
+        }
+      }, 600);
+    } else {
+      showNextExpected();
+      if (lineIndex >= currentDialogue.lines.length) setTimeout(() => completeDialogue(), 800);
+    }
+  } else {
+    streak = 0;
+    const diff = highlightDiff(expected[1], text);
+    document.getElementById('roleplayFeedback').innerHTML = 'Not quite (' + Math.round(accuracy * 100) + '% match). Expected: <strong>' + escapeHtml(expected[1]) + '</strong>';
+    document.getElementById('roleplayFeedback').className = 'feedback-bar error';
+  }
+
+  input.value = '';
+  chat.scrollTop = chat.scrollHeight;
+  updateStats();
+}
+
+function recordVoice() {
+  doSpeechRecognition(document.getElementById('speakInput'), document.getElementById('micBtn'), document.getElementById('roleplayFeedback'));
+}
+
+// ===== LISTEN & REPEAT =====
+function setupListenRepeat() {
+  lrSentences = currentDialogue.lines.map(l => l[1]);
+  lrIndex = 0;
+  lrPlayed = false;
+  lrRevealed = false;
+  showLRQuestion();
+}
+
+function showLRQuestion() {
+  if (lrIndex >= lrSentences.length) { completeDialogue(); return; }
+  lrPlayed = false;
+  lrRevealed = false;
+  document.getElementById('lrStepLabel').textContent = 'Sentence ' + (lrIndex + 1) + ' / ' + lrSentences.length;
+  document.getElementById('lrSentence').textContent = 'Click PLAY to hear the sentence';
+  document.getElementById('lrSentence').classList.add('blurred');
+  document.getElementById('lrInput').value = '';
+  document.getElementById('lrFeedback').textContent = 'Press PLAY, listen carefully, then type what you heard.';
+  document.getElementById('lrFeedback').className = 'feedback-bar info';
+  updateProgress();
+}
+
+function playLRSentence() {
+  lrPlayed = true;
+  document.getElementById('lrSentence').textContent = lrSentences[lrIndex];
+  // Keep it blurred while playing - student must listen, not read
+  speak(lrSentences[lrIndex], () => {
+    document.getElementById('lrFeedback').textContent = 'Now type what you heard and press CHECK!';
+  });
+  document.getElementById('lrFeedback').textContent = 'Listening...';
+  document.getElementById('lrFeedback').className = 'feedback-bar info';
+}
+
+function revealLR() {
+  lrRevealed = true;
+  document.getElementById('lrSentence').classList.remove('blurred');
+  document.getElementById('lrFeedback').textContent = 'Answer revealed (reduced points). Try to memorise it!';
+  document.getElementById('lrFeedback').className = 'feedback-bar info';
+}
+
+function checkLR() {
+  if (!lrPlayed) {
+    document.getElementById('lrFeedback').textContent = 'Press PLAY first to hear the sentence!';
+    document.getElementById('lrFeedback').className = 'feedback-bar error';
+    return;
+  }
+  const input = document.getElementById('lrInput').value.trim();
+  if (!input) return;
+
+  const target = lrSentences[lrIndex];
+  const accuracy = similarityScore(target, input);
+  const points = lrRevealed ? 5 : 10;
+
+  document.getElementById('lrSentence').classList.remove('blurred');
+
+  if (accuracy >= 0.7) {
+    score += points;
+    streak++;
+    correctCount++;
+    if (streak > bestStreak) bestStreak = streak;
+    document.getElementById('lrFeedback').innerHTML = 'Correct! ' + Math.round(accuracy * 100) + '% match. +' + points + ' points' + (lrRevealed ? ' (revealed)' : '');
+    document.getElementById('lrFeedback').className = 'feedback-bar success';
+  } else {
+    streak = 0;
+    document.getElementById('lrFeedback').innerHTML = 'Not quite (' + Math.round(accuracy * 100) + '%). Answer: <strong>' + escapeHtml(target) + '</strong>';
+    document.getElementById('lrFeedback').className = 'feedback-bar error';
+  }
+
+  updateStats();
+  setTimeout(() => { lrIndex++; showLRQuestion(); }, 1500);
+}
+
+function recordLR() {
+  doSpeechRecognition(document.getElementById('lrInput'), document.getElementById('lrMicBtn'), document.getElementById('lrFeedback'));
+}
+
+// ===== FILL THE GAP =====
+function setupFill() {
+  fillQuestions = [];
+  fillQIndex = 0;
+  currentDialogue.lines.forEach(line => {
+    const words = line[1].split(' ');
+    if (words.length >= 3) {
+      const candidates = words.map((w, i) => ({ w, i })).filter(x => x.w.length > 2);
+      if (candidates.length > 0) {
+        const pick = candidates[Math.floor(Math.random() * candidates.length)];
+        const distractors = getDistractors(pick.w, currentDialogue.lines);
+        const options = shuffle([pick.w, ...distractors].slice(0, 4));
+        fillQuestions.push({ role: line[0], sentence: line[1], blankIdx: pick.i, answer: pick.w, words: [...words], options });
+      }
+    }
+  });
+  if (fillQuestions.length === 0) {
+    document.getElementById('fillFeedback').textContent = 'No questions available. Try another dialogue.';
+    return;
+  }
+  showFillQuestion();
+}
+
+function getDistractors(answer, lines) {
+  const all = [];
+  lines.forEach(l => l[1].split(/\s+/).forEach(w => { if (w.length > 2 && w.toLowerCase() !== answer.toLowerCase()) all.push(w); }));
+  return shuffle([...new Set(all)]).slice(0, 3);
+}
+
+function showFillQuestion() {
+  if (fillQIndex >= fillQuestions.length) { completeDialogue(); return; }
+  const q = fillQuestions[fillQIndex];
+  const display = q.words.map((w, i) => i === q.blankIdx ? '<span class="fill-blank" id="fillBlank">___</span>' : escapeHtml(w)).join(' ');
+  document.getElementById('fillSentence').innerHTML = '<strong>(' + q.role + ')</strong> ' + display;
+  document.getElementById('fillOptions').innerHTML = q.options.map((opt, i) =>
+    '<button class="word-option" data-testid="fill-option-' + i + '" onclick="selectFill(this,\'' + opt.replace(/'/g, "\\'") + '\')">' + escapeHtml(opt) + '</button>'
+  ).join('');
+  document.getElementById('fillFeedback').textContent = 'Question ' + (fillQIndex + 1) + '/' + fillQuestions.length + ' - Choose the missing word.';
+  document.getElementById('fillFeedback').className = 'feedback-bar info';
+  updateProgress();
+}
+
+function listenFill() {
+  if (fillQIndex < fillQuestions.length) {
+    speak(fillQuestions[fillQIndex].sentence);
+  }
+}
+
+window.selectFill = function(btn, selected) {
+  const q = fillQuestions[fillQIndex];
+  document.querySelectorAll('.word-option').forEach(b => b.disabled = true);
+
+  if (selected.toLowerCase() === q.answer.toLowerCase()) {
+    btn.classList.add('correct');
+    document.getElementById('fillBlank').textContent = q.answer;
+    score += 10;
+    streak++;
+    correctCount++;
+    if (streak > bestStreak) bestStreak = streak;
+    document.getElementById('fillFeedback').textContent = 'Correct! +10 points';
+    document.getElementById('fillFeedback').className = 'feedback-bar success';
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.word-option').forEach(b => { if (b.textContent.toLowerCase() === q.answer.toLowerCase()) b.classList.add('correct'); });
+    streak = 0;
+    document.getElementById('fillBlank').textContent = q.answer;
+    document.getElementById('fillFeedback').textContent = 'The answer was: ' + q.answer;
+    document.getElementById('fillFeedback').className = 'feedback-bar error';
+  }
+  updateStats();
+  setTimeout(() => { fillQIndex++; showFillQuestion(); }, 1200);
+};
+
+// ===== WORD ORDER =====
+function setupOrder() {
+  const aLines = currentDialogue.lines.filter(l => l[0] === 'A');
+  if (aLines.length === 0) return;
+  fillQuestions = aLines.map(l => l[1]);
+  fillQIndex = 0;
+  placedWords = [];
+  showOrderQuestion();
+}
+
+function showOrderQuestion() {
+  if (fillQIndex >= fillQuestions.length) { completeDialogue(); return; }
+  orderSentence = fillQuestions[fillQIndex];
+  orderWords = shuffle(orderSentence.split(/\s+/));
+  placedWords = [];
+  renderOrder();
+  document.getElementById('orderFeedback').textContent = 'Sentence ' + (fillQIndex + 1) + '/' + fillQuestions.length + ' - Click words in order.';
+  document.getElementById('orderFeedback').className = 'feedback-bar info';
+  updateProgress();
+}
+
+function listenOrder() {
+  if (fillQIndex < fillQuestions.length) speak(fillQuestions[fillQIndex]);
+}
+
+function renderOrder() {
+  const usedIds = new Set(placedWords.map(pw => pw.id));
+  document.getElementById('orderPieces').innerHTML = orderWords.map((w, i) => {
+    if (usedIds.has(i)) return '';
+    return '<button class="order-piece" data-idx="' + i + '" onclick="placeWord(' + i + ')">' + escapeHtml(w) + '</button>';
   }).join('');
+  document.getElementById('answerSlots').innerHTML = placedWords.map((pw, i) =>
+    '<button class="order-piece placed" onclick="removePlaced(' + i + ')">' + escapeHtml(pw.word) + '</button>'
+  ).join('');
 }
 
-function recordAnswer(index){
-  if(!recognitionSupported){
-    setTip('Voice recognition is not supported here. Please type your answer.');
+window.placeWord = function(idx) {
+  placedWords.push({ id: idx, word: orderWords[idx] });
+  renderOrder();
+};
+
+window.removePlaced = function(idx) {
+  placedWords.splice(idx, 1);
+  renderOrder();
+};
+
+window.checkOrder = function() {
+  const built = placedWords.map(pw => pw.word).join(' ');
+  if (normalizeText(built) === normalizeText(orderSentence)) {
+    score += 15;
+    streak++;
+    correctCount++;
+    if (streak > bestStreak) bestStreak = streak;
+    document.getElementById('orderFeedback').textContent = 'Perfect! +15 points';
+    document.getElementById('orderFeedback').className = 'feedback-bar success';
+    updateStats();
+    setTimeout(() => { fillQIndex++; showOrderQuestion(); }, 1000);
+  } else {
+    streak = 0;
+    document.getElementById('orderFeedback').innerHTML = 'Not quite. Correct: <strong>' + escapeHtml(orderSentence) + '</strong>';
+    document.getElementById('orderFeedback').className = 'feedback-bar error';
+    updateStats();
+  }
+};
+
+window.clearOrder = function() {
+  placedWords = [];
+  renderOrder();
+};
+
+// ===== SHARED SPEECH RECOGNITION =====
+function doSpeechRecognition(inputEl, btnEl, feedbackEl) {
+  if (!speechSupported) {
+    feedbackEl.textContent = 'Voice recognition not supported in this browser. Please type instead.';
+    feedbackEl.className = 'feedback-bar error';
     return;
   }
-  const recognition = new SpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  document.getElementById(`feedback-${index}`).textContent = 'Listening...';
-  recognition.onresult = (event)=>{
-    const transcript = event.results[0][0].transcript;
-    document.getElementById(`answer-${index}`).value = transcript;
-    document.getElementById(`feedback-${index}`).textContent = 'Captured voice input. Click TALK TO ME.';
+  const rec = new SpeechRecognition();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  btnEl.classList.add('recording');
+  btnEl.textContent = 'REC';
+  feedbackEl.textContent = 'Listening... Speak now!';
+  feedbackEl.className = 'feedback-bar info';
+
+  rec.onresult = e => {
+    inputEl.value = e.results[0][0].transcript;
+    btnEl.classList.remove('recording');
+    btnEl.textContent = 'MIC';
+    feedbackEl.textContent = 'Got it! Press SEND/CHECK or hit Enter.';
   };
-  recognition.onerror = ()=>{
-    document.getElementById(`feedback-${index}`).textContent = 'Could not capture voice. You can type your answer.';
+  rec.onerror = () => {
+    btnEl.classList.remove('recording');
+    btnEl.textContent = 'MIC';
+    feedbackEl.textContent = 'Could not hear you. Try again or type instead.';
+    feedbackEl.className = 'feedback-bar error';
   };
-  recognition.start();
+  rec.onend = () => { btnEl.classList.remove('recording'); btnEl.textContent = 'MIC'; };
+  rec.start();
 }
 
-
-function updateStatusBadge(index, status, text){
-  const badge = document.getElementById(`status-${index}`);
-  if(!badge) return;
-  badge.className = `statusBadge ${status}`;
-  badge.textContent = text;
+// ===== UTILITIES =====
+function normalizeText(t) {
+  return t.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function updateExpectedLine(index, line){
-  const expectedNode = document.getElementById(`expected-${index}`);
-  if(!expectedNode) return;
-  expectedNode.innerHTML = `<strong>Your line now:</strong> ${line || 'Dialogue complete.'}`;
+function similarityScore(a, b) {
+  if (!a || !b) return 0;
+  const aw = normalizeText(a).split(' ').filter(Boolean);
+  const bw = new Set(normalizeText(b).split(' ').filter(Boolean));
+  if (!aw.length) return 0;
+  return aw.filter(w => bw.has(w)).length / aw.length;
 }
 
-function talkToMe(index){
-  startTimer();
-  if(!(index in state)) state[index]=0;
-  const aLines = dialogues[index].lines.filter(x=>x[0]==='A').map(x=>x[1]);
-  const bLines = dialogues[index].lines.filter(x=>x[0]==='B').map(x=>x[1]);
-  if(!bLines.length) return;
+function highlightDiff(expected, given) {
+  const ew = normalizeText(expected).split(' ');
+  const gw = new Set(normalizeText(given).split(' '));
+  return ew.map(w => gw.has(w) ? '<span class="word-highlight-good">' + w + '</span>' : '<span class="word-highlight-bad">' + w + '</span>').join(' ');
+}
 
-  const expectedA = aLines[(state[index]) % aLines.length] || aLines[aLines.length-1] || '';
-  const studentInput = document.getElementById(`answer-${index}`).value.trim();
-  const accuracy = similarityScore(expectedA, studentInput);
+function escapeHtml(t) {
+  const d = document.createElement('div');
+  d.textContent = t;
+  return d.innerHTML;
+}
 
-  if(!studentInput){
-    document.getElementById(`feedback-${index}`).textContent = 'Add your Role A answer (type or 🎙️) before getting a bot reply.';
-    updateStatusBadge(index, 'status-wrong', '❌ No answer yet');
-    setTip('Type or record your line first. Then click Talk to me.');
-    return;
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
+  return a;
+}
 
-  if(!isCorrectAnswer(expectedA, studentInput)){
-    document.getElementById(`feedback-${index}`).textContent = `Not correct yet. Try saying: "${expectedA}"`;
-    updateStatusBadge(index, 'status-wrong', '❌ Not correct yet');
-    setTip('The bot replies only after the correct Role A answer. Try again.');
-    score = Math.max(0, score - 1);
-    document.getElementById('score').textContent = score;
-    return;
+function completeDialogue() {
+  dialoguesDone++;
+  if (typeof PIT_SCORE !== 'undefined') {
+    PIT_SCORE.addScore('speaking', score);
+    PIT_SCORE.updateStation('speaking', { dialogues: dialoguesDone });
   }
+  document.getElementById('finalScore').textContent = score + ' pts';
+  const pct = correctCount > 0 ? Math.round((correctCount / (correctCount + 1)) * 100) : 0;
+  document.getElementById('modalMessage').textContent = pct >= 80 ? 'Excellent speaking!' : pct >= 50 ? 'Good practice - keep going!' : 'Keep practising, you\'ll improve!';
+  document.getElementById('completeModal').classList.add('active');
+  updateStats();
+}
 
-  const line = bLines[state[index] % bLines.length];
-  document.getElementById(`bot-line-${index}`).textContent = `Bot (Role B): ${line}`;
-  document.getElementById(`feedback-${index}`).textContent = `Correct! (${Math.round(accuracy*100)}% match).`;
-  updateStatusBadge(index, 'status-correct', '✅ Correct answer');
-  state[index]++;
-  document.getElementById(`answer-${index}`).value = '';
+function closeModal() { document.getElementById('completeModal').classList.remove('active'); }
 
-  const nextExpected = aLines[(state[index]) % aLines.length] || '';
-  updateExpectedLine(index, nextExpected);
-
-  score += 5;
+function updateStats() {
   document.getElementById('score').textContent = score;
-  updateCompletedCount();
+  document.getElementById('streak').textContent = streak;
+  document.getElementById('dialoguesDone').textContent = dialoguesDone;
+  document.getElementById('correctCount').textContent = correctCount;
+  document.getElementById('bestStreak').textContent = bestStreak;
+  document.getElementById('totalPoints').textContent = score;
+  updateProgress();
+}
 
-  const progress = Math.min(Object.keys(state).length / dialogues.length * 100, 100);
-  setProgress(progress.toFixed(0));
-  setTip('Great! Continue by saying your next Role A line out loud.');
-
-  if('speechSynthesis' in window){
-    const msg = new SpeechSynthesisUtterance(line);
-    msg.rate = 0.95;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(msg);
+function updateProgress() {
+  let total = 1, current = 0;
+  if (currentMode === 'roleplay') {
+    total = currentDialogue ? currentDialogue.lines.length : 1;
+    current = lineIndex;
+  } else if (currentMode === 'listen') {
+    total = lrSentences.length || 1;
+    current = lrIndex;
+  } else {
+    total = fillQuestions.length || 1;
+    current = fillQIndex;
   }
+  document.getElementById('progressBar').style.width = Math.min((current / total) * 100, 100) + '%';
 }
 
-function resetPractice(){
-  score = 0;
-  time = 0;
-  paused = false;
-  for(const k in state) delete state[k];
-  document.getElementById('score').textContent = '0';
-  document.getElementById('timer').textContent = '00:00';
-  setProgress(0);
-  updateCompletedCount();
-  setTip('Practice reset. Read Role A, then click Talk to me.');
-  renderDialogues();
-}
-
-renderDialogues();
+init();
 </script>
-
 </body>
 </html>

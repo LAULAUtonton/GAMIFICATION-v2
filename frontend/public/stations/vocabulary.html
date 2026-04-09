@@ -750,6 +750,7 @@ button:disabled {
   </div>
 </div>
 
+<script src="pit-score.js"></script>
 <script>
 // VOCABULARY DATABASE - 2ESO Level aligned with curriculum topics
 const VOCAB_DB = {
@@ -1522,6 +1523,7 @@ function updateHUD() {
   document.getElementById('cardCount').textContent = currentCards.length;
   document.getElementById('score').textContent = score;
   document.getElementById('streak').textContent = streak;
+  if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.addScore('vocabulary', score);
 }
 
 // MODE SWITCHING
