@@ -55,3 +55,7 @@ memory/test_credentials.md
 # Cache
 .cache/
 .ruff_cache/
+-e 
+# Environment files
+*.env
+*.env.*
